@@ -30,6 +30,7 @@ import { PublishVacancyForm } from '@/components/PublishVacancyForm';
 import { TeacherProfileForm } from '@/components/TeacherProfileForm';
 import { SchoolDashboard } from '@/components/SchoolDashboard';
 import { MyApplicationsView } from '@/components/MyApplicationsView';
+import { AboutPricingView } from '@/components/AboutPricingView';
 import { useDocentiaStore } from '@/lib/store';
 import { JobVacancy, EducationalLevel, ContractType, SchoolType } from '@/types';
 import { MEXICAN_STATES } from '@/lib/mockData';
@@ -501,6 +502,15 @@ export default function HomePage() {
           <MyApplicationsView
             applications={applications}
             onBrowseClick={() => setCurrentTab('vacantes')}
+          />
+        )}
+
+        {/* TAB: NOSOTROS & PLANES INFORMATIVO */}
+        {currentTab === 'nosotros' && (
+          <AboutPricingView
+            onGoToVacancies={() => setCurrentTab('vacantes')}
+            onGoToRegisterTeacher={() => setCurrentTab('perfil_docente')}
+            onGoToRegisterSchool={() => setCurrentTab('publicar_vacante')}
           />
         )}
 

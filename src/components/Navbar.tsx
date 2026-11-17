@@ -12,7 +12,9 @@ import {
   Smartphone,
   ShieldCheck,
   Compass,
-  LayoutDashboard
+  LayoutDashboard,
+  Sparkles,
+  Info
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -67,6 +69,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Desktop Navigation (Expanded Full-Width Experience) */}
           <nav className="hidden lg:flex items-center gap-1.5">
+            
+            {/* Botón Conoce DOCENTIA & Planes Informativo */}
+            <button
+              onClick={() => setCurrentTab('nosotros')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                currentTab === 'nosotros'
+                  ? 'bg-serene-50 text-serene-900 font-extrabold shadow-xs border border-serene-200'
+                  : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-prestige-600" />
+              Conoce DOCENTIA & Planes
+            </button>
+
             <button
               onClick={() => setCurrentTab('vacantes')}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -200,10 +216,21 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Mobile & Tablet App Navigation Bar (Optimized Ergonomic Dock) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 px-3 py-2 flex items-center justify-around shadow-2xl safe-pb">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 px-2 py-2 flex items-center justify-around shadow-2xl safe-pb">
+        
+        <button
+          onClick={() => setCurrentTab('nosotros')}
+          className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+            currentTab === 'nosotros' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
+          }`}
+        >
+          <Sparkles className="w-5 h-5 text-prestige-600" />
+          <span>Nosotros</span>
+        </button>
+
         <button
           onClick={() => setCurrentTab('vacantes')}
-          className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[11px] font-bold transition-colors ${
+          className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
             currentTab === 'vacantes' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
           }`}
         >
@@ -213,7 +240,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <button
           onClick={() => setCurrentTab('docente_sos')}
-          className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[11px] font-bold transition-colors ${
+          className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
             currentTab === 'docente_sos' ? 'text-prestige-700 bg-prestige-50' : 'text-slate-500'
           }`}
         >
@@ -225,7 +252,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <>
             <button
               onClick={() => setCurrentTab('perfil_docente')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[11px] font-bold transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
                 currentTab === 'perfil_docente' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
               }`}
             >
@@ -235,7 +262,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => setCurrentTab('mis_postulaciones')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[11px] font-bold transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
                 currentTab === 'mis_postulaciones' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
               }`}
             >
@@ -247,7 +274,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <>
             <button
               onClick={() => setCurrentTab('dashboard_escuela')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[11px] font-bold transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
                 currentTab === 'dashboard_escuela' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
               }`}
             >
@@ -257,7 +284,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => setCurrentTab('publicar_vacante')}
-              className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[11px] font-bold transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
                 currentTab === 'publicar_vacante' ? 'text-serene-700 bg-serene-50' : 'text-slate-500'
               }`}
             >
