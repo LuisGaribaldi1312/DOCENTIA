@@ -120,53 +120,62 @@ export const Navbar: React.FC<NavbarProps> = ({
               Interinatos SOS (Urgentes)
             </button>
 
-            {currentRole === 'docente' ? (
+            {/* Opciones Privadas: SOLO visibles si el usuario ha iniciado sesión */}
+            {currentUser && (
               <>
-                <button
-                  onClick={() => setCurrentTab('perfil_docente')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    currentTab === 'perfil_docente'
-                      ? 'bg-serene-50 text-serene-800 font-extrabold shadow-xs border border-serene-200'
-                      : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
-                  }`}
-                >
-                  <UserCheck className="w-4 h-4 text-serene-600" />
-                  Expediente Digital Docente
-                </button>
+                {/* Herramientas de Docente (o SuperAdmin en modo docente) */}
+                {(currentRole === 'docente' || currentUser.isSuperAdmin) && currentRole === 'docente' && (
+                  <>
+                    <button
+                      onClick={() => setCurrentTab('perfil_docente')}
+                      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        currentTab === 'perfil_docente'
+                          ? 'bg-serene-50 text-serene-800 font-extrabold shadow-xs border border-serene-200'
+                          : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
+                      }`}
+                    >
+                      <UserCheck className="w-4 h-4 text-serene-600" />
+                      Expediente Digital Docente
+                    </button>
 
-                <button
-                  onClick={() => setCurrentTab('mis_postulaciones')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    currentTab === 'mis_postulaciones'
-                      ? 'bg-brand-50 text-brand-900 font-extrabold shadow-xs'
-                      : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
-                  }`}
-                >
-                  <FileText className="w-4 h-4 text-brand-600" />
-                  Mis Postulaciones
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => setCurrentTab('dashboard_escuela')}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                    currentTab === 'dashboard_escuela'
-                      ? 'bg-brand-50 text-brand-900 font-extrabold shadow-xs'
-                      : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
-                  }`}
-                >
-                  <LayoutDashboard className="w-4 h-4 text-brand-600" />
-                  Panel ATS Escuela
-                </button>
+                    <button
+                      onClick={() => setCurrentTab('mis_postulaciones')}
+                      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        currentTab === 'mis_postulaciones'
+                          ? 'bg-brand-50 text-brand-900 font-extrabold shadow-xs'
+                          : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
+                      }`}
+                    >
+                      <FileText className="w-4 h-4 text-brand-600" />
+                      Mis Postulaciones
+                    </button>
+                  </>
+                )}
 
-                <button
-                  onClick={() => setCurrentTab('publicar_vacante')}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold text-white bg-gradient-to-r from-brand-900 to-serene-700 hover:from-brand-800 hover:to-serene-600 shadow-md shadow-brand-900/10 hover:shadow-lg transition-all"
-                >
-                  <PlusCircle className="w-4 h-4 text-serene-200" />
-                  Publicar Convocatoria
-                </button>
+                {/* Herramientas de Escuela (o SuperAdmin en modo escuela) */}
+                {(currentRole === 'escuela' || currentUser.isSuperAdmin) && currentRole === 'escuela' && (
+                  <>
+                    <button
+                      onClick={() => setCurrentTab('dashboard_escuela')}
+                      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        currentTab === 'dashboard_escuela'
+                          ? 'bg-brand-50 text-brand-900 font-extrabold shadow-xs'
+                          : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
+                      }`}
+                    >
+                      <LayoutDashboard className="w-4 h-4 text-brand-600" />
+                      Panel ATS Escuela
+                    </button>
+
+                    <button
+                      onClick={() => setCurrentTab('publicar_vacante')}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold text-white bg-gradient-to-r from-brand-900 to-serene-700 hover:from-brand-800 hover:to-serene-600 shadow-md shadow-brand-900/10 hover:shadow-lg transition-all"
+                    >
+                      <PlusCircle className="w-4 h-4 text-serene-200" />
+                      Publicar Convocatoria
+                    </button>
+                  </>
+                )}
               </>
             )}
           </nav>
@@ -248,8 +257,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     )}
                   </div>
                   
-                  {/* Estado de Suscripción */}
-                  {currentUser.subscription.status === 'activo' ? (
+                  {/* Estado de Suscripción / Rango */}
+                  {currentUser.isSuperAdmin ? (
+                    <span className="text-[10px] font-black text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                      Super Administrador Global
+                    </span>
+                  ) : currentUser.subscription.status === 'activo' ? (
                     <span className="text-[10px] font-extrabold text-emerald-700">
                       {currentUser.role === 'docente' ? 'Plan $5 USD Certificado ✓' : 'Plan Escuela $10 USD ✓'}
                     </span>
@@ -264,8 +277,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                   )}
                 </div>
 
+                {/* Si es superadmin en móvil */}
+                {currentUser.isSuperAdmin && (
+                  <span className="md:hidden text-[9px] font-black text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded-md border border-purple-200">
+                    SuperAdmin
+                  </span>
+                )}
+
                 {/* Botón rápido de Activar Plan si no lo tiene en móvil/compacto */}
-                {currentUser.subscription.status !== 'activo' && (
+                {!currentUser.isSuperAdmin && currentUser.subscription.status !== 'activo' && (
                   <button
                     onClick={() => onOpenSubscription(currentUser.role === 'docente' ? 'docente_5usd' : 'escuela_10usd')}
                     className="md:hidden px-2 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-[10px] shadow-xs animate-pulse"
@@ -323,50 +343,65 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span>SOS</span>
         </button>
 
-        {currentRole === 'docente' ? (
+        {/* Solo mostrar opciones privadas si el usuario ha iniciado sesión */}
+        {currentUser ? (
           <>
-            <button
-              onClick={() => setCurrentTab('perfil_docente')}
-              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                currentTab === 'perfil_docente' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
-              }`}
-            >
-              <UserCheck className="w-5 h-5" />
-              <span>Expediente</span>
-            </button>
+            {(currentRole === 'docente' || currentUser.isSuperAdmin) && currentRole === 'docente' && (
+              <>
+                <button
+                  onClick={() => setCurrentTab('perfil_docente')}
+                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                    currentTab === 'perfil_docente' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
+                  }`}
+                >
+                  <UserCheck className="w-5 h-5" />
+                  <span>Expediente</span>
+                </button>
 
-            <button
-              onClick={() => setCurrentTab('mis_postulaciones')}
-              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                currentTab === 'mis_postulaciones' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
-              }`}
-            >
-              <FileText className="w-5 h-5" />
-              <span>Postulaciones</span>
-            </button>
+                <button
+                  onClick={() => setCurrentTab('mis_postulaciones')}
+                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                    currentTab === 'mis_postulaciones' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
+                  }`}
+                >
+                  <FileText className="w-5 h-5" />
+                  <span>Postulaciones</span>
+                </button>
+              </>
+            )}
+
+            {(currentRole === 'escuela' || currentUser.isSuperAdmin) && currentRole === 'escuela' && (
+              <>
+                <button
+                  onClick={() => setCurrentTab('dashboard_escuela')}
+                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                    currentTab === 'dashboard_escuela' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
+                  }`}
+                >
+                  <LayoutDashboard className="w-5 h-5" />
+                  <span>Panel ATS</span>
+                </button>
+
+                <button
+                  onClick={() => setCurrentTab('publicar_vacante')}
+                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                    currentTab === 'publicar_vacante' ? 'text-serene-700 bg-serene-50' : 'text-slate-500'
+                  }`}
+                >
+                  <PlusCircle className="w-5 h-5" />
+                  <span>Publicar</span>
+                </button>
+              </>
+            )}
           </>
         ) : (
-          <>
-            <button
-              onClick={() => setCurrentTab('dashboard_escuela')}
-              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                currentTab === 'dashboard_escuela' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
-              }`}
-            >
-              <LayoutDashboard className="w-5 h-5" />
-              <span>Panel ATS</span>
-            </button>
-
-            <button
-              onClick={() => setCurrentTab('publicar_vacante')}
-              className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                currentTab === 'publicar_vacante' ? 'text-serene-700 bg-serene-50' : 'text-slate-500'
-              }`}
-            >
-              <PlusCircle className="w-5 h-5" />
-              <span>Publicar</span>
-            </button>
-          </>
+          <button
+            onClick={onOpenAuth}
+            className="flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[10px] sm:text-[11px] font-extrabold text-brand-950 bg-serene-50 border border-serene-200"
+          >
+            <LogIn className="w-5 h-5 text-serene-700" />
+            <span>Acceder</span>
+          </button>
         )}
       </div>
     </header>

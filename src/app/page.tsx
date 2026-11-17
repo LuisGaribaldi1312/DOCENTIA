@@ -519,29 +519,95 @@ export default function HomePage() {
 
         {/* TAB: PERFIL DOCENTE */}
         {currentTab === 'perfil_docente' && (
-          <TeacherProfileForm
-            profile={teacherProfile}
-            onSave={(updated) => updateTeacherProfile(updated)}
-          />
+          !currentUser ? (
+            <div className="w-full max-w-2xl mx-auto py-16 px-4 text-center">
+              <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-serene-50 text-serene-700 flex items-center justify-center mx-auto mb-3">
+                  <GraduationCap className="w-8 h-8 text-serene-600" />
+                </div>
+                <h3 className="text-xl font-black text-brand-950 mb-1">Inicia Sesión como Docente</h3>
+                <p className="text-xs text-slate-500 mb-5">Para consultar o editar tu expediente digital y cédula profesional, debes ingresar con tu cuenta.</p>
+                <button
+                  onClick={() => {
+                    setAuthRole('docente');
+                    setAuthPromptMessage('Inicia sesión para gestionar tu expediente docente.');
+                    setAuthModalOpen(true);
+                  }}
+                  className="px-6 py-2.5 rounded-xl bg-brand-900 text-white font-extrabold text-xs hover:bg-brand-800 transition-colors"
+                >
+                  Iniciar Sesión / Registrarme
+                </button>
+              </div>
+            </div>
+          ) : (
+            <TeacherProfileForm
+              profile={teacherProfile}
+              onSave={(updated) => updateTeacherProfile(updated)}
+            />
+          )
         )}
 
         {/* TAB: PANEL ESCUELA (ATS) */}
         {currentTab === 'dashboard_escuela' && (
-          <SchoolDashboard
-            schoolProfile={schoolProfile}
-            vacancies={vacancies}
-            applications={applications}
-            onPublishClick={() => setCurrentTab('publicar_vacante')}
-            onUpdateStatus={(appId, status) => updateApplicationStatus(appId, status)}
-          />
+          !currentUser ? (
+            <div className="w-full max-w-2xl mx-auto py-16 px-4 text-center">
+              <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand-900 flex items-center justify-center mx-auto mb-3">
+                  <Building2 className="w-8 h-8 text-brand-700" />
+                </div>
+                <h3 className="text-xl font-black text-brand-950 mb-1">Acceso para Instituciones Educativas</h3>
+                <p className="text-xs text-slate-500 mb-5">El panel de aspirantes y citatorio a clase muestra requiere inicio de sesión institucional.</p>
+                <button
+                  onClick={() => {
+                    setAuthRole('escuela');
+                    setAuthPromptMessage('Inicia sesión para acceder al panel ATS escolar.');
+                    setAuthModalOpen(true);
+                  }}
+                  className="px-6 py-2.5 rounded-xl bg-brand-900 text-white font-extrabold text-xs hover:bg-brand-800 transition-colors"
+                >
+                  Iniciar Sesión como Escuela
+                </button>
+              </div>
+            </div>
+          ) : (
+            <SchoolDashboard
+              schoolProfile={schoolProfile}
+              vacancies={vacancies}
+              applications={applications}
+              onPublishClick={() => setCurrentTab('publicar_vacante')}
+              onUpdateStatus={(appId, status) => updateApplicationStatus(appId, status)}
+            />
+          )
         )}
 
         {/* TAB: MIS POSTULACIONES */}
         {currentTab === 'mis_postulaciones' && (
-          <MyApplicationsView
-            applications={applications}
-            onBrowseClick={() => setCurrentTab('vacantes')}
-          />
+          !currentUser ? (
+            <div className="w-full max-w-2xl mx-auto py-16 px-4 text-center">
+              <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand-900 flex items-center justify-center mx-auto mb-3">
+                  <FileText className="w-8 h-8 text-brand-700" />
+                </div>
+                <h3 className="text-xl font-black text-brand-950 mb-1">Tus Postulaciones Docentes</h3>
+                <p className="text-xs text-slate-500 mb-5">Para revisar el estado de tus postulaciones y respuestas escolares, inicia sesión.</p>
+                <button
+                  onClick={() => {
+                    setAuthRole('docente');
+                    setAuthPromptMessage('Inicia sesión para revisar tus postulaciones.');
+                    setAuthModalOpen(true);
+                  }}
+                  className="px-6 py-2.5 rounded-xl bg-brand-900 text-white font-extrabold text-xs hover:bg-brand-800 transition-colors"
+                >
+                  Iniciar Sesión / Registrarme
+                </button>
+              </div>
+            </div>
+          ) : (
+            <MyApplicationsView
+              applications={applications}
+              onBrowseClick={() => setCurrentTab('vacantes')}
+            />
+          )
         )}
 
         {/* TAB: NOSOTROS & PLANES INFORMATIVO */}

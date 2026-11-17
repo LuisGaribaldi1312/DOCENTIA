@@ -164,6 +164,9 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
     setIsSubmitted(true);
   };
 
+  // Super Administrador tiene pase total
+  const isSuper = Boolean(currentUser?.isSuperAdmin);
+
   // 1. Candado si no está autenticado
   if (!currentUser) {
     return (
@@ -199,8 +202,8 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
     );
   }
 
-  // 2. Candado si el rol es Docente
-  if (currentUser.role !== 'escuela') {
+  // 2. Candado si el rol es Docente (omitido para SuperAdmin)
+  if (!isSuper && currentUser.role !== 'escuela') {
     return (
       <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-4">
@@ -234,8 +237,8 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
     );
   }
 
-  // 3. Candado si no tiene contratado el Plan Escuela ($10 USD)
-  if (currentUser.subscription.status !== 'activo') {
+  // 3. Candado si no tiene contratado el Plan Escuela ($10 USD) (omitido para SuperAdmin)
+  if (!isSuper && currentUser.subscription.status !== 'activo') {
     return (
       <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-4">

@@ -111,12 +111,12 @@ export interface Application {
   coverNote?: string;
 }
 
-export type UserRole = 'docente' | 'escuela';
+export type UserRole = 'docente' | 'escuela' | 'admin';
 
 export type PlanStatus = 'sin_plan' | 'activo' | 'vencido';
 
 export interface UserSubscription {
-  planType: 'docente_5usd' | 'escuela_10usd' | 'ninguno';
+  planType: 'docente_5usd' | 'escuela_10usd' | 'superadmin_ilimitado' | 'ninguno';
   status: PlanStatus;
   activatedAt?: string;
   renewsAt?: string;
@@ -129,6 +129,7 @@ export interface UserAccount {
   email: string;
   name: string;
   role: UserRole;
+  isSuperAdmin?: boolean;
   phone?: string;
   institutionName?: string;
   cct?: string;

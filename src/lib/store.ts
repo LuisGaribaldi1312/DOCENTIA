@@ -18,74 +18,31 @@ const SCHOOL_PROFILE_KEY = 'docentia_school_profile';
 const APPLICATIONS_KEY = 'docentia_applications';
 const ACTIVE_ROLE_KEY = 'docentia_active_role';
 const CURRENT_USER_KEY = 'docentia_current_user';
+const REGISTERED_USERS_KEY = 'docentia_registered_users';
+
+export const SUPERADMIN_USER: UserAccount = {
+  id: 'user-superadmin-master',
+  email: 'admin@docentia.com',
+  name: 'Mtro. Luis Alberto Garibaldi',
+  role: 'admin',
+  isSuperAdmin: true,
+  phone: '55 1234 5678',
+  institutionName: 'DOCENTIA Red Educativa Nacional',
+  cct: '00DIR0001A',
+  professionalLicense: '12894562',
+  subscription: {
+    planType: 'superadmin_ilimitado',
+    status: 'activo',
+    isCertified: true,
+    amountUsd: 0,
+    activatedAt: '2026-01-01',
+    renewsAt: '2099-12-31'
+  },
+  createdAt: '2026-01-01'
+};
 
 export const DEMO_USERS: UserAccount[] = [
-  {
-    id: 'user-docente-pro',
-    email: 'maestro.pro@docentia.com',
-    name: 'Mtro. Luis Alberto Garibaldi',
-    role: 'docente',
-    phone: '55 1234 5678',
-    professionalLicense: '12894562',
-    subscription: {
-      planType: 'docente_5usd',
-      status: 'activo',
-      isCertified: true,
-      amountUsd: 5,
-      activatedAt: '2026-11-01',
-      renewsAt: '2026-12-01'
-    },
-    createdAt: '2026-10-15'
-  },
-  {
-    id: 'user-docente-nuevo',
-    email: 'maestro.nuevo@docentia.com',
-    name: 'Prof. Carlos Mendoza',
-    role: 'docente',
-    phone: '55 9876 5432',
-    professionalLicense: '09845123',
-    subscription: {
-      planType: 'ninguno',
-      status: 'sin_plan',
-      isCertified: false,
-      amountUsd: 0
-    },
-    createdAt: '2026-11-16'
-  },
-  {
-    id: 'user-escuela-pro',
-    email: 'colegio.pro@docentia.com',
-    name: 'Colegio Bilingüe Nueva Inglaterra',
-    role: 'escuela',
-    institutionName: 'Colegio Bilingüe Nueva Inglaterra',
-    cct: '09PES0412X',
-    phone: '55 5534 8900',
-    subscription: {
-      planType: 'escuela_10usd',
-      status: 'activo',
-      isCertified: true,
-      amountUsd: 10,
-      activatedAt: '2026-11-01',
-      renewsAt: '2026-12-01'
-    },
-    createdAt: '2026-09-20'
-  },
-  {
-    id: 'user-escuela-nueva',
-    email: 'escuela.nueva@docentia.com',
-    name: 'Instituto Patria y Cultura',
-    role: 'escuela',
-    institutionName: 'Instituto Patria y Cultura',
-    cct: '09PES0888Z',
-    phone: '55 6677 8899',
-    subscription: {
-      planType: 'ninguno',
-      status: 'sin_plan',
-      isCertified: false,
-      amountUsd: 0
-    },
-    createdAt: '2026-11-16'
-  }
+  SUPERADMIN_USER
 ];
 
 export const DEFAULT_TEACHER: TeacherProfile = {
@@ -210,19 +167,42 @@ export function useDocentiaStore() {
   const login = (email: string, role?: UserRole) => {
     const cleanEmail = email.trim().toLowerCase();
     
-    // Buscar en cuentas demo o existentes
-    const foundDemo = DEMO_USERS.find(u => u.email.toLowerCase() === cleanEmail);
-    if (foundDemo) {
-      setCurrentUser(foundDemo);
-      setCurrentRole(foundDemo.role);
+    // 1. Cuenta Especial de Super Administrador (Acceso total a ambos perfiles)
+    if (
+      cleanEmail === 'admin@docentia.com' ||
+      cleanEmail === 'luisalbertogaribaldileciwr@gmail.com' ||
+      cleanEmail === 'admin' ||
+      cleanEmail.includes('superadmin')
+    ) {
+      const superUser: UserAccount = {
+        ...SUPERADMIN_USER,
+        email: cleanEmail
+      };
+      setCurrentUser(superUser);
+      const activeRole = role === 'escuela' ? 'escuela' : 'docente';
+      setCurrentRole(activeRole);
       if (typeof window !== 'undefined') {
-        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(foundDemo));
-        localStorage.setItem(ACTIVE_ROLE_KEY, foundDemo.role);
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(superUser));
+        localStorage.setItem(ACTIVE_ROLE_KEY, activeRole);
       }
-      return foundDemo;
+      return superUser;
     }
 
-    // Crear o iniciar sesión genérica
+    // 2. Buscar en usuarios registrados previamente
+    const storedUsersJson = typeof window !== 'undefined' ? localStorage.getItem(REGISTERED_USERS_KEY) : null;
+    let registeredUsers: UserAccount[] = storedUsersJson ? JSON.parse(storedUsersJson) : [];
+    const foundUser = registeredUsers.find(u => u.email.toLowerCase() === cleanEmail);
+    if (foundUser) {
+      setCurrentUser(foundUser);
+      setCurrentRole(foundUser.role);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(foundUser));
+        localStorage.setItem(ACTIVE_ROLE_KEY, foundUser.role);
+      }
+      return foundUser;
+    }
+
+    // 3. Crear o iniciar sesión genérica
     const targetRole = role || currentRole;
     const isDocente = targetRole === 'docente';
     const genericUser: UserAccount = {
@@ -240,12 +220,14 @@ export function useDocentiaStore() {
       createdAt: new Date().toISOString().split('T')[0]
     };
 
-    setCurrentUser(genericUser);
-    setCurrentRole(targetRole);
+    registeredUsers.push(genericUser);
     if (typeof window !== 'undefined') {
+      localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(registeredUsers));
       localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(genericUser));
       localStorage.setItem(ACTIVE_ROLE_KEY, targetRole);
     }
+    setCurrentUser(genericUser);
+    setCurrentRole(targetRole);
     return genericUser;
   };
 
@@ -259,16 +241,29 @@ export function useDocentiaStore() {
     cct?: string;
     professionalLicense?: string;
   }) => {
+    const cleanEmail = data.email.trim().toLowerCase();
+
+    // Check si es superadmin
+    const isSuper = cleanEmail === 'admin@docentia.com' || cleanEmail === 'luisalbertogaribaldileciwr@gmail.com' || cleanEmail.includes('admin');
+
     const newUser: UserAccount = {
       id: `user-${Date.now()}`,
-      email: data.email.trim().toLowerCase(),
+      email: cleanEmail,
       name: data.name,
-      role: data.role,
+      role: isSuper ? 'admin' : data.role,
+      isSuperAdmin: isSuper,
       phone: data.phone || '',
       institutionName: data.institutionName,
       cct: data.cct,
       professionalLicense: data.professionalLicense,
-      subscription: {
+      subscription: isSuper ? {
+        planType: 'superadmin_ilimitado',
+        status: 'activo',
+        isCertified: true,
+        amountUsd: 0,
+        activatedAt: '2026-01-01',
+        renewsAt: '2099-12-31'
+      } : {
         planType: 'ninguno',
         status: 'sin_plan',
         isCertified: false,
@@ -276,6 +271,14 @@ export function useDocentiaStore() {
       },
       createdAt: new Date().toISOString().split('T')[0]
     };
+
+    // Guardar en lista de registrados
+    const storedUsersJson = typeof window !== 'undefined' ? localStorage.getItem(REGISTERED_USERS_KEY) : null;
+    let registeredUsers: UserAccount[] = storedUsersJson ? JSON.parse(storedUsersJson) : [];
+    registeredUsers.push(newUser);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(registeredUsers));
+    }
 
     setCurrentUser(newUser);
     setCurrentRole(data.role);

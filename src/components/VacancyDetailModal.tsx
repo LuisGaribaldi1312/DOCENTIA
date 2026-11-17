@@ -311,6 +311,10 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
               </span>
             ) : !currentUser ? (
               <span className="text-slate-600 font-medium">Inicia sesión como docente para postularte con tu expediente verificado.</span>
+            ) : currentUser.isSuperAdmin ? (
+              <span className="text-purple-800 font-bold flex items-center gap-1">
+                <ShieldCheck className="w-4 h-4 text-purple-600" /> Super Administrador · Acceso y permisos totales sin restricciones.
+              </span>
             ) : currentUser.role !== 'docente' ? (
               <span className="text-amber-800 font-semibold">Conectado como Escuela. Cambia a cuenta de Docente para postularte.</span>
             ) : !currentUser.subscription.isCertified ? (
@@ -350,6 +354,15 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
               >
                 <Lock className="w-3.5 h-3.5" />
                 Iniciar Sesión para Postularme
+              </button>
+            ) : currentUser.isSuperAdmin ? (
+              <button
+                onClick={handleApplyClick}
+                disabled={selectedDocs.length === 0}
+                className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-900 via-brand-900 to-serene-700 hover:from-purple-800 hover:to-serene-600 disabled:opacity-50 text-white font-extrabold text-xs shadow-md transition-all"
+              >
+                <Send className="w-3.5 h-3.5" />
+                Postularme (SuperAdmin)
               </button>
             ) : currentUser.role !== 'docente' ? (
               <button

@@ -17,7 +17,6 @@ import {
   KeyRound
 } from 'lucide-react';
 import { UserRole, UserAccount } from '@/types';
-import { DEMO_USERS } from '@/lib/store';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -111,19 +110,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         setError('Error al registrar la cuenta.');
       }
     }
-  };
-
-  const handleQuickDemo = (demoUser: typeof DEMO_USERS[0]) => {
-    setEmail(demoUser.email);
-    setPassword('demopass123');
-    setRole(demoUser.role);
-    const user = onLogin(demoUser.email, demoUser.role);
-    setSuccessMsg(`Iniciando como ${user.name} (${user.role === 'docente' ? 'Maestro' : 'Escuela'})...`);
-    setTimeout(() => {
-      setSuccessMsg(null);
-      onClose();
-      if (onSuccess) onSuccess(user);
-    }, 1000);
   };
 
   return (
@@ -343,51 +329,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
-
-        {/* Sección de Cuentas Demo Rápidas (Para Pruebas Inmediatas del Usuario) */}
-        <div className="p-4 bg-slate-50 border-t border-slate-200/80">
-          <p className="text-[11px] font-bold text-slate-500 mb-2 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-prestige-500" />
-            Acceso Rápido Demo (Prueba los 2 perfiles y planes):
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
-            <button
-              type="button"
-              onClick={() => handleQuickDemo(DEMO_USERS[0])}
-              className="text-left p-2 rounded-lg bg-white border border-slate-200 hover:border-serene-400 hover:bg-serene-50/50 transition-colors"
-            >
-              <div className="font-bold text-brand-950">🎓 Docente Certificado</div>
-              <div className="text-slate-500 text-[10px]">Plan $5 USD activo (Aplica directo)</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleQuickDemo(DEMO_USERS[1])}
-              className="text-left p-2 rounded-lg bg-white border border-slate-200 hover:border-amber-400 hover:bg-amber-50/50 transition-colors"
-            >
-              <div className="font-bold text-brand-950">👨‍🏫 Docente Sin Plan</div>
-              <div className="text-slate-500 text-[10px]">Prueba candado y pago $5 USD</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleQuickDemo(DEMO_USERS[2])}
-              className="text-left p-2 rounded-lg bg-white border border-slate-200 hover:border-brand-400 hover:bg-brand-50/50 transition-colors"
-            >
-              <div className="font-bold text-brand-950">🏫 Escuela con Plan</div>
-              <div className="text-slate-500 text-[10px]">Plan $10 USD activo (Publica)</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleQuickDemo(DEMO_USERS[3])}
-              className="text-left p-2 rounded-lg bg-white border border-slate-200 hover:border-amber-400 hover:bg-amber-50/50 transition-colors"
-            >
-              <div className="font-bold text-brand-950">🏢 Escuela Sin Plan</div>
-              <div className="text-slate-500 text-[10px]">Prueba candado y pago $10 USD</div>
-            </button>
-          </div>
-        </div>
 
       </div>
     </div>
