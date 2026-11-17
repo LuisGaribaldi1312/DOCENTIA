@@ -52,21 +52,20 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all w-full safe-pt pt-[env(safe-area-inset-top,0px)]">
         {/* Edge-to-Edge Responsive Container */}
         <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <div className="flex items-center justify-between h-15 sm:h-16 lg:h-18 landscape-compact-nav">
+          <div className="flex items-center justify-between min-h-[4.25rem] sm:min-h-[4.75rem] lg:min-h-[5.25rem] py-1.5 landscape-compact-nav">
             
             {/* Logo Corporativo Institucional Oficial */}
             <div 
               onClick={() => setCurrentTab('vacantes')}
-              className="flex items-center gap-2 sm:gap-3 cursor-pointer group select-none transition-transform hover:scale-[1.01]"
+              className="flex flex-col items-start justify-center cursor-pointer group select-none transition-transform hover:scale-[1.01] shrink-0 py-0.5"
             >
               <img
                 src="/images/docentia-logo.png"
                 alt="DOCENTIA Red Educativa"
                 loading="eager"
-                className="h-8 xs:h-9 sm:h-11 lg:h-12 w-auto max-w-[135px] xs:max-w-[165px] sm:max-w-none object-contain shrink-0 drop-shadow-2xs"
+                className="h-10 xs:h-12 sm:h-13 lg:h-15 w-auto max-w-[190px] xs:max-w-[240px] sm:max-w-[290px] lg:max-w-none object-contain shrink-0 drop-shadow-2xs"
               />
-              <span className="hidden xl:inline-block h-6 w-px bg-slate-200 ml-1" />
-              <p className="text-[11px] font-semibold text-slate-500 tracking-wide hidden xl:block leading-tight">
+              <p className="text-[8.5px] xs:text-[9.5px] sm:text-[10.5px] lg:text-[11px] font-bold text-slate-500 tracking-tight sm:tracking-wider leading-none mt-1 select-none">
                 Plataforma de Contratación & Empleo Docente
               </p>
             </div>
