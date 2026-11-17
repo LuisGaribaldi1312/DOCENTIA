@@ -185,96 +185,135 @@ export default function HomePage() {
               <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-serene-500/10 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute bottom-0 right-10 w-[400px] h-[200px] bg-prestige-500/10 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="w-full relative z-10 text-center">
-                
-                {/* Badge Institucional */}
-                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[11px] sm:text-xs font-extrabold mb-3 sm:mb-4 shadow-xs backdrop-blur-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-prestige-400" />
-                  <span>Plataforma Oficial de Vacantes para Docentes y Escuelas</span>
-                </div>
-
-                {/* Main Headline */}
-                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight max-w-5xl mx-auto leading-tight text-white">
-                  {currentTab === 'docente_sos' ? (
-                    <>
-                      Interinatos y Reemplazos <span className="text-prestige-400">Docente SOS</span>
-                    </>
-                  ) : (
-                    <>
-                      El Portal Corporativo Hecho para <span className="text-serene-400">Maestros y Escuelas</span>
-                    </>
-                  )}
-                </h1>
-
-                <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-3xl mx-auto mt-2 sm:mt-4 font-normal leading-relaxed">
-                  {currentTab === 'docente_sos'
-                    ? 'Bolsa urgente de suplencias para responder a incapacidades escolares en menos de 48 horas en escuelas públicas y privadas.'
-                    : 'Vinculamos el talento docente con colegios e instituciones de todos los niveles educativos con máxima transparencia en salarios, tipo de contratación y requisitos documentales.'}
-                </p>
-
-                {/* Barra de Búsqueda Full Width Adaptativa */}
-                <div className="mt-4 sm:mt-6 md:mt-8 max-w-4xl mx-auto bg-white rounded-2xl p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200/90">
-                  <div className="flex items-center gap-2.5 px-3 py-2 flex-1 w-full text-slate-800">
-                    <Search className="w-5 h-5 text-serene-600 shrink-0" />
-                    <input
-                      type="text"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Materia, asignatura, título de vacante o escuela..."
-                      className="w-full text-xs sm:text-sm font-semibold focus:outline-hidden text-brand-950 placeholder:text-slate-400 placeholder:font-normal"
-                    />
+              <div className="w-full relative z-10 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+                  
+                  {/* Avatar Col (Left side, pointing right towards search & headline) */}
+                  <div className="hidden lg:flex lg:col-span-4 xl:col-span-3 flex-col items-center justify-end relative">
+                    <div className="relative w-full max-w-[270px] xl:max-w-[310px] flex flex-col items-center">
+                      <div className="absolute inset-0 bg-gradient-to-t from-serene-500/25 via-emerald-500/10 to-transparent rounded-full blur-2xl pointer-events-none" />
+                      <div className="absolute bottom-4 w-3/4 h-8 bg-black/40 rounded-full blur-lg pointer-events-none" />
+                      
+                      <img
+                        src="/images/docentia-avatar-vacantes.png"
+                        alt="Docente DOCENTIA con expediente"
+                        className="relative z-10 w-full h-auto object-contain max-h-[380px] xl:max-h-[430px] drop-shadow-[0_20px_30px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
+                      />
+                      
+                      {/* Floating tag */}
+                      <div className="relative -mt-6 z-20 bg-white/95 backdrop-blur-md text-brand-950 px-3.5 py-1.5 rounded-2xl shadow-lg border border-serene-200/80 text-[11px] font-black flex items-center gap-1.5 whitespace-nowrap">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>Expediente en Mano</span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="hidden sm:block w-px h-8 bg-slate-200" />
+                  {/* Main Content & Search Column */}
+                  <div className="lg:col-span-8 xl:col-span-9 text-center lg:text-left space-y-4">
+                    
+                    {/* Mobile/Tablet Avatar Presentation */}
+                    <div className="flex lg:hidden justify-center mb-1">
+                      <div className="relative w-32 sm:w-40 flex flex-col items-center">
+                        <div className="absolute inset-0 bg-gradient-to-t from-serene-500/20 to-transparent rounded-full blur-xl pointer-events-none" />
+                        <img
+                          src="/images/docentia-avatar-vacantes.png"
+                          alt="Docente DOCENTIA con expediente"
+                          className="relative z-10 w-full h-auto object-contain max-h-[150px] sm:max-h-[190px] drop-shadow-md"
+                        />
+                      </div>
+                    </div>
 
-                  <div className="flex items-center gap-2 px-3 py-2 w-full sm:w-60 text-slate-800">
-                    <MapPin className="w-4 h-4 text-serene-600 shrink-0" />
-                    <select
-                      value={stateFilter}
-                      onChange={(e) => setStateFilter(e.target.value)}
-                      className="w-full text-xs font-bold text-slate-700 bg-transparent focus:outline-hidden cursor-pointer"
-                    >
-                      <option value="todos">Todos los Estados</option>
-                      {MEXICAN_STATES.map((st) => (
-                        <option key={st} value={st}>{st}</option>
+                    {/* Badge Institucional */}
+                    <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[11px] sm:text-xs font-extrabold shadow-xs backdrop-blur-xs">
+                      <Sparkles className="w-3.5 h-3.5 text-prestige-400" />
+                      <span>Plataforma Oficial de Vacantes para Docentes y Escuelas</span>
+                    </div>
+
+                    {/* Main Headline */}
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-tight text-white">
+                      {currentTab === 'docente_sos' ? (
+                        <>
+                          Interinatos y Reemplazos <span className="text-prestige-400">Docente SOS</span>
+                        </>
+                      ) : (
+                        <>
+                          El Portal Corporativo Hecho para <span className="text-serene-400">Maestros y Escuelas</span>
+                        </>
+                      )}
+                    </h1>
+
+                    <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-3xl font-normal leading-relaxed">
+                      {currentTab === 'docente_sos'
+                        ? 'Bolsa urgente de suplencias para responder a incapacidades escolares en menos de 48 horas en escuelas públicas y privadas.'
+                        : 'Vinculamos el talento docente con colegios e instituciones de todos los niveles educativos con máxima transparencia en salarios, tipo de contratación y requisitos documentales.'}
+                    </p>
+
+                    {/* Barra de Búsqueda Full Width Adaptativa */}
+                    <div className="mt-4 sm:mt-6 max-w-4xl bg-white rounded-2xl p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200/90 text-left">
+                      <div className="flex items-center gap-2.5 px-3 py-2 flex-1 w-full text-slate-800">
+                        <Search className="w-5 h-5 text-serene-600 shrink-0" />
+                        <input
+                          type="text"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          placeholder="Materia, asignatura, título de vacante o escuela..."
+                          className="w-full text-xs sm:text-sm font-semibold focus:outline-hidden text-brand-950 placeholder:text-slate-400 placeholder:font-normal"
+                        />
+                      </div>
+
+                      <div className="hidden sm:block w-px h-8 bg-slate-200" />
+
+                      <div className="flex items-center gap-2 px-3 py-2 w-full sm:w-60 text-slate-800">
+                        <MapPin className="w-4 h-4 text-serene-600 shrink-0" />
+                        <select
+                          value={stateFilter}
+                          onChange={(e) => setStateFilter(e.target.value)}
+                          className="w-full text-xs font-bold text-slate-700 bg-transparent focus:outline-hidden cursor-pointer"
+                        >
+                          <option value="todos">Todos los Estados</option>
+                          {MEXICAN_STATES.map((st) => (
+                            <option key={st} value={st}>{st}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <button
+                        onClick={() => {}}
+                        className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-black text-xs shadow-md transition-all shrink-0"
+                      >
+                        Buscar Vacantes
+                      </button>
+                    </div>
+
+                    {/* Chips de Nivel Rápido */}
+                    <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mt-4 sm:mt-6">
+                      {[
+                        { id: 'todos', label: 'Todos los Niveles' },
+                        { id: 'inicial_preescolar', label: 'Preescolar' },
+                        { id: 'primaria', label: 'Primaria' },
+                        { id: 'secundaria', label: 'Secundaria' },
+                        { id: 'preparatoria_bachillerato', label: 'Bachillerato' },
+                        { id: 'universidad_superior', label: 'Universidad' },
+                        { id: 'posgrado', label: 'Posgrado' },
+                        { id: 'idiomas', label: 'Idiomas' }
+                      ].map((chip) => (
+                        <button
+                          key={chip.id}
+                          onClick={() => setLevelFilter(chip.id)}
+                          className={`text-xs px-3.5 py-1.5 rounded-full font-bold transition-all ${
+                            levelFilter === chip.id
+                              ? 'bg-serene-600 text-white shadow-md scale-105 border border-serene-400'
+                              : 'bg-white/10 text-white/90 hover:bg-white/20 border border-white/10'
+                          }`}
+                        >
+                          {chip.label}
+                        </button>
                       ))}
-                    </select>
+                    </div>
+
                   </div>
 
-                  <button
-                    onClick={() => {}}
-                    className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-black text-xs shadow-md transition-all shrink-0"
-                  >
-                    Buscar Vacantes
-                  </button>
                 </div>
-
-                {/* Chips de Nivel Rápido */}
-                <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-                  {[
-                    { id: 'todos', label: 'Todos los Niveles' },
-                    { id: 'inicial_preescolar', label: 'Preescolar' },
-                    { id: 'primaria', label: 'Primaria' },
-                    { id: 'secundaria', label: 'Secundaria' },
-                    { id: 'preparatoria_bachillerato', label: 'Bachillerato' },
-                    { id: 'universidad_superior', label: 'Universidad' },
-                    { id: 'posgrado', label: 'Posgrado' },
-                    { id: 'idiomas', label: 'Idiomas' }
-                  ].map((chip) => (
-                    <button
-                      key={chip.id}
-                      onClick={() => setLevelFilter(chip.id)}
-                      className={`text-xs px-3.5 py-1.5 rounded-full font-bold transition-all ${
-                        levelFilter === chip.id
-                          ? 'bg-serene-600 text-white shadow-md scale-105 border border-serene-400'
-                          : 'bg-white/10 text-white/90 hover:bg-white/20 border border-white/10'
-                      }`}
-                    >
-                      {chip.label}
-                    </button>
-                  ))}
-                </div>
-
               </div>
             </section>
 
