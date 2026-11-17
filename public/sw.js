@@ -1,5 +1,5 @@
-// Docentia Service Worker - v5 PWA SOS Avatar Complete
-const CACHE_NAME = 'docentia-v5-sos-avatar';
+// Docentia Service Worker - v6 Push Notifications Complete
+const CACHE_NAME = 'docentia-v6-push-notifications';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -97,5 +97,83 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       })
       .catch(() => caches.match(event.request))
+  );
+});
+
+// ==========================================
+// PUSH & SYSTEM NOTIFICATIONS HANDLING
+// ==========================================
+
+// Push Event: triggered by server Web Push
+self.addEventListener('push', (event) => {
+  let data = {};
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch {
+      data = { title: 'DOCENTIA: Nueva Vacante', body: event.data.text() };
+    }
+  }
+
+  const title = data.title || '📢 Nueva Vacante Docente en DOCENTIA';
+  const options = {
+    body: data.body || 'Una escuela acaba de publicar una convocatoria. Toca para ver los detalles.',
+    icon: data.icon || '/icons/icon-192.png',
+    badge: data.badge || '/images/docentia-isotype.png',
+    image: data.image || undefined,
+    vibrate: data.vibrate || [250, 100, 250, 100, 250],
+    data: data.data || { url: '/' },
+    tag: data.tag || 'docentia-vacantes',
+    renotify: true,
+    requireInteraction: true
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Local & In-App Notification Trigger (Works instantly on mobile devices with app installed)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SHOW_VACANCY_NOTIFICATION') {
+    const payload = event.data.payload || {};
+    const title = payload.title || '📢 Nueva Vacante Docente';
+    const options = {
+      body: payload.body || 'Nueva convocatoria disponible en DOCENTIA.',
+      icon: payload.icon || '/icons/icon-192.png',
+      badge: payload.badge || '/images/docentia-isotype.png',
+      image: payload.image || undefined,
+      vibrate: payload.vibrate || [250, 100, 250, 100, 250],
+      data: payload.data || { url: '/' },
+      tag: payload.tag || ('vacancy-' + Date.now()),
+      renotify: true,
+      requireInteraction: true
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+  }
+});
+
+// Notification Click: Focus existing tab or open DOCENTIA and navigate to the vacancy
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const targetUrl = (event.notification.data && event.notification.data.url) 
+    ? event.notification.data.url 
+    : '/';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // If a window is already open, focus it and navigate
+      for (const client of clientList) {
+        if ('focus' in client) {
+          if ('navigate' in client) {
+            client.navigate(targetUrl);
+          }
+          return client.focus();
+        }
+      }
+      // Otherwise open a new window
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
   );
 });

@@ -12,7 +12,8 @@ import {
   BadgeCheck, 
   Briefcase,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Bell
 } from 'lucide-react';
 import { JobVacancy, EducationalLevel, ContractType } from '@/types';
 
@@ -20,6 +21,7 @@ interface VacancyCardProps {
   vacancy: JobVacancy;
   onSelect: (vacancy: JobVacancy) => void;
   hasApplied?: boolean;
+  onTestNotification?: (vacancy: JobVacancy) => void;
 }
 
 export const LEVEL_LABELS: Record<EducationalLevel, { label: string; badge: string }> = {
@@ -42,7 +44,8 @@ export const CONTRACT_LABELS: Record<ContractType, { label: string; badge: strin
 export const VacancyCard: React.FC<VacancyCardProps> = ({
   vacancy,
   onSelect,
-  hasApplied
+  hasApplied,
+  onTestNotification
 }) => {
   const levelInfo = LEVEL_LABELS[vacancy.educationalLevel] || { label: 'Educación', badge: 'bg-slate-50 text-slate-700 border-slate-200' };
   const contractInfo = CONTRACT_LABELS[vacancy.contractType] || { label: 'Contrato', badge: 'bg-slate-50 text-slate-700 border-slate-200' };
@@ -156,10 +159,27 @@ export const VacancyCard: React.FC<VacancyCardProps> = ({
         </div>
 
         {/* Footer: Documents Count & Action */}
-        <div className="flex items-center justify-between pt-2 text-xs">
-          <div className="flex items-center gap-1 text-slate-500 font-medium text-[11px]">
-            <FileCheck2 className="w-3.5 h-3.5 text-serene-600" />
-            <span>{vacancy.requiredDocuments.length} docs requeridos</span>
+        <div className="flex items-center justify-between pt-2.5 text-xs border-t border-slate-100 mt-2">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 text-slate-500 font-medium text-[11px]">
+              <FileCheck2 className="w-3.5 h-3.5 text-serene-600" />
+              <span>{vacancy.requiredDocuments.length} docs</span>
+            </div>
+
+            {onTestNotification && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTestNotification(vacancy);
+                }}
+                className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-serene-50 hover:bg-serene-100 text-serene-800 border border-serene-200/80 text-[10px] font-bold transition-all hover:scale-105"
+                title="Probar cómo llega esta vacante como notificación a tu celular"
+              >
+                <Bell className="w-2.5 h-2.5 text-serene-600" />
+                <span>Alerta Celular</span>
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-2">

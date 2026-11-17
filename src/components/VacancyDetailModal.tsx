@@ -19,7 +19,8 @@ import {
   FileText, 
   ShieldCheck,
   Lock,
-  Sparkles
+  Sparkles,
+  Bell
 } from 'lucide-react';
 import { JobVacancy, TeacherProfile, UserAccount } from '@/types';
 import { LEVEL_LABELS, CONTRACT_LABELS } from './VacancyCard';
@@ -33,6 +34,7 @@ interface VacancyDetailModalProps {
   currentUser?: UserAccount | null;
   onRequireAuth?: () => void;
   onRequirePlan?: () => void;
+  onTestNotification?: (vacancy: JobVacancy) => void;
 }
 
 export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
@@ -43,7 +45,8 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
   teacherProfile,
   currentUser,
   onRequireAuth,
-  onRequirePlan
+  onRequirePlan,
+  onTestNotification
 }) => {
   if (!vacancy) return null;
 
@@ -329,6 +332,18 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
+            {onTestNotification && (
+              <button
+                type="button"
+                onClick={() => onTestNotification(vacancy)}
+                className="px-3.5 py-2.5 rounded-xl bg-serene-50 hover:bg-serene-100 text-serene-900 border border-serene-200/90 font-extrabold text-xs transition-colors flex items-center gap-1.5 shadow-xs"
+                title="Probar cómo llega la notificación a tu celular"
+              >
+                <Bell className="w-3.5 h-3.5 text-serene-600" />
+                <span>Probar Alerta en Celular</span>
+              </button>
+            )}
+
             <button
               onClick={onClose}
               className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors"

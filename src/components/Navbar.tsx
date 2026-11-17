@@ -18,7 +18,8 @@ import {
   LogIn,
   LogOut,
   User,
-  Award
+  Award,
+  Bell
 } from 'lucide-react';
 import { UserAccount, UserRole } from '@/types';
 
@@ -33,6 +34,7 @@ interface NavbarProps {
   onLogout: () => void;
   onInstallClick?: () => void;
   isInstallable?: boolean;
+  onOpenNotifications?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -45,7 +47,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSubscription,
   onLogout,
   onInstallClick,
-  isInstallable
+  isInstallable,
+  onOpenNotifications
 }) => {
   return (
     <>
@@ -171,16 +174,27 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Selector de Entorno Corporativo y Autenticación */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             
-            {/* Install PWA Button if available */}
+            {/* Botón de Notificaciones y Alertas al Celular */}
+            <button
+              onClick={onOpenNotifications}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-xs font-bold bg-serene-50 hover:bg-serene-100 text-serene-900 border border-serene-200/90 transition-all shadow-xs relative group"
+              title="Alertas de vacantes en celular (Toca para probar)"
+            >
+              <Bell className="w-3.5 h-3.5 text-serene-700 shrink-0 group-hover:animate-bounce" />
+              <span className="hidden sm:inline">Alertas Celular</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            </button>
+
+            {/* Install App Button if available */}
             {isInstallable && (
               <button
                 onClick={onInstallClick}
-                className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-serene-50 text-serene-800 border border-serene-200 hover:bg-serene-100 transition-colors shadow-xs"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-800 border border-slate-200 hover:bg-slate-200 transition-colors shadow-xs"
                 title="Instalar Docentia en este dispositivo"
               >
-                <Smartphone className="w-3.5 h-3.5 text-serene-600" />
+                <Smartphone className="w-3.5 h-3.5 text-slate-600" />
                 Instalar App
               </button>
             )}

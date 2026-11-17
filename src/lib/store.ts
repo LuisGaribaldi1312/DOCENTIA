@@ -11,6 +11,7 @@ import {
   UserSubscription
 } from '@/types';
 import { INITIAL_VACANCIES } from './mockData';
+import { dispatchVacancyNotification } from './notifications';
 
 const VACANCIES_KEY = 'docentia_vacancies';
 const TEACHER_PROFILE_KEY = 'docentia_teacher_profile';
@@ -378,6 +379,10 @@ export function useDocentiaStore() {
     setVacancies(updated);
     if (typeof window !== 'undefined') {
       localStorage.setItem(VACANCIES_KEY, JSON.stringify(updated));
+      // Transmitir notificación automática a celulares y dispositivos con la app instalada
+      dispatchVacancyNotification(vacancy).catch((err) => {
+        console.warn('Notification dispatch note:', err);
+      });
     }
     return vacancy;
   };

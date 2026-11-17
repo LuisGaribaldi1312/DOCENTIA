@@ -20,7 +20,8 @@ import {
   Compass,
   School,
   Clock,
-  RotateCcw
+  RotateCcw,
+  Bell
 } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { PwaInstallBanner } from '@/components/PwaInstallBanner';
@@ -34,6 +35,8 @@ import { AboutPricingView } from '@/components/AboutPricingView';
 import { AuthModal } from '@/components/AuthModal';
 import { SubscriptionModal } from '@/components/SubscriptionModal';
 import { LegalPoliciesModal } from '@/components/LegalPoliciesModal';
+import { NotificationCenterModal } from '@/components/NotificationCenterModal';
+import { dispatchVacancyNotification } from '@/lib/notifications';
 import { useDocentiaStore } from '@/lib/store';
 import { JobVacancy, EducationalLevel, ContractType, SchoolType, UserRole } from '@/types';
 import { MEXICAN_STATES } from '@/lib/mockData';
@@ -73,6 +76,21 @@ export default function HomePage() {
   // Legal Framework Modal State
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [legalModalTab, setLegalModalTab] = useState<'terminos' | 'privacidad' | 'manejo_datos' | 'seguridad'>('terminos');
+
+  // Push Notifications Center & Toast State
+  const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+  const [notificationToast, setNotificationToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const handleTestNotification = async (vacancy: JobVacancy) => {
+    const res = await dispatchVacancyNotification(vacancy, true);
+    setNotificationToast({
+      message: res.message,
+      type: res.success ? 'success' : 'error'
+    });
+    setTimeout(() => {
+      setNotificationToast(null);
+    }, 5500);
+  };
 
   // Filters State
   const [searchTerm, setSearchTerm] = useState('');
@@ -175,6 +193,7 @@ export default function HomePage() {
           setSubscriptionModalOpen(true);
         }}
         onLogout={logout}
+        onOpenNotifications={() => setNotificationModalOpen(true)}
       />
 
       <main className="flex-1 w-full">
@@ -540,6 +559,7 @@ export default function HomePage() {
                           vacancy={vacancy}
                           onSelect={(v) => setSelectedVacancy(v)}
                           hasApplied={appliedIds.has(vacancy.id)}
+                          onTestNotification={handleTestNotification}
                         />
                       ))}
                     </div>
@@ -715,6 +735,7 @@ export default function HomePage() {
           setSubscriptionReason('Certifica tu Plan Docente ($5 USD/mes) para validar tu Cédula y postularte a esta convocatoria.');
           setSubscriptionModalOpen(true);
         }}
+        onTestNotification={handleTestNotification}
       />
 
       {/* Modal de Autenticación (Login / Registro / Cuentas Demo) */}
@@ -813,6 +834,40 @@ export default function HomePage() {
         onClose={() => setLegalModalOpen(false)}
         initialTab={legalModalTab}
       />
+
+      {/* Centro de Notificaciones y Prueba de Alertas en Celular */}
+      <NotificationCenterModal
+        isOpen={notificationModalOpen}
+        onClose={() => setNotificationModalOpen(false)}
+        vacancies={vacancies}
+        onSelectVacancy={(v) => {
+          setNotificationModalOpen(false);
+          setSelectedVacancy(v);
+        }}
+      />
+
+      {/* Toast de Alerta / Notificación Enviada */}
+      {notificationToast && (
+        <div className={`fixed bottom-20 lg:bottom-6 right-3 sm:right-6 z-50 p-4 rounded-2xl shadow-2xl border flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300 max-w-sm sm:max-w-md ${
+          notificationToast.type === 'success'
+            ? 'bg-brand-950 text-white border-serene-500/80 shadow-serene-950/40'
+            : 'bg-rose-950 text-white border-rose-500 shadow-rose-950/40'
+        }`}>
+          <div className="w-8 h-8 rounded-xl bg-serene-500/20 text-serene-400 flex items-center justify-center shrink-0">
+            <Bell className="w-4 h-4 animate-bounce" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-black truncate sm:whitespace-normal">{notificationToast.message}</p>
+            <p className="text-[10px] text-slate-300 mt-0.5">DOCENTIA Red Educativa · Alertas Móviles</p>
+          </div>
+          <button
+            onClick={() => setNotificationToast(null)}
+            className="p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white shrink-0"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
     </div>
   );
