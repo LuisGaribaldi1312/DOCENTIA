@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Reglas para Vacantes de Escuelas
+    match /vacancies/{vacancyId} {
+      // Cualquier maestro o visitante puede leer y buscar vacantes
+      allow read: if true;
+      // Escuelas autenticadas pueden crear y actualizar sus vacantes
+      allow create, update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    // Reglas para Postulaciones Docentes
+    match /applications/{appId} {
+      // El maestro que postuló o la escuela pueden leer la postulación
+      allow read: if request.auth != null;
+      // Maestros pueden enviar postulaciones
+      allow create: if request.auth != null;
+      // Solo la escuela puede actualizar el estatus (ej. invitacion a clase muestra)
+      allow update: if request.auth != null;
+    }
+
+    // Reglas para Perfil Docente
+    match /teachers/{teacherId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == teacherId;
+    }
+
+    // Reglas para Perfil de Escuela
+    match /schools/{schoolId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == schoolId;
+    }
+  }
+}
