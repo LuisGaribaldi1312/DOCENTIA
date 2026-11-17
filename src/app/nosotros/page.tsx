@@ -9,7 +9,7 @@ import { useDocentiaStore } from '@/lib/store';
 
 export default function NosotrosPage() {
   const router = useRouter();
-  const { currentRole, switchRole } = useDocentiaStore();
+  const { currentRole, switchRole, currentUser, logout } = useDocentiaStore();
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased w-full">
@@ -23,6 +23,10 @@ export default function NosotrosPage() {
         }}
         currentRole={currentRole}
         switchRole={switchRole}
+        currentUser={currentUser}
+        onOpenAuth={() => router.push('/?auth=1')}
+        onOpenSubscription={() => router.push('/?plan=1')}
+        onLogout={logout}
       />
 
       <main className="flex-1 w-full pt-6">

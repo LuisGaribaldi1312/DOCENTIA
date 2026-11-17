@@ -25,18 +25,22 @@ import {
   ChevronDown,
   Lock
 } from 'lucide-react';
-import { EducationalLevel } from '@/types';
+import { EducationalLevel, UserAccount } from '@/types';
 
 interface AboutPricingViewProps {
   onGoToVacancies: () => void;
   onGoToRegisterTeacher: () => void;
   onGoToRegisterSchool: () => void;
+  currentUser?: UserAccount | null;
+  onSelectPlan?: (plan: 'docente_5usd' | 'escuela_10usd') => void;
 }
 
 export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
   onGoToVacancies,
   onGoToRegisterTeacher,
-  onGoToRegisterSchool
+  onGoToRegisterSchool,
+  currentUser,
+  onSelectPlan
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<'docente' | 'escuela' | null>(null);
   const [contactName, setContactName] = useState('');
@@ -48,14 +52,18 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
   // Checkout modal form
   const [checkoutModal, setCheckoutModal] = useState<boolean>(false);
   const [billingPeriod, setBillingPeriod] = useState<'mensual' | 'anual'>('mensual');
-  const [checkoutName, setCheckoutName] = useState('');
-  const [checkoutEmail, setCheckoutEmail] = useState('');
+  const [checkoutName, setCheckoutName] = useState(currentUser?.name || '');
+  const [checkoutEmail, setCheckoutEmail] = useState(currentUser?.email || '');
   const [checkoutCard, setCheckoutCard] = useState('');
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
 
   const handleOpenPlan = (plan: 'docente' | 'escuela') => {
-    setSelectedPlan(plan);
-    setCheckoutModal(true);
+    if (onSelectPlan) {
+      onSelectPlan(plan === 'docente' ? 'docente_5usd' : 'escuela_10usd');
+    } else {
+      setSelectedPlan(plan);
+      setCheckoutModal(true);
+    }
   };
 
   const handleProcessCheckout = (e: React.FormEvent) => {

@@ -1,7 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { JobVacancy, TeacherProfile, SchoolProfile, Application } from '@/types';
+import { 
+  JobVacancy, 
+  TeacherProfile, 
+  SchoolProfile, 
+  Application, 
+  UserAccount, 
+  UserRole,
+  UserSubscription
+} from '@/types';
 import { INITIAL_VACANCIES } from './mockData';
 
 const VACANCIES_KEY = 'docentia_vacancies';
@@ -9,6 +17,76 @@ const TEACHER_PROFILE_KEY = 'docentia_teacher_profile';
 const SCHOOL_PROFILE_KEY = 'docentia_school_profile';
 const APPLICATIONS_KEY = 'docentia_applications';
 const ACTIVE_ROLE_KEY = 'docentia_active_role';
+const CURRENT_USER_KEY = 'docentia_current_user';
+
+export const DEMO_USERS: UserAccount[] = [
+  {
+    id: 'user-docente-pro',
+    email: 'maestro.pro@docentia.com',
+    name: 'Mtro. Luis Alberto Garibaldi',
+    role: 'docente',
+    phone: '55 1234 5678',
+    professionalLicense: '12894562',
+    subscription: {
+      planType: 'docente_5usd',
+      status: 'activo',
+      isCertified: true,
+      amountUsd: 5,
+      activatedAt: '2026-11-01',
+      renewsAt: '2026-12-01'
+    },
+    createdAt: '2026-10-15'
+  },
+  {
+    id: 'user-docente-nuevo',
+    email: 'maestro.nuevo@docentia.com',
+    name: 'Prof. Carlos Mendoza',
+    role: 'docente',
+    phone: '55 9876 5432',
+    professionalLicense: '09845123',
+    subscription: {
+      planType: 'ninguno',
+      status: 'sin_plan',
+      isCertified: false,
+      amountUsd: 0
+    },
+    createdAt: '2026-11-16'
+  },
+  {
+    id: 'user-escuela-pro',
+    email: 'colegio.pro@docentia.com',
+    name: 'Colegio Bilingüe Nueva Inglaterra',
+    role: 'escuela',
+    institutionName: 'Colegio Bilingüe Nueva Inglaterra',
+    cct: '09PES0412X',
+    phone: '55 5534 8900',
+    subscription: {
+      planType: 'escuela_10usd',
+      status: 'activo',
+      isCertified: true,
+      amountUsd: 10,
+      activatedAt: '2026-11-01',
+      renewsAt: '2026-12-01'
+    },
+    createdAt: '2026-09-20'
+  },
+  {
+    id: 'user-escuela-nueva',
+    email: 'escuela.nueva@docentia.com',
+    name: 'Instituto Patria y Cultura',
+    role: 'escuela',
+    institutionName: 'Instituto Patria y Cultura',
+    cct: '09PES0888Z',
+    phone: '55 6677 8899',
+    subscription: {
+      planType: 'ninguno',
+      status: 'sin_plan',
+      isCertified: false,
+      amountUsd: 0
+    },
+    createdAt: '2026-11-16'
+  }
+];
 
 export const DEFAULT_TEACHER: TeacherProfile = {
   id: 'teacher-default',
@@ -55,7 +133,8 @@ export function useDocentiaStore() {
   const [teacherProfile, setTeacherProfile] = useState<TeacherProfile>(DEFAULT_TEACHER);
   const [schoolProfile, setSchoolProfile] = useState<SchoolProfile>(DEFAULT_SCHOOL);
   const [applications, setApplications] = useState<Application[]>([]);
-  const [currentRole, setCurrentRole] = useState<'docente' | 'escuela'>('docente');
+  const [currentRole, setCurrentRole] = useState<UserRole>('docente');
+  const [currentUser, setCurrentUser] = useState<UserAccount | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -72,6 +151,20 @@ export function useDocentiaStore() {
     } else {
       setVacancies(INITIAL_VACANCIES);
       localStorage.setItem(VACANCIES_KEY, JSON.stringify(INITIAL_VACANCIES));
+    }
+
+    // Cargar Usuario Autenticado
+    const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        setCurrentUser(parsed);
+        if (parsed.role) {
+          setCurrentRole(parsed.role);
+        }
+      } catch {
+        setCurrentUser(null);
+      }
     }
 
     // Cargar Perfil Docente
@@ -105,13 +198,166 @@ export function useDocentiaStore() {
     }
 
     // Cargar Rol
-    const storedRole = localStorage.getItem(ACTIVE_ROLE_KEY) as 'docente' | 'escuela' | null;
+    const storedRole = localStorage.getItem(ACTIVE_ROLE_KEY) as UserRole | null;
     if (storedRole) {
       setCurrentRole(storedRole);
     }
 
     setIsLoaded(true);
   }, []);
+
+  // Login de Usuario
+  const login = (email: string, role?: UserRole) => {
+    const cleanEmail = email.trim().toLowerCase();
+    
+    // Buscar en cuentas demo o existentes
+    const foundDemo = DEMO_USERS.find(u => u.email.toLowerCase() === cleanEmail);
+    if (foundDemo) {
+      setCurrentUser(foundDemo);
+      setCurrentRole(foundDemo.role);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(foundDemo));
+        localStorage.setItem(ACTIVE_ROLE_KEY, foundDemo.role);
+      }
+      return foundDemo;
+    }
+
+    // Crear o iniciar sesión genérica
+    const targetRole = role || currentRole;
+    const isDocente = targetRole === 'docente';
+    const genericUser: UserAccount = {
+      id: `user-${Date.now()}`,
+      email: cleanEmail,
+      name: isDocente ? cleanEmail.split('@')[0] : `Colegio ${cleanEmail.split('@')[0]}`,
+      role: targetRole,
+      phone: '55 1234 5678',
+      subscription: {
+        planType: 'ninguno',
+        status: 'sin_plan',
+        isCertified: false,
+        amountUsd: 0
+      },
+      createdAt: new Date().toISOString().split('T')[0]
+    };
+
+    setCurrentUser(genericUser);
+    setCurrentRole(targetRole);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(genericUser));
+      localStorage.setItem(ACTIVE_ROLE_KEY, targetRole);
+    }
+    return genericUser;
+  };
+
+  // Registro de nuevo usuario
+  const registerUser = (data: {
+    email: string;
+    name: string;
+    role: UserRole;
+    phone?: string;
+    institutionName?: string;
+    cct?: string;
+    professionalLicense?: string;
+  }) => {
+    const newUser: UserAccount = {
+      id: `user-${Date.now()}`,
+      email: data.email.trim().toLowerCase(),
+      name: data.name,
+      role: data.role,
+      phone: data.phone || '',
+      institutionName: data.institutionName,
+      cct: data.cct,
+      professionalLicense: data.professionalLicense,
+      subscription: {
+        planType: 'ninguno',
+        status: 'sin_plan',
+        isCertified: false,
+        amountUsd: 0
+      },
+      createdAt: new Date().toISOString().split('T')[0]
+    };
+
+    setCurrentUser(newUser);
+    setCurrentRole(data.role);
+
+    // Actualizar perfil sincronizado
+    if (data.role === 'docente') {
+      const updatedDoc: TeacherProfile = {
+        ...teacherProfile,
+        fullName: data.name,
+        email: data.email,
+        phone: data.phone || teacherProfile.phone,
+        professionalLicense: data.professionalLicense || teacherProfile.professionalLicense
+      };
+      setTeacherProfile(updatedDoc);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(TEACHER_PROFILE_KEY, JSON.stringify(updatedDoc));
+      }
+    } else {
+      const updatedSchool: SchoolProfile = {
+        ...schoolProfile,
+        name: data.institutionName || data.name,
+        cct: data.cct || schoolProfile.cct,
+        contactEmail: data.email,
+        contactPhone: data.phone || schoolProfile.contactPhone
+      };
+      setSchoolProfile(updatedSchool);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(SCHOOL_PROFILE_KEY, JSON.stringify(updatedSchool));
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
+      localStorage.setItem(ACTIVE_ROLE_KEY, data.role);
+    }
+    return newUser;
+  };
+
+  // Cerrar Sesión
+  const logout = () => {
+    setCurrentUser(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(CURRENT_USER_KEY);
+    }
+  };
+
+  // Activar o certificar plan de suscripción ($5 Docente o $10 Escuela)
+  const activateSubscription = (planType: 'docente_5usd' | 'escuela_10usd') => {
+    if (!currentUser) return null;
+
+    const today = new Date().toISOString().split('T')[0];
+    const renews = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const amount = planType === 'docente_5usd' ? 5 : 10;
+
+    const updatedUser: UserAccount = {
+      ...currentUser,
+      subscription: {
+        planType,
+        status: 'activo',
+        isCertified: true,
+        amountUsd: amount,
+        activatedAt: today,
+        renewsAt: renews
+      }
+    };
+
+    setCurrentUser(updatedUser);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(updatedUser));
+    }
+
+    // Actualizar verificación en perfil escolar si aplica
+    if (planType === 'escuela_10usd') {
+      const updatedSchool: SchoolProfile = { ...schoolProfile, verified: true };
+      setSchoolProfile(updatedSchool);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(SCHOOL_PROFILE_KEY, JSON.stringify(updatedSchool));
+      }
+    }
+
+    return updatedUser;
+  };
 
   const addVacancy = (newVacancy: Omit<JobVacancy, 'id' | 'createdAt' | 'applicantsCount' | 'status'>) => {
     const vacancy: JobVacancy = {
@@ -149,10 +395,10 @@ export function useDocentiaStore() {
       vacancyId: vacancy.id,
       vacancyTitle: vacancy.title,
       schoolName: vacancy.schoolName,
-      teacherId: teacherProfile.id,
-      teacherName: teacherProfile.fullName,
-      teacherEmail: teacherProfile.email,
-      teacherPhone: teacherProfile.phone,
+      teacherId: currentUser?.id || teacherProfile.id,
+      teacherName: currentUser?.name || teacherProfile.fullName,
+      teacherEmail: currentUser?.email || teacherProfile.email,
+      teacherPhone: currentUser?.phone || teacherProfile.phone,
       appliedDate: new Date().toISOString().split('T')[0],
       status: 'recibida',
       attachedDocuments: attachedDocs,
@@ -185,7 +431,7 @@ export function useDocentiaStore() {
     }
   };
 
-  const switchRole = (role: 'docente' | 'escuela') => {
+  const switchRole = (role: UserRole) => {
     setCurrentRole(role);
     if (typeof window !== 'undefined') {
       localStorage.setItem(ACTIVE_ROLE_KEY, role);
@@ -198,7 +444,12 @@ export function useDocentiaStore() {
     schoolProfile,
     applications,
     currentRole,
+    currentUser,
     isLoaded,
+    login,
+    registerUser,
+    logout,
+    activateSubscription,
     addVacancy,
     updateTeacherProfile,
     updateSchoolProfile,

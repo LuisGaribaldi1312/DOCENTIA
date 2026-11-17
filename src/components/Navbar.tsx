@@ -14,14 +14,23 @@ import {
   Compass,
   LayoutDashboard,
   Sparkles,
-  Info
+  Info,
+  LogIn,
+  LogOut,
+  User,
+  Award
 } from 'lucide-react';
+import { UserAccount, UserRole } from '@/types';
 
 interface NavbarProps {
   currentTab: string;
   setCurrentTab: (tab: string) => void;
-  currentRole: 'docente' | 'escuela';
-  switchRole: (role: 'docente' | 'escuela') => void;
+  currentRole: UserRole;
+  switchRole: (role: UserRole) => void;
+  currentUser?: UserAccount | null;
+  onOpenAuth: () => void;
+  onOpenSubscription: (plan: 'docente_5usd' | 'escuela_10usd') => void;
+  onLogout: () => void;
   onInstallClick?: () => void;
   isInstallable?: boolean;
 }
@@ -31,6 +40,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   setCurrentTab,
   currentRole,
   switchRole,
+  currentUser,
+  onOpenAuth,
+  onOpenSubscription,
+  onLogout,
   onInstallClick,
   isInstallable
 }) => {
@@ -158,8 +171,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </nav>
 
-          {/* Selector de Entorno Corporativo (Docentes vs Instituciones) */}
-          <div className="flex items-center gap-3">
+          {/* Selector de Entorno Corporativo y Autenticación */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
             
             {/* Install PWA Button if available */}
             {isInstallable && (
@@ -174,7 +187,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
 
             {/* Corporate Role Switcher */}
-            <div className="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/80 shadow-inner">
+            <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/80 shadow-inner">
               <button
                 onClick={() => {
                   switchRole('docente');
@@ -209,6 +222,68 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Institución</span>
               </button>
             </div>
+
+            {/* SECCIÓN DE USUARIO / LOGIN & PLANES */}
+            {!currentUser ? (
+              <button
+                onClick={onOpenAuth}
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black text-white bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 shadow-md shadow-brand-900/10 hover:shadow-lg transition-all"
+              >
+                <LogIn className="w-3.5 h-3.5 text-serene-200" />
+                <span>Iniciar Sesión / Registro</span>
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 bg-slate-50 p-1 pl-2.5 rounded-2xl border border-slate-200/90 shadow-2xs">
+                
+                {/* Nombre y Chip de Plan */}
+                <div className="flex flex-col text-left pr-1 hidden md:block">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-black text-brand-950 truncate max-w-[130px]">
+                      {currentUser.name}
+                    </span>
+                    {currentUser.subscription.isCertified && (
+                      <span title="Perfil Certificado">
+                        <Award className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Estado de Suscripción */}
+                  {currentUser.subscription.status === 'activo' ? (
+                    <span className="text-[10px] font-extrabold text-emerald-700">
+                      {currentUser.role === 'docente' ? 'Plan $5 USD Certificado ✓' : 'Plan Escuela $10 USD ✓'}
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => onOpenSubscription(currentUser.role === 'docente' ? 'docente_5usd' : 'escuela_10usd')}
+                      className="text-[10px] font-extrabold text-amber-700 hover:text-amber-900 hover:underline flex items-center gap-0.5"
+                    >
+                      <Sparkles className="w-2.5 h-2.5 text-amber-500" />
+                      Activar Plan (${currentUser.role === 'docente' ? '5' : '10'} USD)
+                    </button>
+                  )}
+                </div>
+
+                {/* Botón rápido de Activar Plan si no lo tiene en móvil/compacto */}
+                {currentUser.subscription.status !== 'activo' && (
+                  <button
+                    onClick={() => onOpenSubscription(currentUser.role === 'docente' ? 'docente_5usd' : 'escuela_10usd')}
+                    className="md:hidden px-2 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-[10px] shadow-xs animate-pulse"
+                  >
+                    Activar ${currentUser.role === 'docente' ? '5' : '10'}
+                  </button>
+                )}
+
+                {/* Botón Cerrar Sesión */}
+                <button
+                  onClick={onLogout}
+                  title="Cerrar sesión"
+                  className="p-1.5 rounded-xl hover:bg-slate-200 text-slate-500 hover:text-rose-600 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            )}
 
           </div>
 

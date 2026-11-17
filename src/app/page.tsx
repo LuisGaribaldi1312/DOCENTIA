@@ -31,8 +31,10 @@ import { TeacherProfileForm } from '@/components/TeacherProfileForm';
 import { SchoolDashboard } from '@/components/SchoolDashboard';
 import { MyApplicationsView } from '@/components/MyApplicationsView';
 import { AboutPricingView } from '@/components/AboutPricingView';
+import { AuthModal } from '@/components/AuthModal';
+import { SubscriptionModal } from '@/components/SubscriptionModal';
 import { useDocentiaStore } from '@/lib/store';
-import { JobVacancy, EducationalLevel, ContractType, SchoolType } from '@/types';
+import { JobVacancy, EducationalLevel, ContractType, SchoolType, UserRole } from '@/types';
 import { MEXICAN_STATES } from '@/lib/mockData';
 
 export default function HomePage() {
@@ -42,7 +44,12 @@ export default function HomePage() {
     schoolProfile,
     applications,
     currentRole,
+    currentUser,
     isLoaded,
+    login,
+    registerUser,
+    logout,
+    activateSubscription,
     addVacancy,
     updateTeacherProfile,
     applyToVacancy,
@@ -52,6 +59,15 @@ export default function HomePage() {
 
   const [currentTab, setCurrentTab] = useState<string>('vacantes');
   const [selectedVacancy, setSelectedVacancy] = useState<JobVacancy | null>(null);
+
+  // Auth & Subscription Modals State
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authRole, setAuthRole] = useState<UserRole>('docente');
+  const [authPromptMessage, setAuthPromptMessage] = useState<string | undefined>(undefined);
+
+  const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
+  const [subscriptionPlanType, setSubscriptionPlanType] = useState<'docente_5usd' | 'escuela_10usd'>('docente_5usd');
+  const [subscriptionReason, setSubscriptionReason] = useState<string | undefined>(undefined);
 
   // Filters State
   const [searchTerm, setSearchTerm] = useState('');
@@ -142,6 +158,18 @@ export default function HomePage() {
         setCurrentTab={setCurrentTab}
         currentRole={currentRole}
         switchRole={switchRole}
+        currentUser={currentUser}
+        onOpenAuth={() => {
+          setAuthRole(currentRole);
+          setAuthPromptMessage(undefined);
+          setAuthModalOpen(true);
+        }}
+        onOpenSubscription={(plan) => {
+          setSubscriptionPlanType(plan);
+          setSubscriptionReason(undefined);
+          setSubscriptionModalOpen(true);
+        }}
+        onLogout={logout}
       />
 
       <main className="flex-1 w-full">
@@ -470,6 +498,17 @@ export default function HomePage() {
         {currentTab === 'publicar_vacante' && (
           <PublishVacancyForm
             schoolProfile={schoolProfile}
+            currentUser={currentUser}
+            onRequireAuth={() => {
+              setAuthRole('escuela');
+              setAuthPromptMessage('Inicia sesión o crea una cuenta institucional para publicar convocatorias.');
+              setAuthModalOpen(true);
+            }}
+            onRequirePlan={() => {
+              setSubscriptionPlanType('escuela_10usd');
+              setSubscriptionReason('Activa el Plan Institución ($10 USD/mes) para publicar vacantes ilimitadas y acceder a los expedientes.');
+              setSubscriptionModalOpen(true);
+            }}
             onSubmit={(newVac) => {
               addVacancy(newVac);
               setCurrentTab('vacantes');
@@ -509,8 +548,24 @@ export default function HomePage() {
         {currentTab === 'nosotros' && (
           <AboutPricingView
             onGoToVacancies={() => setCurrentTab('vacantes')}
-            onGoToRegisterTeacher={() => setCurrentTab('perfil_docente')}
-            onGoToRegisterSchool={() => setCurrentTab('publicar_vacante')}
+            onGoToRegisterTeacher={() => {
+              switchRole('docente');
+              setCurrentTab('perfil_docente');
+            }}
+            onGoToRegisterSchool={() => {
+              switchRole('escuela');
+              setCurrentTab('publicar_vacante');
+            }}
+            currentUser={currentUser}
+            onSelectPlan={(plan) => {
+              setSubscriptionPlanType(plan);
+              setSubscriptionReason(
+                plan === 'docente_5usd'
+                  ? 'Activa tu Certificación Oficial Docente por $5 USD/mes para validar tu Cédula y postularte a vacantes.'
+                  : 'Activa tu Plan Escuela por $10 USD/mes para publicar vacantes ilimitadas y descargar expedientes.'
+              );
+              setSubscriptionModalOpen(true);
+            }}
           />
         )}
 
@@ -523,6 +578,44 @@ export default function HomePage() {
         onApply={(vac, docs, note) => applyToVacancy(vac, docs, note)}
         hasApplied={selectedVacancy ? appliedIds.has(selectedVacancy.id) : false}
         teacherProfile={teacherProfile}
+        currentUser={currentUser}
+        onRequireAuth={() => {
+          setAuthRole('docente');
+          setAuthPromptMessage('Inicia sesión o regístrate como Docente para postularte con tu expediente verificado.');
+          setAuthModalOpen(true);
+        }}
+        onRequirePlan={() => {
+          setSubscriptionPlanType('docente_5usd');
+          setSubscriptionReason('Certifica tu Plan Docente ($5 USD/mes) para validar tu Cédula y postularte a esta convocatoria.');
+          setSubscriptionModalOpen(true);
+        }}
+      />
+
+      {/* Modal de Autenticación (Login / Registro / Cuentas Demo) */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onLogin={login}
+        onRegister={registerUser}
+        initialRole={authRole}
+        promptMessage={authPromptMessage}
+      />
+
+      {/* Modal de Pago y Certificación de Plan ($5 USD Docente / $10 USD Escuela) */}
+      <SubscriptionModal
+        isOpen={subscriptionModalOpen}
+        onClose={() => setSubscriptionModalOpen(false)}
+        planType={subscriptionPlanType}
+        currentUser={currentUser}
+        onActivate={(plan) => {
+          activateSubscription(plan);
+        }}
+        onNeedLogin={() => {
+          setAuthRole(subscriptionPlanType === 'docente_5usd' ? 'docente' : 'escuela');
+          setAuthPromptMessage('Inicia sesión para vincular tu certificación.');
+          setAuthModalOpen(true);
+        }}
+        contextReason={subscriptionReason}
       />
 
       {/* Footer Corporativo Full-Width */}

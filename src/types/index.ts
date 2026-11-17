@@ -110,3 +110,30 @@ export interface Application {
   attachedDocuments: string[];
   coverNote?: string;
 }
+
+export type UserRole = 'docente' | 'escuela';
+
+export type PlanStatus = 'sin_plan' | 'activo' | 'vencido';
+
+export interface UserSubscription {
+  planType: 'docente_5usd' | 'escuela_10usd' | 'ninguno';
+  status: PlanStatus;
+  activatedAt?: string;
+  renewsAt?: string;
+  isCertified: boolean;
+  amountUsd: number;
+}
+
+export interface UserAccount {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  phone?: string;
+  institutionName?: string;
+  cct?: string;
+  professionalLicense?: string;
+  subscription: UserSubscription;
+  createdAt: string;
+}
+

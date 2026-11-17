@@ -17,9 +17,11 @@ import {
   Flame, 
   BadgeCheck, 
   FileText, 
-  ShieldCheck
+  ShieldCheck,
+  Lock,
+  Sparkles
 } from 'lucide-react';
-import { JobVacancy, TeacherProfile } from '@/types';
+import { JobVacancy, TeacherProfile, UserAccount } from '@/types';
 import { LEVEL_LABELS, CONTRACT_LABELS } from './VacancyCard';
 
 interface VacancyDetailModalProps {
@@ -28,6 +30,9 @@ interface VacancyDetailModalProps {
   onApply: (vacancy: JobVacancy, attachedDocs: string[], coverNote?: string) => void;
   hasApplied: boolean;
   teacherProfile: TeacherProfile;
+  currentUser?: UserAccount | null;
+  onRequireAuth?: () => void;
+  onRequirePlan?: () => void;
 }
 
 export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
@@ -35,7 +40,10 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
   onClose,
   onApply,
   hasApplied,
-  teacherProfile
+  teacherProfile,
+  currentUser,
+  onRequireAuth,
+  onRequirePlan
 }) => {
   if (!vacancy) return null;
 
@@ -301,34 +309,76 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
               <span className="text-emerald-800 font-bold flex items-center gap-1">
                 <BadgeCheck className="w-4 h-4 text-emerald-600" /> Ya te has postulado a esta vacante.
               </span>
+            ) : !currentUser ? (
+              <span className="text-slate-600 font-medium">Inicia sesión como docente para postularte con tu expediente verificado.</span>
+            ) : currentUser.role !== 'docente' ? (
+              <span className="text-amber-800 font-semibold">Conectado como Escuela. Cambia a cuenta de Docente para postularte.</span>
+            ) : !currentUser.subscription.isCertified ? (
+              <span className="text-amber-800 font-bold flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-prestige-600" /> Requiere Plan Docente Certificado ($5 USD/mes) para aplicar.
+              </span>
             ) : (
-              <span>Se adjuntarán los {selectedDocs.length} documentos marcados a la escuela.</span>
+              <span className="text-emerald-800 font-bold flex items-center gap-1">
+                <BadgeCheck className="w-4 h-4 text-emerald-600" /> Docente Certificado Oficial · Se adjuntarán {selectedDocs.length} documentos.
+              </span>
             )}
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
             <button
               onClick={onClose}
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors"
+              className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors"
             >
               Cerrar
             </button>
 
-            {!hasApplied ? (
+            {hasApplied ? (
               <button
-                onClick={handleApplyClick}
-                disabled={selectedDocs.length === 0}
-                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-900 to-serene-700 hover:from-brand-800 hover:to-serene-600 disabled:opacity-50 text-white font-extrabold text-xs shadow-md shadow-brand-900/15 transition-all"
+                disabled
+                className="px-5 py-2.5 rounded-xl bg-emerald-100 text-emerald-800 font-bold text-xs cursor-default flex items-center gap-1.5"
               >
-                <Send className="w-3.5 h-3.5" />
-                Postularme con mi Expediente
+                <BadgeCheck className="w-4 h-4" />
+                Postulación Enviada
+              </button>
+            ) : !currentUser ? (
+              <button
+                onClick={() => {
+                  onClose();
+                  if (onRequireAuth) onRequireAuth();
+                }}
+                className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-extrabold text-xs shadow-md shadow-brand-900/15 transition-all"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                Iniciar Sesión para Postularme
+              </button>
+            ) : currentUser.role !== 'docente' ? (
+              <button
+                onClick={() => {
+                  onClose();
+                  if (onRequireAuth) onRequireAuth();
+                }}
+                className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition-all"
+              >
+                Cambiar a Perfil Docente
+              </button>
+            ) : !currentUser.subscription.isCertified ? (
+              <button
+                onClick={() => {
+                  if (onRequirePlan) onRequirePlan();
+                }}
+                className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-prestige-600 to-amber-600 hover:from-prestige-500 hover:to-amber-500 text-white font-extrabold text-xs shadow-md shadow-amber-600/20 transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                Certificar Plan ($5 USD) y Postularme
               </button>
             ) : (
               <button
-                disabled
-                className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-emerald-100 text-emerald-800 font-bold text-xs cursor-default"
+                onClick={handleApplyClick}
+                disabled={selectedDocs.length === 0}
+                className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-900 to-serene-700 hover:from-brand-800 hover:to-serene-600 disabled:opacity-50 text-white font-extrabold text-xs shadow-md shadow-brand-900/15 transition-all"
               >
-                Postulación Enviada
+                <Send className="w-3.5 h-3.5" />
+                Postularme con mi Expediente
               </button>
             )}
           </div>

@@ -24,18 +24,25 @@ import {
   Modality, 
   Shift, 
   SchoolType,
-  SchoolProfile 
+  SchoolProfile,
+  UserAccount 
 } from '@/types';
 import { STANDARD_REQUIRED_DOCUMENTS, MEXICAN_STATES } from '@/lib/mockData';
 
 interface PublishVacancyFormProps {
   schoolProfile: SchoolProfile;
+  currentUser?: UserAccount | null;
+  onRequireAuth?: () => void;
+  onRequirePlan?: () => void;
   onSubmit: (newVacancy: Omit<JobVacancy, 'id' | 'createdAt' | 'applicantsCount' | 'status'>) => void;
   onCancel: () => void;
 }
 
 export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
   schoolProfile,
+  currentUser,
+  onRequireAuth,
+  onRequirePlan,
   onSubmit,
   onCancel
 }) => {
@@ -156,6 +163,114 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
     onSubmit(newVacancy);
     setIsSubmitted(true);
   };
+
+  // 1. Candado si no está autenticado
+  if (!currentUser) {
+    return (
+      <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-brand-50 text-brand-900 flex items-center justify-center mx-auto mb-2">
+            <Building2 className="w-8 h-8 text-serene-600" />
+          </div>
+          <h3 className="text-2xl font-black text-brand-950">
+            Registro o Inicio de Sesión Requerido
+          </h3>
+          <p className="text-sm text-slate-600 max-w-lg mx-auto">
+            Para publicar convocatorias y plazas docentes en el portal y aplicación de DOCENTIA, necesitas acceder con tu cuenta de Institución Educativa.
+          </p>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={onRequireAuth}
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-900 text-white font-extrabold text-xs shadow-md hover:bg-brand-800 transition-colors"
+            >
+              Iniciar Sesión o Crear Cuenta de Escuela
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-100 transition-colors"
+            >
+              Volver a Vacantes
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Candado si el rol es Docente
+  if (currentUser.role !== 'escuela') {
+    return (
+      <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center mx-auto mb-2">
+            <GraduationCap className="w-8 h-8 text-amber-600" />
+          </div>
+          <h3 className="text-2xl font-black text-brand-950">
+            Perfil de Docente / Maestro Detectado
+          </h3>
+          <p className="text-sm text-slate-600 max-w-lg mx-auto">
+            Tu cuenta actual está registrada como <strong>Docente</strong>. La publicación de convocatorias y contratación escolar está reservada para cuentas de <strong>Institución Educativa</strong>.
+          </p>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={onRequireAuth}
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-brand-900 text-white font-extrabold text-xs shadow-md hover:bg-brand-800 transition-colors"
+            >
+              Cambiar a Cuenta de Institución
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-100 transition-colors"
+            >
+              Volver a Vacantes
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Candado si no tiene contratado el Plan Escuela ($10 USD)
+  if (currentUser.subscription.status !== 'activo') {
+    return (
+      <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xl space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-serene-50 text-serene-700 flex items-center justify-center mx-auto mb-2">
+            <ShieldCheck className="w-8 h-8 text-serene-600" />
+          </div>
+          <span className="inline-block px-3 py-1 rounded-full bg-prestige-100 text-prestige-900 font-extrabold text-xs">
+            Plan Institución Requerido ($10 USD / mes)
+          </span>
+          <h3 className="text-2xl font-black text-brand-950">
+            Activa el Plan Escuela para Publicar Convocatorias
+          </h3>
+          <p className="text-sm text-slate-600 max-w-lg mx-auto">
+            Tu cuenta institucional <strong>{currentUser.institutionName || currentUser.name}</strong> requiere el Plan Escuela para publicar vacantes ilimitadas, acceder a expedientes con Cédula verificada y citar a Clase Muestra.
+          </p>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={onRequirePlan}
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-extrabold text-xs shadow-md transition-all"
+            >
+              Contratar Plan Escuela ($10 USD / mes)
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-100 transition-colors"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (
