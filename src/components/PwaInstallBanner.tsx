@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Smartphone, Download, X, Share, PlusSquare } from 'lucide-react';
+import { Smartphone, Download, X, Share, PlusSquare, ShieldCheck } from 'lucide-react';
 
 export const PwaInstallBanner: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -32,7 +32,6 @@ export const PwaInstallBanner: React.FC = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
-    // Register service worker if supported
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch((err) => {
         console.log('SW registration note:', err);
@@ -62,23 +61,23 @@ export const PwaInstallBanner: React.FC = () => {
   if (!showBanner) return null;
 
   return (
-    <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 text-white px-4 py-3 shadow-md relative z-40">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <aside aria-label="Instalación de la aplicación" className="w-full bg-gradient-to-r from-brand-950 via-brand-900 to-serene-950 text-white px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-3 shadow-md border-b border-brand-800/60 relative z-40 transition-all">
+      <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-            <Smartphone className="w-5 h-5 text-blue-200" />
+            <Smartphone className="w-5 h-5 text-serene-300" />
           </div>
           <div>
-            <h4 className="text-sm font-bold flex items-center gap-2">
-              Instala la App de DOCENTIA
-              <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-semibold">
-                Android & iOS
+            <h4 className="text-xs sm:text-sm font-extrabold flex items-center gap-2">
+              Instala DOCENTIA en tu Celular o Tablet
+              <span className="text-[10px] bg-serene-500/30 text-serene-200 border border-serene-400/40 px-2 py-0.5 rounded-full font-bold">
+                PWA Oficial
               </span>
             </h4>
-            <p className="text-xs text-blue-100">
+            <p className="text-[11px] text-slate-300">
               {isIOS 
-                ? 'Toca Compartir en Safari y luego "Agregar a pantalla de inicio" para instalar.'
-                : 'Accede a vacantes al instante, recibe alertas de interinatos y postula sin abrir el navegador.'}
+                ? 'Toca Compartir en Safari y selecciona "Agregar a pantalla de inicio" para instalar.'
+                : 'Accede rápidamente a vacantes docentes, gestiona expedientes y recibe alertas instantáneas.'}
             </p>
           </div>
         </div>
@@ -87,31 +86,31 @@ export const PwaInstallBanner: React.FC = () => {
           {!isIOS && deferredPrompt && (
             <button
               onClick={handleInstallClick}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white text-blue-800 text-xs font-bold shadow-xs hover:bg-blue-50 transition-colors"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-serene-600 hover:bg-serene-500 text-white text-xs font-black shadow-xs transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
-              Instalar en 1 Clic
+              Instalar App
             </button>
           )}
 
           {isIOS && (
-            <div className="flex items-center gap-1 text-[11px] bg-white/15 px-2.5 py-1 rounded-md text-blue-100">
-              <Share className="w-3.5 h-3.5 inline" />
+            <div className="flex items-center gap-1.5 text-[11px] bg-white/10 px-3 py-1 rounded-xl text-serene-200 border border-white/10">
+              <Share className="w-3.5 h-3.5 inline text-serene-300" />
               <span>Compartir &gt;</span>
-              <PlusSquare className="w-3.5 h-3.5 inline" />
+              <PlusSquare className="w-3.5 h-3.5 inline text-serene-300" />
               <span>Inicio</span>
             </div>
           )}
 
           <button
             onClick={handleDismiss}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+            className="p-1.5 rounded-xl hover:bg-white/10 text-white/70 hover:text-white transition-colors"
             aria-label="Cerrar banner"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };

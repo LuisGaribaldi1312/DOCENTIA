@@ -15,7 +15,7 @@ import {
   Flame, 
   CheckCircle2, 
   Sparkles,
-  HelpCircle
+  ShieldCheck
 } from 'lucide-react';
 import { 
   JobVacancy, 
@@ -88,7 +88,6 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
   const [isUrgentSubstitute, setIsUrgentSubstitute] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Subject helpers
   const handleAddSubject = () => {
     if (subjectsInput.trim() && !subjects.includes(subjectsInput.trim())) {
       setSubjects([...subjects, subjectsInput.trim()]);
@@ -100,7 +99,6 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
     setSubjects(subjects.filter((_, i) => i !== index));
   };
 
-  // Document helpers
   const toggleStandardDoc = (doc: string) => {
     if (requiredDocs.includes(doc)) {
       setRequiredDocs(requiredDocs.filter(d => d !== doc));
@@ -114,10 +112,6 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
       setRequiredDocs([...requiredDocs, customDocInput.trim()]);
       setCustomDocInput('');
     }
-  };
-
-  const handleRemoveDoc = (doc: string) => {
-    setRequiredDocs(requiredDocs.filter(d => d !== doc));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -165,60 +159,62 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
 
   if (isSubmitted) {
     return (
-      <div className="bg-white rounded-3xl p-8 max-w-2xl mx-auto border border-slate-200 text-center shadow-lg my-8">
-        <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="w-10 h-10" />
+      <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
+        <div className="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xl">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-4">
+            <CheckCircle2 className="w-10 h-10" />
+          </div>
+          <h3 className="text-2xl font-black text-brand-950 mb-2">
+            ¡Convocatoria Publicada Exitosamente!
+          </h3>
+          <p className="text-sm text-slate-600 mb-6">
+            La vacante para <strong>{title}</strong> ya se encuentra activa en el portal y aplicación de DOCENTIA.
+          </p>
+          <button
+            onClick={onCancel}
+            className="px-6 py-2.5 rounded-xl bg-brand-900 text-white font-bold text-xs hover:bg-brand-800 transition-colors shadow-sm"
+          >
+            Ir al Panel de Vacantes
+          </button>
         </div>
-        <h3 className="text-2xl font-black text-slate-900 mb-2">
-          ¡Vacante Publicada Exitosamente!
-        </h3>
-        <p className="text-sm text-slate-600 mb-6">
-          La vacante para <strong>{title}</strong> ya se encuentra visible para los maestros registrados en DOCENTIA.
-        </p>
-        <button
-          onClick={onCancel}
-          className="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-colors"
-        >
-          Ir al Panel de Vacantes
-        </button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-4">
+    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8">
       
-      {/* Title & Introduction */}
-      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl mb-6">
+      {/* Banner Corporativo Superior */}
+      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-6 sm:p-10 rounded-3xl shadow-xl mb-8 border border-brand-800/60">
         <div className="flex items-center gap-3 mb-2">
-          <span className="p-2 rounded-xl bg-white/10 text-blue-200">
+          <span className="p-2.5 rounded-xl bg-white/10 text-serene-300">
             <Building2 className="w-6 h-6" />
           </span>
-          <span className="text-xs uppercase font-extrabold tracking-widest text-blue-300">
-            Módulo Escolar de Reclutamiento
+          <span className="text-xs uppercase font-extrabold tracking-widest text-serene-300">
+            Módulo Institucional de Contratación
           </span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
-          Publicar Nueva Vacante para Maestros
+        <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+          Publicar Convocatoria Docente
         </h2>
-        <p className="text-sm text-blue-100/90 mt-1 max-w-2xl">
-          Diseña una publicación clara y concisa para escuelas públicas o privadas de cualquier nivel educativo, definiendo el régimen de contratación, salario y la lista de documentos obligatorios.
+        <p className="text-sm text-slate-300/90 mt-2 max-w-3xl">
+          Genera una publicación institucional precisa para escuelas públicas o privadas de cualquier nivel académico, especificando el esquema salarial, régimen laboral y la lista oficial de documentos requeridos.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         
-        {/* Sección 1: Datos de la Escuela e Institución */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Building2 className="w-5 h-5 text-blue-600" />
-            1. Datos de la Institución Educativa
+        {/* Sección 1: Datos de la Escuela */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <Building2 className="w-5 h-5 text-serene-600" />
+            1. Datos de la Escuela o Plantel Educativo
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="sm:col-span-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Nombre Oficial de la Escuela / Plantel *
+                Nombre Oficial de la Escuela / Colegio *
               </label>
               <input
                 type="text"
@@ -226,7 +222,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                 value={schoolName}
                 onChange={(e) => setSchoolName(e.target.value)}
                 placeholder="Ej. Colegio Bilingüe Nueva Inglaterra"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-semibold"
               />
             </div>
 
@@ -237,7 +233,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={schoolType}
                 onChange={(e) => setSchoolType(e.target.value as SchoolType)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-serene-500"
               >
                 <option value="privada">Escuela Privada / Particular</option>
                 <option value="publica">Escuela Pública (Federal / Estatal)</option>
@@ -246,14 +242,14 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Clave de Centro de Trabajo (CCT) o Registro Oficial
+                Clave de Centro de Trabajo (CCT) o Registro
               </label>
               <input
                 type="text"
                 value={cct}
                 onChange={(e) => setCct(e.target.value.toUpperCase())}
                 placeholder="Ej. 09PES0412X"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-mono"
               />
             </div>
 
@@ -264,7 +260,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-serene-500"
               >
                 {MEXICAN_STATES.map((st) => (
                   <option key={st} value={st}>{st}</option>
@@ -282,56 +278,55 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Ej. Benito Juárez"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Dirección Física del Plantel Escolar
+                Dirección Física del Plantel o Campus
               </label>
               <input
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Calle, número, colonia o campus donde laborará el docente"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
           </div>
         </div>
 
-        {/* Sección 2: Definición de la Vacante & Nivel Educativo */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <GraduationCap className="w-5 h-5 text-blue-600" />
-            2. Puesto Docente, Nivel Educativo y Materias
+        {/* Sección 2: Vacante, Nivel y Materias */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <GraduationCap className="w-5 h-5 text-serene-600" />
+            2. Puesto Docente, Nivel Educativo y Asignaturas
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            <div className="sm:col-span-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Título de la Vacante *
+                Título del Puesto Docente *
               </label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Ej. Profesor(a) de Matemáticas y Física para 2º y 3º de Secundaria"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500 font-semibold"
+                placeholder="Ej. Profesor(a) Titular de Matemáticas y Física - Nivel Secundaria"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-bold text-brand-950"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Nivel Educativo de la Vacante *
+                Nivel Educativo *
               </label>
               <select
                 value={educationalLevel}
                 onChange={(e) => setEducationalLevel(e.target.value as EducationalLevel)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-semibold text-blue-900 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-bold text-brand-900 focus:outline-hidden focus:border-serene-500"
               >
                 <option value="inicial_preescolar">Inicial / Preescolar</option>
                 <option value="primaria">Primaria</option>
@@ -340,27 +335,26 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                 <option value="universidad_superior">Universidad / Nivel Superior</option>
                 <option value="posgrado">Posgrado / Maestría</option>
                 <option value="educacion_especial">Educación Especial / Inclusiva</option>
-                <option value="idiomas">Idiomas y Extensión Académica</option>
+                <option value="idiomas">Idiomas y Extensión</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Modalidad de Impartición *
+                Modalidad de Enseñanza *
               </label>
               <select
                 value={modality}
                 onChange={(e) => setModality(e.target.value as Modality)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-serene-500"
               >
                 <option value="presencial">Presencial (en aula)</option>
-                <option value="hibrido">Híbrida (presencial + aula virtual)</option>
+                <option value="hibrido">Híbrida (presencial + virtual)</option>
                 <option value="remoto">100% En Línea / Remota</option>
               </select>
             </div>
 
-            {/* Asignaturas */}
-            <div className="sm:col-span-2">
+            <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Materias o Asignaturas a Cargo
               </label>
@@ -375,13 +369,13 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                       handleAddSubject();
                     }
                   }}
-                  placeholder="Escribe una materia (ej. Álgebra, Química, Historia) y pulsa Agregar"
-                  className="flex-1 text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                  placeholder="Escribe una materia (ej. Física I, Cálculo, Español) y pulsa Agregar"
+                  className="flex-1 text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
                 />
                 <button
                   type="button"
                   onClick={handleAddSubject}
-                  className="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
+                  className="px-5 py-2.5 rounded-xl bg-brand-900 text-white text-xs font-bold hover:bg-brand-800 transition-colors"
                 >
                   Agregar
                 </button>
@@ -389,12 +383,12 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
 
               <div className="flex flex-wrap gap-1.5">
                 {subjects.map((sub, i) => (
-                  <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-800 border border-blue-200 rounded-lg text-xs font-semibold">
+                  <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-brand-50 text-brand-900 border border-brand-200 rounded-lg text-xs font-semibold">
                     {sub}
                     <button
                       type="button"
                       onClick={() => handleRemoveSubject(i)}
-                      className="text-blue-500 hover:text-red-600"
+                      className="text-brand-500 hover:text-red-600"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -403,34 +397,30 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               </div>
             </div>
 
-            {/* Descripción Detallada */}
-            <div className="sm:col-span-2">
+            <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Descripción Concisa y Detallada de la Vacante *
+                Descripción Concisa y Clara de la Vacante *
               </label>
               <textarea
                 required
                 rows={4}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe los objetivos de aprendizaje, número aproximado de alumnos por grupo, metodología didáctica deseada y ambiente de trabajo en la institución..."
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                placeholder="Describe el enfoque didáctico, responsabilidades frente a grupo, recursos tecnológicos del colegio y ambiente institucional..."
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
-
           </div>
         </div>
 
-        {/* Sección 3: Contratación, Salario & Duración (Requisitos Clave del Usuario) */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Briefcase className="w-5 h-5 text-blue-600" />
-            3. Esquema de Contratación, Duración y Salario
+        {/* Sección 3: Contratación, Salario & Duración */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <Briefcase className="w-5 h-5 text-serene-600" />
+            3. Régimen Laboral, Duración y Esquema Salarial
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            {/* Régimen de Contratación */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Régimen de Contratación *
@@ -438,16 +428,15 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={contractType}
                 onChange={(e) => setContractType(e.target.value as ContractType)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-semibold text-slate-900 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-bold text-brand-900 focus:outline-hidden focus:border-serene-500"
               >
                 <option value="planta_permanente">Planta Permanente / Base Definitiva</option>
                 <option value="contrato_determinado">Por Contrato (Tiempo Determinado)</option>
-                <option value="honorarios">Por Honorarios / Servicios Profesionales</option>
+                <option value="honorarios">Por Honorarios / Hora Clase</option>
               </select>
             </div>
 
-            {/* Duración de la Contratación */}
-            <div className="sm:col-span-2">
+            <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 ¿Por cuánto tiempo será la contratación? *
               </label>
@@ -456,12 +445,11 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                 required
                 value={contractDuration}
                 onChange={(e) => setContractDuration(e.target.value)}
-                placeholder="Ej. Ciclo Escolar Anual 2026-2027 / Indefinido / 6 Meses"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                placeholder="Ej. Ciclo Escolar Anual 2026-2027 / Indefinido / Semestre Enero-Junio"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
-            {/* Salario Mínimo */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Salario Mínimo ($) *
@@ -474,12 +462,11 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                   min={1}
                   value={salaryMin}
                   onChange={(e) => setSalaryMin(Number(e.target.value))}
-                  className="w-full text-sm pl-7 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500 font-bold text-emerald-800"
+                  className="w-full text-sm pl-7 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-bold text-serene-900"
                 />
               </div>
             </div>
 
-            {/* Salario Máximo */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Salario Máximo (Opcional)
@@ -491,12 +478,11 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                   min={1}
                   value={salaryMax}
                   onChange={(e) => setSalaryMax(Number(e.target.value))}
-                  className="w-full text-sm pl-7 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500 font-bold text-emerald-800"
+                  className="w-full text-sm pl-7 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-bold text-serene-900"
                 />
               </div>
             </div>
 
-            {/* Periodicidad del Pago */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Periodicidad del Salario *
@@ -504,7 +490,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={salaryPeriod}
                 onChange={(e) => setSalaryPeriod(e.target.value as any)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-serene-500"
               >
                 <option value="mensual">Mensual</option>
                 <option value="quincenal">Quincenal</option>
@@ -512,7 +498,6 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               </select>
             </div>
 
-            {/* Tipo de Jornada */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Tipo de Jornada
@@ -520,7 +505,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={scheduleType}
                 onChange={(e) => setScheduleType(e.target.value as any)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-serene-500"
               >
                 <option value="tiempo_completo">Tiempo Completo</option>
                 <option value="medio_tiempo">Medio Tiempo</option>
@@ -528,7 +513,6 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               </select>
             </div>
 
-            {/* Turno */}
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Turno de Clase
@@ -536,7 +520,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={shift}
                 onChange={(e) => setShift(e.target.value as Shift)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-serene-500"
               >
                 <option value="matutino">Turno Matutino</option>
                 <option value="vespertino">Turno Vespertino</option>
@@ -545,51 +529,49 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               </select>
             </div>
 
-            {/* Switch Docente SOS */}
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50 border border-amber-200">
+            {/* Switch SOS */}
+            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-prestige-50 border border-prestige-200">
               <input
                 type="checkbox"
                 id="urgentSos"
                 checked={isUrgentSubstitute}
                 onChange={(e) => setIsUrgentSubstitute(e.target.checked)}
-                className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500"
+                className="w-4 h-4 text-prestige-600 rounded"
               />
-              <label htmlFor="urgentSos" className="text-xs font-bold text-amber-900 cursor-pointer">
-                🔥 Es una Vacante Urgente / Reemplazo Express ("Docente SOS")
+              <label htmlFor="urgentSos" className="text-xs font-bold text-prestige-900 cursor-pointer">
+                🔥 Vacante Urgente / Reemplazo Express ("Docente SOS")
               </label>
             </div>
-
           </div>
         </div>
 
-        {/* Sección 4: LISTA DE DOCUMENTOS SOLICITADOS PARA APLICAR (CORE REQUIREMENT) */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+        {/* Sección 4: LISTA DE DOCUMENTOS SOLICITADOS (CORE USER REQUIREMENT) */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <FileCheck2 className="w-5 h-5 text-blue-600" />
+              <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2">
+                <FileCheck2 className="w-5 h-5 text-serene-600" />
                 4. Lista de Documentos Solicitados para Aplicar
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Marca los documentos que el profesor debe presentar al postularse a esta plaza escolar.
+                Define los documentos requeridos que el maestro adjuntará desde su expediente digital.
               </p>
             </div>
-            <span className="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md">
+            <span className="text-xs font-bold text-serene-800 bg-serene-50 px-3 py-1 rounded-full border border-serene-200">
               {requiredDocs.length} seleccionados
             </span>
           </div>
 
-          {/* Quick Select Standard Documents */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {STANDARD_REQUIRED_DOCUMENTS.map((doc, idx) => {
               const isChecked = requiredDocs.includes(doc);
               return (
                 <div
                   key={idx}
                   onClick={() => toggleStandardDoc(doc)}
-                  className={`flex items-center gap-3 p-3 rounded-xl border text-xs font-medium cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-3.5 rounded-xl border text-xs cursor-pointer transition-all ${
                     isChecked
-                      ? 'bg-blue-50/80 border-blue-400 text-blue-950 font-bold'
+                      ? 'bg-serene-50/80 border-serene-400 text-serene-950 font-bold shadow-2xs'
                       : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
@@ -597,7 +579,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                     type="checkbox"
                     checked={isChecked}
                     onChange={() => {}}
-                    className="w-4 h-4 text-blue-600 rounded"
+                    className="w-4 h-4 text-serene-600 rounded"
                   />
                   <span>{doc}</span>
                 </div>
@@ -605,10 +587,9 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
             })}
           </div>
 
-          {/* Añadir documento personalizado */}
           <div className="pt-3 border-t border-slate-100">
             <label className="block text-xs font-bold text-slate-700 mb-1">
-              ¿Solicitas algún documento adicional o específico?
+              ¿Solicitas algún documento adicional o especial?
             </label>
             <div className="flex gap-2">
               <input
@@ -622,12 +603,12 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                   }
                 }}
                 placeholder="Ej. Certificación CENNI Nivel 15, Constancia de primeros auxilios..."
-                className="flex-1 text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="flex-1 text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
               <button
                 type="button"
                 onClick={handleAddCustomDoc}
-                className="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-brand-900 text-white text-xs font-bold hover:bg-brand-800 transition-colors"
               >
                 Añadir Documento
               </button>
@@ -636,13 +617,13 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
         </div>
 
         {/* Sección 5: Requisitos Académicos Mínimos */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <GraduationCap className="w-5 h-5 text-blue-600" />
-            5. Requisitos Académicos y Experiencia
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <GraduationCap className="w-5 h-5 text-serene-600" />
+            5. Grado Académico Mínimo y Experiencia
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Grado Académico Mínimo *
@@ -650,7 +631,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               <select
                 value={minDegree}
                 onChange={(e) => setMinDegree(e.target.value)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-serene-500"
               >
                 <option value="Pasante de Licenciatura">Pasante de Licenciatura</option>
                 <option value="Licenciatura Titulada">Licenciatura Titulada / Normalista</option>
@@ -668,7 +649,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                 min={0}
                 value={minExperienceYears}
                 onChange={(e) => setMinExperienceYears(Number(e.target.value))}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
@@ -678,43 +659,43 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
                 id="reqLicense"
                 checked={requireProfessionalLicense}
                 onChange={(e) => setRequireProfessionalLicense(e.target.checked)}
-                className="w-4 h-4 text-blue-600 rounded"
+                className="w-4 h-4 text-serene-600 rounded"
               />
               <label htmlFor="reqLicense" className="text-xs font-bold text-slate-800 cursor-pointer">
-                Cédula Profesional Obligatoria
+                Cédula Profesional Indispensable
               </label>
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Requerimientos Adicionales o Dinámica de Selección
+                Requerimientos Adicionales o Proceso de Selección
               </label>
               <input
                 type="text"
                 value={specialRequirements}
                 onChange={(e) => setSpecialRequirements(e.target.value)}
                 placeholder="Ej. Se solicitará clase muestra de 20 minutos con alumnos durante la segunda etapa de entrevistas."
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Botones de Acción */}
         <div className="flex items-center justify-end gap-3 pt-4">
           <button
             type="button"
             onClick={onCancel}
-            className="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-100 transition-colors"
+            className="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-100 transition-colors"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            className="flex items-center gap-2 px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.01]"
+            className="flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-brand-900 via-brand-800 to-serene-700 hover:from-brand-800 hover:to-serene-600 text-white font-black text-sm shadow-lg shadow-brand-900/15 transition-all"
           >
             <PlusCircle className="w-4 h-4" />
-            Publicar Vacante en DOCENTIA
+            Publicar Vacante Institucional
           </button>
         </div>
 

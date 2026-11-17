@@ -13,11 +13,11 @@ import {
   Upload, 
   Trash2, 
   CheckCircle2, 
-  AlertCircle,
   Briefcase,
-  Flame
+  Flame,
+  Check
 } from 'lucide-react';
-import { TeacherProfile, EducationalLevel } from '@/types';
+import { TeacherProfile } from '@/types';
 import { MEXICAN_STATES } from '@/lib/mockData';
 
 interface TeacherProfileFormProps {
@@ -94,40 +94,39 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-4">
+    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8">
       
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl mb-6">
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-6 sm:p-10 rounded-3xl shadow-xl mb-8 border border-brand-800/60">
         <div className="flex items-center gap-3 mb-2">
-          <span className="p-2 rounded-xl bg-white/10 text-blue-200">
+          <span className="p-2.5 rounded-xl bg-white/10 text-serene-300">
             <GraduationCap className="w-6 h-6" />
           </span>
-          <span className="text-xs uppercase font-extrabold tracking-widest text-blue-300">
-            Perfil & Expediente Digital del Docente
+          <span className="text-xs uppercase font-extrabold tracking-widest text-serene-300">
+            Expediente Digital del Profesor
           </span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
-          Registro del Profesor
+        <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+          Registro & Perfil Docente
         </h2>
-        <p className="text-sm text-blue-100/90 mt-1 max-w-2xl">
-          Mantén actualizada tu información de contacto, lugar de residencia, cédula profesional y expedientes PDF para postularte a vacantes escolares en 1 solo clic.
+        <p className="text-sm text-slate-300/90 mt-2 max-w-3xl">
+          Administra tus datos de contacto, lugar de residencia, cédula profesional y expedientes PDF para que las instituciones educativas públicas y privadas puedan contratarte de inmediato.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         
-        {/* Sección 1: Datos Personales y de Contacto Obligatorios */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <User className="w-5 h-5 text-blue-600" />
-            1. Datos Personales y Contacto (Obligatorios)
+        {/* Sección 1: Datos Personales y Contacto */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <User className="w-5 h-5 text-serene-600" />
+            1. Datos Personales y de Contacto Oficial
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            <div className="sm:col-span-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Nombre Completo del Maestro(a) *
+                Nombre Completo del Profesor(a) *
               </label>
               <input
                 type="text"
@@ -135,7 +134,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Ej. Mtro. Luis Alberto Garibaldi"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500 font-semibold"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-bold text-brand-950"
               />
             </div>
 
@@ -151,14 +150,14 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="profesor@ejemplo.com"
-                  className="w-full text-sm pl-9 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                  className="w-full text-sm pl-9 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
                 />
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Número de Teléfono / WhatsApp *
+                Teléfono / WhatsApp de Contacto *
               </label>
               <div className="relative">
                 <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
@@ -168,24 +167,38 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="55 1234 5678"
-                  className="w-full text-sm pl-9 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                  className="w-full text-sm pl-9 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-semibold"
                 />
               </div>
             </div>
 
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Número de Cédula Profesional *
+              </label>
+              <div className="relative">
+                <ShieldCheck className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                <input
+                  type="text"
+                  value={professionalLicense}
+                  onChange={(e) => setProfessionalLicense(e.target.value)}
+                  placeholder="Ej. 12894562"
+                  className="w-full text-sm pl-9 p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-mono font-bold text-brand-900"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Sección 2: Dirección y Lugar de Residencia (Requisito Explícito) */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Home className="w-5 h-5 text-blue-600" />
+        {/* Sección 2: Dirección y Lugar de Residencia */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <Home className="w-5 h-5 text-serene-600" />
             2. Dirección y Lugar de Residencia
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            <div className="sm:col-span-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Dirección Completa (Calle, Número, Colonia) *
               </label>
@@ -195,18 +208,18 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Ej. Calle Río Churubusco 420, Int. 3B"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Estado / Entidad de Residencia *
+                Estado / Entidad Federativa de Residencia *
               </label>
               <select
                 value={residenceState}
                 onChange={(e) => setResidenceState(e.target.value)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white focus:outline-hidden focus:border-serene-500"
               >
                 {MEXICAN_STATES.map((st) => (
                   <option key={st} value={st}>{st}</option>
@@ -224,7 +237,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 value={residenceCity}
                 onChange={(e) => setResidenceCity(e.target.value)}
                 placeholder="Ej. Coyoacán"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
@@ -238,35 +251,20 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
                 placeholder="04100"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-mono"
               />
             </div>
-
           </div>
         </div>
 
-        {/* Sección 3: Formación Pedagógica y Cédula Profesional */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-            <ShieldCheck className="w-5 h-5 text-blue-600" />
-            3. Acreditación Profesional & Cédula
+        {/* Sección 3: Formación Pedagógica */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <GraduationCap className="w-5 h-5 text-serene-600" />
+            3. Acreditación Académica y Experiencia Docente
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
-                Número de Cédula Profesional Federal *
-              </label>
-              <input
-                type="text"
-                value={professionalLicense}
-                onChange={(e) => setProfessionalLicense(e.target.value)}
-                placeholder="Ej. 12894562"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500 font-mono font-bold text-blue-900"
-              />
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Grado Máximo de Estudios *
@@ -274,7 +272,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
               <select
                 value={highestDegree}
                 onChange={(e) => setHighestDegree(e.target.value)}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-blue-500"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 bg-white font-medium focus:outline-hidden focus:border-serene-500"
               >
                 <option value="Licenciatura">Licenciatura / Normalista</option>
                 <option value="Maestría">Maestría</option>
@@ -285,31 +283,31 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Años de Experiencia Frente a Grupo
+                Años de Experiencia en Aula
               </label>
               <input
                 type="number"
                 min={0}
                 value={yearsOfExperience}
                 onChange={(e) => setYearsOfExperience(Number(e.target.value))}
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500 font-bold"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-bold"
               />
             </div>
 
-            <div className="sm:col-span-3">
+            <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Carrera / Especialidad Académica
+                Carrera / Licenciatura Cursada
               </label>
               <input
                 type="text"
                 value={major}
                 onChange={(e) => setMajor(e.target.value)}
-                placeholder="Ej. Lic. en Matemáticas / Pedagogía / Enseñanza del Inglés"
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                placeholder="Ej. Licenciatura en Pedagogía / Matemáticas"
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Reseña Pedagógica / Filosofía de Enseñanza
               </label>
@@ -317,60 +315,57 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 rows={3}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                placeholder="Escribe brevemente tu metodología, áreas de fortaleza y compromiso educativo..."
-                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-blue-500"
+                placeholder="Escribe brevemente tu metodología, áreas de fortaleza y compromiso pedagógico..."
+                className="w-full text-sm p-3 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
               />
             </div>
 
-            {/* Disponibilidad para Docente SOS (Interinatos) */}
-            <div className="sm:col-span-3 flex items-center gap-3 p-4 rounded-2xl bg-amber-50 border border-amber-200">
+            <div className="md:col-span-3 flex items-center gap-3 p-4 rounded-2xl bg-prestige-50 border border-prestige-200">
               <input
                 type="checkbox"
                 id="availSos"
                 checked={availableForUrgentSubstitute}
                 onChange={(e) => setAvailableForUrgentSubstitute(e.target.checked)}
-                className="w-4 h-4 text-amber-600 rounded"
+                className="w-4 h-4 text-prestige-600 rounded"
               />
-              <label htmlFor="availSos" className="text-xs text-amber-950 font-bold cursor-pointer">
-                🔥 Activar "Docente SOS": Deseo recibir alertas inmediatas de reemplazos e interinatos urgentes de escuelas cercanas a mi residencia.
+              <label htmlFor="availSos" className="text-xs text-prestige-950 font-bold cursor-pointer">
+                🔥 Activar "Docente SOS": Deseo recibir alertas inmediatas de reemplazos e interinatos urgentes de escuelas cercanas a mi lugar de residencia.
               </label>
             </div>
-
           </div>
         </div>
 
-        {/* Sección 4: Expediente Digital de Documentos (Archivos para Postular) */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+        {/* Sección 4: Expediente Digital (Archivos PDF) */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-blue-600" />
+              <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-serene-600" />
                 4. Expediente Digital Docente (Documentos Guardados)
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Los documentos cargados aquí se adjuntarán automáticamente a las vacantes escolares que los requieran.
+                Los documentos resguardados aquí se adjuntarán automáticamente a las vacantes escolares que los requieran.
               </p>
             </div>
-            <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md">
+            <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               {documents.length} documentos listos
             </span>
           </div>
 
-          {/* Lista de documentos guardados */}
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {documents.map((doc) => (
               <div 
                 key={doc.id}
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs"
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200/90 text-xs"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-red-100 text-red-700 font-bold flex items-center justify-center text-[10px]">
+                <div className="flex items-center gap-3 truncate">
+                  <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 font-extrabold flex items-center justify-center text-[10px] shrink-0">
                     PDF
                   </div>
-                  <div>
-                    <p className="font-bold text-slate-800">{doc.name}</p>
+                  <div className="truncate">
+                    <p className="font-extrabold text-brand-950 truncate">{doc.name}</p>
                     <p className="text-[11px] text-slate-500">
-                      Categoría: <span className="font-medium text-blue-700">{doc.category}</span> · Subido el {doc.uploadDate}
+                      Categoría: <span className="font-semibold text-serene-700">{doc.category}</span> · {doc.uploadDate}
                     </p>
                   </div>
                 </div>
@@ -378,7 +373,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 <button
                   type="button"
                   onClick={() => handleRemoveDocument(doc.id)}
-                  className="text-slate-400 hover:text-red-600 p-1.5 transition-colors"
+                  className="text-slate-400 hover:text-red-600 p-1.5 transition-colors shrink-0"
                   title="Eliminar documento"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -387,11 +382,10 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
             ))}
           </div>
 
-          {/* Formulario para agregar nuevo documento al expediente */}
-          <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-100 space-y-3">
-            <h4 className="text-xs font-bold text-blue-950 flex items-center gap-1.5">
-              <Upload className="w-4 h-4 text-blue-600" />
-              Subir Nuevo Documento al Expediente
+          <div className="p-4 sm:p-5 rounded-2xl bg-serene-50/50 border border-serene-200/80 space-y-3">
+            <h4 className="text-xs font-extrabold text-brand-950 flex items-center gap-1.5">
+              <Upload className="w-4 h-4 text-serene-600" />
+              Subir Nuevo Documento al Expediente Digital
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -399,7 +393,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 <select
                   value={newDocCategory}
                   onChange={(e) => setNewDocCategory(e.target.value)}
-                  className="w-full text-xs p-2.5 rounded-lg border border-slate-200 bg-white"
+                  className="w-full text-xs p-2.5 rounded-xl border border-slate-200 bg-white"
                 >
                   <option value="CV">Curriculum Vitae (CV)</option>
                   <option value="Cédula">Cédula Profesional</option>
@@ -415,8 +409,8 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                   type="text"
                   value={newDocName}
                   onChange={(e) => setNewDocName(e.target.value)}
-                  placeholder="Nombre del archivo (ej. Titulo_Maestria)"
-                  className="w-full text-xs p-2.5 rounded-lg border border-slate-200"
+                  placeholder="Nombre del documento (ej. Titulo_Maestria)"
+                  className="w-full text-xs p-2.5 rounded-xl border border-slate-200"
                 />
               </div>
 
@@ -424,7 +418,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 <button
                   type="button"
                   onClick={handleAddMockDocument}
-                  className="w-full py-2.5 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs"
+                  className="w-full py-2.5 px-4 bg-brand-900 hover:bg-brand-800 text-white font-bold text-xs rounded-xl transition-colors shadow-xs"
                 >
                   Adjuntar al Expediente
                 </button>
@@ -434,22 +428,22 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
         </div>
 
         {/* Submit Actions */}
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
           {savedSuccess ? (
-            <span className="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4" /> ¡Perfil y Expediente Guardados Exitosamente!
+            <span className="text-xs font-bold text-emerald-800 flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" /> ¡Expediente Guardado Exitosamente!
             </span>
           ) : (
             <span className="text-xs text-slate-500">
-              Todos los cambios se guardan de forma segura en tu dispositivo.
+              Información resguardada con cifrado para postulaciones seguras.
             </span>
           )}
 
           <button
             type="submit"
-            className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.01]"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-black text-sm shadow-lg shadow-brand-900/15 transition-all"
           >
-            Guardar Mi Perfil Docente
+            Guardar Mi Perfil & Expediente Docente
           </button>
         </div>
 
