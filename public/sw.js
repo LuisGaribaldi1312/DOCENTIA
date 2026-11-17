@@ -1,5 +1,5 @@
-// Docentia Service Worker - v4 PWA Complete
-const CACHE_NAME = 'docentia-v4-pwa-complete';
+// Docentia Service Worker - v5 PWA SOS Avatar Complete
+const CACHE_NAME = 'docentia-v5-sos-avatar';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -12,6 +12,7 @@ const PRECACHE_ASSETS = [
   '/images/docentia-avatar-bust.png',
   '/images/docentia-avatar-vacantes.png',
   '/images/docentia-avatar-vacantes-bust.png',
+  '/images/docentia-avatar-sos.png',
   '/icons/icon-192.png',
   '/icons/icon-512.png'
 ];

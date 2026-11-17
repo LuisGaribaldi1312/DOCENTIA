@@ -193,21 +193,41 @@ export default function HomePage() {
                   {/* Avatar Col (Left side, pointing right towards headline) */}
                   <div className="shrink-0 flex flex-col items-center justify-end relative w-24 xs:w-32 sm:w-44 md:w-56 lg:w-[270px] xl:w-[310px]">
                     <div className="relative w-full flex flex-col items-center">
-                      <div className="absolute inset-0 bg-gradient-to-t from-serene-500/25 via-emerald-500/10 to-transparent rounded-full blur-xl pointer-events-none" />
+                      <div className={`absolute inset-0 rounded-full blur-xl pointer-events-none ${
+                        currentTab === 'docente_sos'
+                          ? 'bg-gradient-to-t from-prestige-500/30 via-amber-500/15 to-transparent'
+                          : 'bg-gradient-to-t from-serene-500/25 via-emerald-500/10 to-transparent'
+                      }`} />
                       <div className="absolute bottom-2 sm:bottom-4 w-3/4 h-3 sm:h-8 bg-black/40 rounded-full blur-xs sm:blur-lg pointer-events-none" />
                       
-                      <img
-                        src="/images/docentia-avatar-vacantes.png"
-                        alt="Docente DOCENTIA con expediente"
-                        loading="eager"
-                        className="relative z-10 w-full h-auto object-contain object-bottom max-h-[190px] xs:max-h-[240px] sm:max-h-[320px] md:max-h-[380px] xl:max-h-[430px] drop-shadow-[0_15px_25px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
-                      />
+                      {currentTab === 'docente_sos' ? (
+                        <img
+                          src="/images/docentia-avatar-sos.png"
+                          alt="Docente SOS DOCENTIA con megáfono urgente"
+                          loading="eager"
+                          className="relative z-10 w-full h-auto object-contain object-bottom max-h-[190px] xs:max-h-[240px] sm:max-h-[320px] md:max-h-[380px] xl:max-h-[430px] drop-shadow-[0_15px_25px_rgba(217,119,6,0.35)] transition-transform duration-300 hover:scale-[1.02]"
+                        />
+                      ) : (
+                        <img
+                          src="/images/docentia-avatar-vacantes.png"
+                          alt="Docente DOCENTIA con expediente"
+                          loading="eager"
+                          className="relative z-10 w-full h-auto object-contain object-bottom max-h-[190px] xs:max-h-[240px] sm:max-h-[320px] md:max-h-[380px] xl:max-h-[430px] drop-shadow-[0_15px_25px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
+                        />
+                      )}
                       
                       {/* Floating tag (visible on sm and up) */}
-                      <div className="hidden sm:flex relative -mt-4 sm:-mt-6 z-20 bg-white/95 backdrop-blur-md text-brand-950 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-2xl shadow-lg border border-serene-200/80 text-[10px] sm:text-[11px] font-black items-center gap-1.5 whitespace-nowrap">
-                        <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>Expediente en Mano</span>
-                      </div>
+                      {currentTab === 'docente_sos' ? (
+                        <div className="hidden sm:flex relative -mt-4 sm:-mt-6 z-20 bg-white/95 backdrop-blur-md text-brand-950 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-2xl shadow-lg border border-prestige-200/80 text-[10px] sm:text-[11px] font-black items-center gap-1.5 whitespace-nowrap">
+                          <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-prestige-500 animate-pulse" />
+                          <span>Convocatorias SOS</span>
+                        </div>
+                      ) : (
+                        <div className="hidden sm:flex relative -mt-4 sm:-mt-6 z-20 bg-white/95 backdrop-blur-md text-brand-950 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-2xl shadow-lg border border-serene-200/80 text-[10px] sm:text-[11px] font-black items-center gap-1.5 whitespace-nowrap">
+                          <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          <span>Expediente en Mano</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -217,7 +237,11 @@ export default function HomePage() {
                     {/* Badge Institucional */}
                     <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 xs:px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[10px] xs:text-[11px] sm:text-xs font-extrabold shadow-xs backdrop-blur-xs">
                       <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-prestige-400 shrink-0" />
-                      <span className="truncate">Plataforma Oficial de Vacantes</span>
+                      <span className="truncate">
+                        {currentTab === 'docente_sos'
+                          ? 'Interinatos & Suplencias Urgentes < 48 hrs'
+                          : 'Plataforma Oficial de Vacantes'}
+                      </span>
                     </div>
 
                     {/* Main Headline */}
