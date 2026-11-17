@@ -574,6 +574,7 @@ export default function HomePage() {
               schoolProfile={schoolProfile}
               vacancies={vacancies}
               applications={applications}
+              currentUser={currentUser}
               onPublishClick={() => setCurrentTab('publicar_vacante')}
               onUpdateStatus={(appId, status) => updateApplicationStatus(appId, status)}
             />

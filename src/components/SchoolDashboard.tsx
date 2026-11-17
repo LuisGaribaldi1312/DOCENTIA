@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Building2, 
   Users, 
@@ -13,19 +13,22 @@ import {
   CheckCircle2, 
   Clock, 
   Eye, 
-  X,
-  FileText,
-  Search,
-  Filter,
-  CheckCircle,
-  Briefcase
+  X, 
+  FileText, 
+  Search, 
+  Filter, 
+  CheckCircle, 
+  Briefcase,
+  ShieldCheck,
+  Lock
 } from 'lucide-react';
-import { JobVacancy, Application, SchoolProfile } from '@/types';
+import { JobVacancy, Application, SchoolProfile, UserAccount } from '@/types';
 
 interface SchoolDashboardProps {
   schoolProfile: SchoolProfile;
   vacancies: JobVacancy[];
   applications: Application[];
+  currentUser?: UserAccount | null;
   onPublishClick: () => void;
   onUpdateStatus: (appId: string, status: Application['status']) => void;
 }
@@ -34,6 +37,7 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
   schoolProfile,
   vacancies,
   applications,
+  currentUser,
   onPublishClick,
   onUpdateStatus
 }) => {
@@ -41,7 +45,32 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('todos');
 
-  const filteredApplications = applications.filter((app) => {
+  const effectiveSchoolName = (currentUser?.institutionName || schoolProfile.name).trim().toLowerCase();
+  const isSuperAdmin = Boolean(currentUser?.isSuperAdmin);
+
+  // 1. Filtrar solo las vacantes creadas por esta escuela para preservar privacidad institucional
+  const schoolVacancies = useMemo(() => {
+    if (isSuperAdmin) return vacancies;
+    return vacancies.filter(v => 
+      v.schoolName.trim().toLowerCase() === effectiveSchoolName ||
+      (v.cct && schoolProfile.cct && v.cct === schoolProfile.cct)
+    );
+  }, [vacancies, effectiveSchoolName, schoolProfile.cct, isSuperAdmin]);
+
+  const schoolVacancyIds = useMemo(() => {
+    return new Set(schoolVacancies.map(v => v.id));
+  }, [schoolVacancies]);
+
+  // 2. Filtrar EXCLUSIVAMENTE las postulaciones dirigidas a esta institución
+  const schoolApplications = useMemo(() => {
+    if (isSuperAdmin) return applications;
+    return applications.filter(app => 
+      schoolVacancyIds.has(app.vacancyId) ||
+      app.schoolName.trim().toLowerCase() === effectiveSchoolName
+    );
+  }, [applications, schoolVacancyIds, effectiveSchoolName, isSuperAdmin]);
+
+  const filteredApplications = schoolApplications.filter((app) => {
     if (searchTerm.trim()) {
       const q = searchTerm.toLowerCase();
       const matchesName = app.teacherName.toLowerCase().includes(q);
@@ -61,17 +90,29 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
       {/* School Executive Header Banner */}
       <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-950 text-white p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-brand-800/60">
         <div>
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex flex-wrap items-center gap-2 mb-2">
             <span className="p-1.5 rounded-lg bg-white/10 text-serene-300">
               <Building2 className="w-5 h-5" />
             </span>
             <span className="text-xs uppercase font-extrabold tracking-widest text-serene-300">
               Panel ATS Institucional · Gestión del Talento Docente
             </span>
+
+            {isSuperAdmin ? (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/40 text-[11px] font-bold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Supervisión Global
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[11px] font-bold">
+                <Lock className="w-3 h-3" />
+                Bandeja Privada Institucional
+              </span>
+            )}
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
-            {schoolProfile.name}
+            {isSuperAdmin ? `Bandeja Global (${effectiveSchoolName ? schoolProfile.name : 'Todas las Escuelas'})` : (currentUser?.institutionName || schoolProfile.name)}
           </h2>
 
           <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-300">
@@ -86,6 +127,9 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
             <span className="flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-serene-400" />
               {schoolProfile.city}, {schoolProfile.state}
+            </span>
+            <span className="text-emerald-400 font-bold flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5" /> Privacidad garantizada
             </span>
           </div>
         </div>
@@ -102,21 +146,21 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
       {/* KPI Stats Grid - Full Width Responsive */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Vacantes Activas</span>
-          <p className="text-3xl sm:text-4xl font-black text-brand-950 mt-1">{vacancies.length}</p>
-          <p className="text-[11px] text-serene-700 font-semibold mt-1">Visibles en la PWA y portal</p>
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tus Vacantes Activas</span>
+          <p className="text-3xl sm:text-4xl font-black text-brand-950 mt-1">{schoolVacancies.length}</p>
+          <p className="text-[11px] text-serene-700 font-semibold mt-1">Convocatorias de tu institución</p>
         </div>
 
         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Candidatos Registrados</span>
-          <p className="text-3xl sm:text-4xl font-black text-serene-800 mt-1">{applications.length}</p>
-          <p className="text-[11px] text-slate-500 mt-1">Con expediente docente adjunto</p>
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Candidatos a tus Plazas</span>
+          <p className="text-3xl sm:text-4xl font-black text-serene-800 mt-1">{schoolApplications.length}</p>
+          <p className="text-[11px] text-slate-500 mt-1">Maestros postulados a tu escuela</p>
         </div>
 
         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Clase Muestra Agendada</span>
           <p className="text-3xl sm:text-4xl font-black text-prestige-600 mt-1">
-            {applications.filter(a => a.status === 'clase_muestra').length}
+            {schoolApplications.filter(a => a.status === 'clase_muestra').length}
           </p>
           <p className="text-[11px] text-slate-500 mt-1">En evaluación pedagógica</p>
         </div>
@@ -124,7 +168,7 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
         <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Docentes Contratados</span>
           <p className="text-3xl sm:text-4xl font-black text-emerald-700 mt-1">
-            {applications.filter(a => a.status === 'aceptada').length}
+            {schoolApplications.filter(a => a.status === 'aceptada').length}
           </p>
           <p className="text-[11px] text-slate-500 mt-1">Plazas cubiertas exitosamente</p>
         </div>
@@ -138,10 +182,10 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
           <div>
             <h3 className="text-lg font-black text-brand-950 flex items-center gap-2">
               <Users className="w-5 h-5 text-serene-600" />
-              Bandeja de Selección Docente & Expedientes
+              Bandeja de Selección Docente & Expedientes Exclusivos
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
-              Revisa perfiles, cédulas profesionales y programa clases muestra con un clic.
+              Solo visualizas los profesores que se han postulado directamente a las vacantes de tu institución.
             </p>
           </div>
 
@@ -167,7 +211,7 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
               <option value="en_revision">En Revisión</option>
               <option value="clase_muestra">Clase Muestra</option>
               <option value="entrevista">Entrevista</option>
-              <option value="aceptada">Aceptada</option>
+              <option value="aceptada">Aceptada / Contratado</option>
               <option value="rechazada">Descartada</option>
             </select>
           </div>
@@ -176,9 +220,11 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
         {filteredApplications.length === 0 ? (
           <div className="p-16 text-center text-slate-500">
             <GraduationCap className="w-14 h-14 mx-auto text-slate-300 mb-3" />
-            <p className="font-extrabold text-brand-900 text-sm">No hay postulaciones registradas en este filtro.</p>
-            <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-              Cuando los profesores apliquen a tus convocatorias, sus expedientes se ordenarán automáticamente aquí.
+            <p className="font-extrabold text-brand-900 text-sm">
+              No hay postulaciones registradas para {currentUser?.institutionName || schoolProfile.name}.
+            </p>
+            <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+              Para preservar la privacidad entre instituciones, tu escuela únicamente puede ver a los profesores que han aplicado específicamente a tus convocatorias.
             </p>
           </div>
         ) : (
