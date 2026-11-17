@@ -33,7 +33,9 @@ export const PwaInstallBanner: React.FC = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch((err) => {
+      navigator.serviceWorker.register('/sw.js').then((reg) => {
+        reg.update();
+      }).catch((err) => {
         console.log('SW registration note:', err);
       });
     }
