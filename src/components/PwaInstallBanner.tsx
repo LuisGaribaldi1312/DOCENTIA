@@ -73,7 +73,7 @@ export const PwaInstallBanner: React.FC = () => {
             <h4 className="text-xs sm:text-sm font-extrabold flex items-center gap-2">
               Instala DOCENTIA en tu Celular o Tablet
               <span className="text-[10px] bg-serene-500/30 text-serene-200 border border-serene-400/40 px-2 py-0.5 rounded-full font-bold">
-                PWA Oficial
+                App Oficial
               </span>
             </h4>
             <p className="text-[11px] text-slate-300">

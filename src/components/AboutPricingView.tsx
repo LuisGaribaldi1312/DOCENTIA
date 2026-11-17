@@ -99,7 +99,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
   const faqs = [
     {
       q: '¿Qué es DOCENTIA y en qué se diferencia de otras bolsas de trabajo?',
-      a: 'DOCENTIA es la primera plataforma y aplicación web (PWA) diseñada exclusivamente para el ámbito educativo. A diferencia de bolsas de trabajo genéricas como LinkedIn, Computrabajo o Indeed, en DOCENTIA validamos la Cédula Profesional del maestro, cotejamos su expediente de documentos obligatorios (título, antecedentes no penales, certificaciones) y permitimos a las escuelas públicas y privadas publicar convocatorias con esquemas claros (planta, contrato determinado u honorarios), además de cubrir interinatos de emergencia en 48 horas con el sistema "Docente SOS".'
+      a: 'DOCENTIA es la primera plataforma y aplicación móvil oficial diseñada exclusivamente para el ámbito educativo. A diferencia de bolsas de trabajo genéricas como LinkedIn, Computrabajo o Indeed, en DOCENTIA validamos la Cédula Profesional del maestro, cotejamos su expediente de documentos obligatorios (título, antecedentes no penales, certificaciones) y permitimos a las escuelas públicas y privadas publicar convocatorias con esquemas claros (planta, contrato determinado u honorarios), además de cubrir interinatos de emergencia en 48 horas con el sistema "Docente SOS".'
     },
     {
       q: '¿Por qué tiene un costo la suscripción de docentes ($5 USD/mes)?',
@@ -183,8 +183,8 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
                   <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Verificación Oficial</p>
                 </div>
                 <div>
-                  <p className="text-lg sm:text-2xl lg:text-3xl font-black text-prestige-400">PWA</p>
-                  <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Android & iOS Instalable</p>
+                  <p className="text-lg sm:text-2xl lg:text-3xl font-black text-prestige-400">App</p>
+                  <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Android & iOS Oficial</p>
                 </div>
               </div>
 
@@ -385,7 +385,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-serene-600 shrink-0 mt-0.5" />
-                <span><strong>PWA Móvil en tu Teléfono:</strong> Postula, recibe invitaciones a clase muestra y da seguimiento desde tu celular Android o iOS.</span>
+                <span><strong>App Oficial en tu Teléfono:</strong> Postula, recibe invitaciones a clase muestra y da seguimiento desde tu celular Android o iOS.</span>
               </li>
             </ul>
 

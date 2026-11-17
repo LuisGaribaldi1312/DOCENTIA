@@ -135,6 +135,10 @@ export interface UserAccount {
   cct?: string;
   professionalLicense?: string;
   subscription: UserSubscription;
+  acceptedTerms?: boolean;
+  acceptedTermsAt?: string;
+  privacyConsent?: boolean;
+  dataHandlingAuthorized?: boolean;
   createdAt: string;
 }
 

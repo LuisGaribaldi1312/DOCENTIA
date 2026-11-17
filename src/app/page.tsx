@@ -33,6 +33,7 @@ import { MyApplicationsView } from '@/components/MyApplicationsView';
 import { AboutPricingView } from '@/components/AboutPricingView';
 import { AuthModal } from '@/components/AuthModal';
 import { SubscriptionModal } from '@/components/SubscriptionModal';
+import { LegalPoliciesModal } from '@/components/LegalPoliciesModal';
 import { useDocentiaStore } from '@/lib/store';
 import { JobVacancy, EducationalLevel, ContractType, SchoolType, UserRole } from '@/types';
 import { MEXICAN_STATES } from '@/lib/mockData';
@@ -68,6 +69,10 @@ export default function HomePage() {
   const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
   const [subscriptionPlanType, setSubscriptionPlanType] = useState<'docente_5usd' | 'escuela_10usd'>('docente_5usd');
   const [subscriptionReason, setSubscriptionReason] = useState<string | undefined>(undefined);
+
+  // Legal Framework Modal State
+  const [legalModalOpen, setLegalModalOpen] = useState(false);
+  const [legalModalTab, setLegalModalTab] = useState<'terminos' | 'privacidad' | 'manejo_datos' | 'seguridad'>('terminos');
 
   // Filters State
   const [searchTerm, setSearchTerm] = useState('');
@@ -750,19 +755,64 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-slate-500 font-medium">
-            <span>Escuelas Públicas & Privadas</span>
-            <span>·</span>
-            <span>Todos los Niveles Educativos</span>
-            <span>·</span>
-            <span className="font-bold text-serene-700">PWA Adaptable para Móviles y Tablets</span>
+          <div className="flex flex-col items-center gap-2 text-center">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-slate-600 font-medium text-xs">
+              <span>Escuelas Públicas & Privadas</span>
+              <span>·</span>
+              <span>Todos los Niveles Educativos</span>
+              <span>·</span>
+              <span className="font-bold text-serene-700">App Oficial Adaptable para Celulares y Tablets</span>
+            </div>
+
+            {/* Enlaces Legales y de Cumplimiento Oficial */}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[11px] font-semibold text-slate-500 pt-1">
+              <button
+                type="button"
+                onClick={() => { setLegalModalTab('terminos'); setLegalModalOpen(true); }}
+                className="hover:text-brand-900 hover:underline transition-colors"
+              >
+                Términos y Condiciones
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => { setLegalModalTab('privacidad'); setLegalModalOpen(true); }}
+                className="hover:text-brand-900 hover:underline transition-colors"
+              >
+                Aviso de Privacidad (LFPDPPP)
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => { setLegalModalTab('manejo_datos'); setLegalModalOpen(true); }}
+                className="hover:text-brand-900 hover:underline transition-colors"
+              >
+                Manejo Seguro de Expedientes
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => { setLegalModalTab('seguridad'); setLegalModalOpen(true); }}
+                className="hover:text-brand-900 hover:underline transition-colors"
+              >
+                Seguridad & Privacidad Institucional
+              </button>
+            </div>
           </div>
 
-          <div className="text-[11px] text-slate-400">
-            © {new Date().getFullYear()} DOCENTIA. Todos los derechos reservados.
+          <div className="text-[11px] text-slate-400 text-center md:text-right">
+            <p>© {new Date().getFullYear()} DOCENTIA. Todos los derechos reservados.</p>
+            <p className="text-[10px] text-slate-400 mt-0.5">Plataforma Certificada de Contratación & Empleo Docente</p>
           </div>
         </div>
       </footer>
+
+      {/* Modal Institucional de Políticas Legales */}
+      <LegalPoliciesModal
+        isOpen={legalModalOpen}
+        onClose={() => setLegalModalOpen(false)}
+        initialTab={legalModalTab}
+      />
 
     </div>
   );

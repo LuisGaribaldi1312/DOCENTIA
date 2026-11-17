@@ -269,6 +269,10 @@ export function useDocentiaStore() {
         isCertified: false,
         amountUsd: 0
       },
+      acceptedTerms: true,
+      acceptedTermsAt: new Date().toISOString(),
+      privacyConsent: true,
+      dataHandlingAuthorized: true,
       createdAt: new Date().toISOString().split('T')[0]
     };
 

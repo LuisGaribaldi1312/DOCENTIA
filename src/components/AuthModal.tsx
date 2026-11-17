@@ -14,9 +14,11 @@ import {
   Sparkles, 
   ArrowRight,
   CheckCircle2,
-  KeyRound
+  KeyRound,
+  Scale
 } from 'lucide-react';
 import { UserRole, UserAccount } from '@/types';
+import { LegalPoliciesModal } from '@/components/LegalPoliciesModal';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -59,6 +61,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [cct, setCct] = useState('');
   const [license, setLicense] = useState('');
 
+  // Consentimiento y Políticas
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showLegalModal, setShowLegalModal] = useState(false);
+  const [legalTab, setLegalTab] = useState<'terminos' | 'privacidad' | 'manejo_datos' | 'seguridad'>('terminos');
+
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
@@ -86,6 +93,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     } else {
       if (!name.trim()) {
         setError('Por favor ingresa tu nombre completo o de la institución.');
+        return;
+      }
+
+      if (!acceptedTerms) {
+        setError('Para continuar y proteger tu cuenta conforme a la ley, debes autorizar y aceptar los Términos de Uso, Políticas de Privacidad y Manejo de Datos.');
         return;
       }
 
@@ -322,6 +334,54 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
           </div>
 
+          {/* Casilla Obligatoria de Aceptación de Políticas (Solo en Registro) */}
+          {mode === 'register' && (
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2 text-left">
+              <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  required
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded-sm text-serene-600 focus:ring-serene-500 border-slate-300 shrink-0 cursor-pointer"
+                />
+                <span className="text-[11px] text-slate-700 leading-snug">
+                  Declaro bajo protesta de decir verdad que los datos son auténticos. 
+                  <strong> He leído, autorizo y acepto expresamente los </strong>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.preventDefault(); setLegalTab('terminos'); setShowLegalModal(true); }}
+                    className="text-serene-700 hover:text-serene-900 font-extrabold underline inline"
+                  >
+                    Términos y Condiciones de Uso
+                  </button>
+                  {', las '}
+                  <button
+                    type="button"
+                    onClick={(e) => { e.preventDefault(); setLegalTab('privacidad'); setShowLegalModal(true); }}
+                    className="text-serene-700 hover:text-serene-900 font-extrabold underline inline"
+                  >
+                    Políticas de Privacidad (LFPDPPP)
+                  </button>
+                  {' y el '}
+                  <button
+                    type="button"
+                    onClick={(e) => { e.preventDefault(); setLegalTab('manejo_datos'); setShowLegalModal(true); }}
+                    className="text-serene-700 hover:text-serene-900 font-extrabold underline inline"
+                  >
+                    Manejo Seguro de Datos y Expedientes
+                  </button>
+                  . Autorizo a DOCENTIA a verificar mi Cédula Profesional y documentación oficial con fines de vinculación laboral.
+                </span>
+              </label>
+
+              <div className="flex items-center gap-1.5 text-[10px] text-slate-500 pt-1.5 border-t border-slate-200/70">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span>Consentimiento legal electrónico vinculante con deslinde patronal conforme a la ley.</span>
+              </div>
+            </div>
+          )}
+
           <button
             type="submit"
             className="w-full py-3 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2"
@@ -333,6 +393,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </div>
 
       </div>
+
+      {/* Modal Institucional de Políticas y Marco Legal */}
+      <LegalPoliciesModal
+        isOpen={showLegalModal}
+        onClose={() => setShowLegalModal(false)}
+        initialTab={legalTab}
+        showAcceptButton={true}
+        onAcceptAndAuthorize={() => setAcceptedTerms(true)}
+      />
     </div>
   );
 };
