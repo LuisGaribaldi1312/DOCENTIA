@@ -79,7 +79,7 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
       >
         
         {/* Header Modal - Academic & Corporate */}
-        <div className="p-5 sm:p-7 border-b border-slate-100 flex items-start justify-between bg-gradient-to-r from-brand-50/70 via-slate-50 to-serene-50/50">
+        <div className="p-4 sm:p-7 border-b border-slate-100 flex items-start justify-between bg-gradient-to-r from-brand-50/70 via-slate-50 to-serene-50/50 shrink-0">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2.5">
               <span className={`text-xs font-bold px-3 py-1 rounded-md border ${levelInfo.badge}`}>
@@ -303,7 +303,7 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 sm:p-6 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-3.5 sm:p-6 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           <div className="text-xs text-slate-500 text-center sm:text-left">
             {hasApplied ? (
               <span className="text-emerald-800 font-bold flex items-center gap-1">

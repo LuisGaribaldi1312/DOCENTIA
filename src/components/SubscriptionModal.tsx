@@ -76,19 +76,19 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200/90 overflow-hidden relative"
+        className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200/90 overflow-hidden relative"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* Header con Colores Psicológicos y Elegantes */}
-        <div className={`p-6 text-white relative ${
+        <div className={`p-5 sm:p-6 text-white relative shrink-0 ${
           isDocente 
             ? 'bg-gradient-to-r from-brand-950 via-serene-900 to-serene-800' 
             : 'bg-gradient-to-r from-brand-950 via-brand-900 to-brand-800'
         }`}>
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors"
+            className="absolute top-4 sm:top-5 right-4 sm:right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -98,23 +98,25 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             <span>{isDocente ? 'Plan Maestro Certificado' : 'Plan Escuelas & Colegios'}</span>
           </div>
 
-          <h3 className="text-xl font-black">{title}</h3>
+          <h3 className="text-lg sm:text-xl font-black">{title}</h3>
           <p className="text-xs text-slate-200 mt-1">
             {contextReason || (isDocente 
               ? 'Valida tu Cédula y postúlate a las mejores vacantes con expediente garantizado.' 
               : 'Publica convocatorias ilimitadas y accede al expediente verificado de los profesores.')}
           </p>
 
-          <div className="mt-4 flex items-baseline gap-2 bg-white/10 p-3 rounded-2xl border border-white/15">
-            <span className="text-3xl font-black text-white">${price}</span>
-            <span className="text-sm font-bold text-slate-300">USD / mes</span>
-            <span className="ml-auto text-[11px] font-semibold text-serene-200 bg-white/10 px-2.5 py-0.5 rounded-full">
+          <div className="mt-3.5 flex items-baseline gap-2 bg-white/10 p-3 rounded-2xl border border-white/15">
+            <span className="text-2xl sm:text-3xl font-black text-white">${price}</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-300">USD / mes</span>
+            <span className="ml-auto text-[10px] sm:text-[11px] font-semibold text-serene-200 bg-white/10 px-2.5 py-0.5 rounded-full">
               Cancela cuando quieras
             </span>
           </div>
         </div>
 
-        {/* Notificación si no ha iniciado sesión */}
+        {/* Scrollable Container for Landscape & Mobile */}
+        <div className="overflow-y-auto overscroll-contain flex-1">
+          {/* Notificación si no ha iniciado sesión */}
         {!currentUser && (
           <div className="p-4 bg-amber-50 border-b border-amber-200 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
@@ -272,6 +274,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             )}
           </button>
         </form>
+        </div>
 
         {/* Modal de Confirmación Exitosa */}
         {isSuccess && (

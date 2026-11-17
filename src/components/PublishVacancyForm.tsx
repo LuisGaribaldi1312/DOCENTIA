@@ -300,37 +300,37 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8">
+    <div className="w-full px-3.5 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-6 sm:py-8">
       
       {/* Banner Corporativo Superior */}
-      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-6 sm:p-10 rounded-3xl shadow-xl mb-8 border border-brand-800/60">
+      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-5 sm:p-10 rounded-3xl shadow-xl mb-6 sm:mb-8 border border-brand-800/60">
         <div className="flex items-center gap-3 mb-2">
-          <span className="p-2.5 rounded-xl bg-white/10 text-serene-300">
-            <Building2 className="w-6 h-6" />
+          <span className="p-2 sm:p-2.5 rounded-xl bg-white/10 text-serene-300">
+            <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />
           </span>
-          <span className="text-xs uppercase font-extrabold tracking-widest text-serene-300">
+          <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-widest text-serene-300">
             Módulo Institucional de Contratación
           </span>
         </div>
-        <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+        <h2 className="text-xl sm:text-4xl font-black tracking-tight">
           Publicar Convocatoria Docente
         </h2>
-        <p className="text-sm text-slate-300/90 mt-2 max-w-3xl">
+        <p className="text-xs sm:text-sm text-slate-300/90 mt-2 max-w-3xl">
           Genera una publicación institucional precisa para escuelas públicas o privadas de cualquier nivel académico, especificando el esquema salarial, régimen laboral y la lista oficial de documentos requeridos.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
         
         {/* Sección 1: Datos de la Escuela */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
-          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+        <div className="bg-white p-4 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-sm sm:text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
             <Building2 className="w-5 h-5 text-serene-600" />
             1. Datos de la Escuela o Plantel Educativo
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4">
+            <div className="sm:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Nombre Oficial de la Escuela / Colegio *
               </label>

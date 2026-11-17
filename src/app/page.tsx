@@ -179,7 +179,7 @@ export default function HomePage() {
           <div className="w-full">
             
             {/* Hero Section Corporativo y Pacífico - Edge to Edge */}
-            <section className="w-full bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white py-10 sm:py-16 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative overflow-hidden border-b border-brand-800/60">
+            <section className="w-full bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white py-6 sm:py-10 md:py-14 lg:py-16 px-3.5 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative overflow-hidden border-b border-brand-800/60 landscape-compact-hero">
               
               {/* Subtle background glow effect (psychological calm) */}
               <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-serene-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -188,13 +188,13 @@ export default function HomePage() {
               <div className="w-full relative z-10 text-center">
                 
                 {/* Badge Institucional */}
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-xs font-extrabold mb-4 shadow-xs backdrop-blur-xs">
+                <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[11px] sm:text-xs font-extrabold mb-3 sm:mb-4 shadow-xs backdrop-blur-xs">
                   <Sparkles className="w-3.5 h-3.5 text-prestige-400" />
                   <span>Plataforma Oficial de Vacantes para Docentes y Escuelas</span>
                 </div>
 
                 {/* Main Headline */}
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-5xl mx-auto leading-tight text-white">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight max-w-5xl mx-auto leading-tight text-white">
                   {currentTab === 'docente_sos' ? (
                     <>
                       Interinatos y Reemplazos <span className="text-prestige-400">Docente SOS</span>
@@ -206,14 +206,14 @@ export default function HomePage() {
                   )}
                 </h1>
 
-                <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto mt-4 font-normal leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-3xl mx-auto mt-2 sm:mt-4 font-normal leading-relaxed">
                   {currentTab === 'docente_sos'
                     ? 'Bolsa urgente de suplencias para responder a incapacidades escolares en menos de 48 horas en escuelas públicas y privadas.'
                     : 'Vinculamos el talento docente con colegios e instituciones de todos los niveles educativos con máxima transparencia en salarios, tipo de contratación y requisitos documentales.'}
                 </p>
 
                 {/* Barra de Búsqueda Full Width Adaptativa */}
-                <div className="mt-8 max-w-4xl mx-auto bg-white rounded-2xl p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200/90">
+                <div className="mt-4 sm:mt-6 md:mt-8 max-w-4xl mx-auto bg-white rounded-2xl p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200/90">
                   <div className="flex items-center gap-2.5 px-3 py-2 flex-1 w-full text-slate-800">
                     <Search className="w-5 h-5 text-serene-600 shrink-0" />
                     <input
@@ -221,7 +221,7 @@ export default function HomePage() {
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       placeholder="Materia, asignatura, título de vacante o escuela..."
-                      className="w-full text-sm font-semibold focus:outline-hidden text-brand-950 placeholder:text-slate-400 placeholder:font-normal"
+                      className="w-full text-xs sm:text-sm font-semibold focus:outline-hidden text-brand-950 placeholder:text-slate-400 placeholder:font-normal"
                     />
                   </div>
 
@@ -243,7 +243,7 @@ export default function HomePage() {
 
                   <button
                     onClick={() => {}}
-                    className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-black text-xs shadow-md transition-all shrink-0"
+                    className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-black text-xs shadow-md transition-all shrink-0"
                   >
                     Buscar Vacantes
                   </button>
@@ -456,9 +456,9 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Wide Vacancies Grid */}
+                  {/* Wide Vacancies Grid Adaptable a Móviles, Tablets y Pantallas Grandes */}
                   {filteredVacancies.length === 0 ? (
-                    <div className="bg-white rounded-3xl p-16 text-center border border-slate-200/90 shadow-xs">
+                    <div className="bg-white rounded-3xl p-8 sm:p-16 text-center border border-slate-200/90 shadow-xs">
                       <BookOpen className="w-14 h-14 mx-auto text-slate-300 mb-3" />
                       <h3 className="text-base font-extrabold text-brand-950 mb-1">
                         No se encontraron plazas con los criterios seleccionados
@@ -474,7 +474,7 @@ export default function HomePage() {
                       </button>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-4 sm:gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
                       {filteredVacancies.map((vacancy) => (
                         <VacancyCard
                           key={vacancy.id}

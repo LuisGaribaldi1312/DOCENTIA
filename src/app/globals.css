@@ -41,8 +41,42 @@ html, body {
 
 /* iOS Safe Areas */
 .safe-pb {
-  padding-bottom: env(safe-area-inset-bottom, 1rem);
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
 }
 .safe-pt {
   padding-top: env(safe-area-inset-top, 0);
+}
+
+/* Base mobile navigation bottom spacing so fixed dock never covers content */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* Landscape orientation optimization for mobile phones and small tablets */
+@media (orientation: landscape) and (max-height: 520px) {
+  .landscape-compact-nav {
+    height: 3.25rem !important;
+  }
+  .landscape-compact-dock {
+    padding-top: 0.25rem !important;
+    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0.25rem)) !important;
+  }
+  .landscape-compact-dock button {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
+    gap: 0.25rem !important;
+  }
+  .landscape-compact-dock svg {
+    width: 1.15rem !important;
+    height: 1.15rem !important;
+  }
+  .landscape-compact-dock span {
+    font-size: 9.5px !important;
+  }
+  .landscape-compact-hero {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
 }

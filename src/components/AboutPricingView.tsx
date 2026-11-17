@@ -656,10 +656,10 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
 
       {/* 7. MODAL DE REGISTRO & CHECKOUT DE SUSCRIPCIÓN */}
       {checkoutModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/75 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 text-slate-800">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in">
+          <div className="bg-white rounded-3xl max-w-md w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
             
-            <div className="flex items-start justify-between border-b border-slate-100 pb-3">
+            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between shrink-0">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-widest text-serene-700">
                   {selectedPlan === 'docente' ? 'Plan Docente Certificado' : 'Plan Institución Verificada'}
@@ -677,6 +677,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               </button>
             </div>
 
+            <div className="p-5 sm:p-6 overflow-y-auto overscroll-contain flex-1">
             {checkoutSuccess ? (
               <div className="py-8 text-center space-y-3">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
@@ -749,6 +750,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
                 </button>
               </form>
             )}
+            </div>
 
           </div>
         </div>

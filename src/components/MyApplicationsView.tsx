@@ -22,10 +22,10 @@ export const MyApplicationsView: React.FC<MyApplicationsViewProps> = ({
   onBrowseClick
 }) => {
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8 space-y-6">
+    <div className="w-full px-3.5 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-6 sm:py-8 space-y-5 sm:space-y-6">
       
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-6 sm:p-10 rounded-3xl shadow-xl border border-brand-800/60">
+      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-5 sm:p-10 rounded-3xl shadow-xl border border-brand-800/60">
         <div className="flex items-center gap-2 mb-2">
           <span className="p-1.5 rounded-lg bg-white/10 text-serene-300">
             <FileText className="w-5 h-5" />
@@ -59,7 +59,7 @@ export const MyApplicationsView: React.FC<MyApplicationsViewProps> = ({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
           {applications.map((app) => (
             <div
               key={app.id}

@@ -94,37 +94,37 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
   };
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8">
+    <div className="w-full px-3.5 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-6 sm:py-8">
       
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-6 sm:p-10 rounded-3xl shadow-xl mb-8 border border-brand-800/60">
+      <div className="bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white p-5 sm:p-10 rounded-3xl shadow-xl mb-6 sm:mb-8 border border-brand-800/60">
         <div className="flex items-center gap-3 mb-2">
-          <span className="p-2.5 rounded-xl bg-white/10 text-serene-300">
-            <GraduationCap className="w-6 h-6" />
+          <span className="p-2 sm:p-2.5 rounded-xl bg-white/10 text-serene-300">
+            <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
           </span>
-          <span className="text-xs uppercase font-extrabold tracking-widest text-serene-300">
+          <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-widest text-serene-300">
             Expediente Digital del Profesor
           </span>
         </div>
-        <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+        <h2 className="text-xl sm:text-4xl font-black tracking-tight">
           Registro & Perfil Docente
         </h2>
-        <p className="text-sm text-slate-300/90 mt-2 max-w-3xl">
+        <p className="text-xs sm:text-sm text-slate-300/90 mt-2 max-w-3xl">
           Administra tus datos de contacto, lugar de residencia, cédula profesional y expedientes PDF para que las instituciones educativas públicas y privadas puedan contratarte de inmediato.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
         
         {/* Sección 1: Datos Personales y Contacto */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
-          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+        <div className="bg-white p-4 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-sm sm:text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
             <User className="w-5 h-5 text-serene-600" />
             1. Datos Personales y de Contacto Oficial
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4">
+            <div className="sm:col-span-2 md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Nombre Completo del Profesor(a) *
               </label>
@@ -191,14 +191,14 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
         </div>
 
         {/* Sección 2: Dirección y Lugar de Residencia */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
-          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+        <div className="bg-white p-4 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-sm sm:text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
             <Home className="w-5 h-5 text-serene-600" />
             2. Dirección y Lugar de Residencia
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4">
+            <div className="sm:col-span-2 md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Dirección Completa (Calle, Número, Colonia) *
               </label>
@@ -258,13 +258,13 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
         </div>
 
         {/* Sección 3: Formación Pedagógica */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
-          <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
+        <div className="bg-white p-4 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+          <h3 className="text-sm sm:text-base font-extrabold text-brand-950 flex items-center gap-2 border-b border-slate-100 pb-3">
             <GraduationCap className="w-5 h-5 text-serene-600" />
             3. Acreditación Académica y Experiencia Docente
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Grado Máximo de Estudios *
@@ -294,7 +294,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
               />
             </div>
 
-            <div>
+            <div className="sm:col-span-2 md:col-span-1">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Carrera / Licenciatura Cursada
               </label>
@@ -307,7 +307,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
               />
             </div>
 
-            <div className="md:col-span-3">
+            <div className="sm:col-span-2 md:col-span-3">
               <label className="block text-xs font-bold text-slate-700 mb-1">
                 Reseña Pedagógica / Filosofía de Enseñanza
               </label>
@@ -320,7 +320,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
               />
             </div>
 
-            <div className="md:col-span-3 flex items-center gap-3 p-4 rounded-2xl bg-prestige-50 border border-prestige-200">
+            <div className="sm:col-span-2 md:col-span-3 flex items-center gap-3 p-4 rounded-2xl bg-prestige-50 border border-prestige-200">
               <input
                 type="checkbox"
                 id="availSos"
@@ -336,7 +336,7 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
         </div>
 
         {/* Sección 4: Expediente Digital (Archivos PDF) */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
+        <div className="bg-white p-4 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
               <h3 className="text-base font-extrabold text-brand-950 flex items-center gap-2">

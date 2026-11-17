@@ -307,9 +307,9 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
 
       {/* Modal de Detalle de Candidato */}
       {selectedApplicant && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/70 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-4">
-            <div className="flex items-start justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in">
+          <div className="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between shrink-0">
               <div>
                 <span className="text-[11px] font-extrabold text-serene-700 uppercase tracking-widest">
                   Expediente del Docente
@@ -325,7 +325,7 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
               </button>
             </div>
 
-            <div className="space-y-3 text-xs">
+            <div className="p-5 sm:p-6 overflow-y-auto overscroll-contain flex-1 space-y-3 text-xs">
               <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2">
                 <p className="font-extrabold text-brand-950">Información de Contacto Verificada:</p>
                 <p className="flex items-center gap-2 text-slate-700"><Mail className="w-3.5 h-3.5 text-brand-700" /> {selectedApplicant.teacherEmail}</p>
@@ -357,7 +357,7 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+            <div className="p-4 sm:p-6 border-t border-slate-100 flex items-center justify-between gap-3 shrink-0">
               <button
                 onClick={() => {
                   onUpdateStatus(selectedApplicant.id, 'clase_muestra');

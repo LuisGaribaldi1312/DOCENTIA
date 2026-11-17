@@ -50,8 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all w-full">
       {/* Edge-to-Edge Responsive Container */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="flex items-center justify-between h-18">
+      <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="flex items-center justify-between h-15 sm:h-16 lg:h-18 landscape-compact-nav">
           
           {/* Logo Corporativo Institucional */}
           <div 
@@ -311,7 +311,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Mobile & Tablet App Navigation Bar (Optimized Ergonomic Dock) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 px-2 py-2 flex items-center justify-around shadow-2xl safe-pb">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 px-2 py-1.5 sm:py-2 flex items-center justify-around shadow-2xl safe-pb landscape-compact-dock">
         
         <button
           onClick={() => setCurrentTab('nosotros')}

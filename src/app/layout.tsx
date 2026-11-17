@@ -21,8 +21,6 @@ export const viewport: Viewport = {
   themeColor: '#0f2338',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   viewportFit: 'cover'
 };
 
@@ -36,7 +34,7 @@ export default function RootLayout({
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
-      <body className="min-h-screen flex flex-col pb-16 lg:pb-0 w-full overflow-x-hidden bg-slate-50">
+      <body className="min-h-screen flex flex-col w-full overflow-x-hidden bg-slate-50 antialiased">
         {children}
       </body>
     </html>

@@ -115,37 +115,39 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200/90 overflow-hidden relative"
+        className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200/90 overflow-hidden relative"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* Header Modal */}
-        <div className="p-6 bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white relative">
+        <div className="p-5 sm:p-6 bg-gradient-to-r from-brand-950 via-brand-900 to-serene-900 text-white relative shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors"
+            className="absolute top-4 sm:top-5 right-4 sm:right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-2.5 mb-2">
-            <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-serene-300">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/10 flex items-center justify-center text-serene-300">
               <GraduationCap className="w-5 h-5" />
             </div>
-            <span className="text-xl font-black tracking-tight">
+            <span className="text-lg sm:text-xl font-black tracking-tight">
               DOCEN<span className="text-serene-400">TIA</span>
             </span>
           </div>
 
-          <h3 className="text-lg font-black text-white">
+          <h3 className="text-base sm:text-lg font-black text-white">
             {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta Oficial'}
           </h3>
-          <p className="text-xs text-slate-300 mt-1">
+          <p className="text-xs text-slate-300 mt-0.5">
             {promptMessage || 'Accede a la red educativa especializada para docentes e instituciones escolares.'}
           </p>
         </div>
 
-        {/* Selector de Rol */}
+        {/* Scrollable Container for Landscape & Mobile */}
+        <div className="overflow-y-auto overscroll-contain flex-1">
+          {/* Selector de Rol */}
         <div className="p-4 bg-slate-50 border-b border-slate-200/80">
           <label className="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">
             Tipo de Cuenta
@@ -329,6 +331,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
+        </div>
 
       </div>
     </div>
