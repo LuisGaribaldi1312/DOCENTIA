@@ -744,6 +744,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
             
             <div className="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between shrink-0">
               <div>
+                <img src="/images/docentia-logo.png" alt="DOCENTIA Red Educativa" className="h-7 w-auto object-contain mb-2" />
                 <span className="text-[11px] font-extrabold uppercase tracking-widest text-serene-700">
                   {selectedPlan === 'docente' ? 'Plan Docente Certificado' : 'Plan Institución Verificada'}
                 </span>

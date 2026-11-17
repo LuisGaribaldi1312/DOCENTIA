@@ -93,6 +93,14 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
+          <div className="mb-2.5">
+            <img 
+              src="/images/docentia-logo-white.png" 
+              alt="DOCENTIA Red Educativa" 
+              className="h-6 sm:h-7 w-auto object-contain" 
+            />
+          </div>
+
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-[11px] font-bold mb-2">
             <Sparkles className="w-3.5 h-3.5 text-prestige-400" />
             <span>{isDocente ? 'Plan Maestro Certificado' : 'Plan Escuelas & Colegios'}</span>

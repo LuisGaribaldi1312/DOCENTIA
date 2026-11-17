@@ -53,31 +53,20 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex items-center justify-between h-15 sm:h-16 lg:h-18 landscape-compact-nav">
           
-          {/* Logo Corporativo Institucional */}
+          {/* Logo Corporativo Institucional Oficial */}
           <div 
             onClick={() => setCurrentTab('vacantes')}
-            className="flex items-center gap-3.5 cursor-pointer group select-none"
+            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none transition-transform hover:scale-[1.01]"
           >
-            <div className="relative">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-900 via-brand-800 to-serene-700 flex items-center justify-center text-white shadow-md shadow-brand-900/15 group-hover:shadow-serene-600/25 transition-all group-hover:scale-[1.02]">
-                <GraduationCap className="w-6 h-6 text-serene-200" />
-              </div>
-              <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-serene-500 border-2 border-white rounded-full" />
-            </div>
-            
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-black tracking-tight text-brand-900 font-sans">
-                  DOCEN<span className="text-serene-600">TIA</span>
-                </span>
-                <span className="hidden sm:inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-serene-50 text-serene-700 border border-serene-200">
-                  RED EDUCATIVA
-                </span>
-              </div>
-              <p className="text-[11px] font-medium text-slate-500 tracking-wide hidden md:block">
-                Plataforma de Contratación & Empleo Docente
-              </p>
-            </div>
+            <img
+              src="/images/docentia-logo.png"
+              alt="DOCENTIA Red Educativa"
+              className="h-9 sm:h-11 lg:h-12 w-auto object-contain shrink-0 drop-shadow-2xs"
+            />
+            <span className="hidden xl:inline-block h-6 w-px bg-slate-200 ml-1" />
+            <p className="text-[11px] font-semibold text-slate-500 tracking-wide hidden xl:block leading-tight">
+              Plataforma de Contratación & Empleo Docente
+            </p>
           </div>
 
           {/* Desktop Navigation (Expanded Full-Width Experience) */}

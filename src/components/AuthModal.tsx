@@ -128,13 +128,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          <div className="flex items-center gap-2.5 mb-2">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/10 flex items-center justify-center text-serene-300">
-              <GraduationCap className="w-5 h-5" />
-            </div>
-            <span className="text-lg sm:text-xl font-black tracking-tight">
-              DOCEN<span className="text-serene-400">TIA</span>
-            </span>
+          <div className="mb-2.5">
+            <img
+              src="/images/docentia-logo-white.png"
+              alt="DOCENTIA Red Educativa"
+              className="h-8 sm:h-9 w-auto object-contain"
+            />
           </div>
 
           <h3 className="text-base sm:text-lg font-black text-white">

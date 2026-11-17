@@ -2,9 +2,13 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'DOCENTIA - Portal Corporativo de Empleo Docente & Escuelas',
+  title: 'DOCENTIA Red Educativa - Portal de Empleo Docente & Escuelas',
   description: 'Plataforma oficial y especializada en vacantes de empleo para maestros y profesores en escuelas públicas y privadas de todos los niveles educativos.',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/icons/icon-192.png'
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

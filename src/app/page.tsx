@@ -689,13 +689,11 @@ export default function HomePage() {
       <footer className="w-full bg-white border-t border-slate-200/90 py-10 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 text-xs text-slate-500 mt-12">
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-brand-900 text-white flex items-center justify-center font-bold">
-              <GraduationCap className="w-5 h-5 text-serene-300" />
-            </div>
-            <div>
-              <span className="font-black text-brand-950 text-sm tracking-tight">DOCENTIA</span>
-              <p className="text-[11px] text-slate-400">Red Institucional de Contratación & Empleo Educativo</p>
-            </div>
+            <img
+              src="/images/docentia-logo.png"
+              alt="DOCENTIA Red Educativa"
+              className="h-10 w-auto object-contain"
+            />
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-slate-500 font-medium">

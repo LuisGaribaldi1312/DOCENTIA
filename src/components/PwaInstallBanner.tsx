@@ -66,8 +66,8 @@ export const PwaInstallBanner: React.FC = () => {
     <aside aria-label="Instalación de la aplicación" className="w-full bg-gradient-to-r from-brand-950 via-brand-900 to-serene-950 text-white px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-3 shadow-md border-b border-brand-800/60 relative z-40 transition-all">
       <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-            <Smartphone className="w-5 h-5 text-serene-300" />
+          <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0 p-1 border border-white/15">
+            <img src="/images/docentia-isotype.png" alt="DOCENTIA" className="w-full h-full object-contain" />
           </div>
           <div>
             <h4 className="text-xs sm:text-sm font-extrabold flex items-center gap-2">
