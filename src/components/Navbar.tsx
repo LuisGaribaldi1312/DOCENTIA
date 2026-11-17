@@ -92,7 +92,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-slate-600 hover:text-brand-900 hover:bg-slate-100'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-prestige-600" />
+              <img
+                src="/images/docentia-avatar-bust.png"
+                alt="Avatar DOCENTIA"
+                className="w-5 h-5 rounded-full object-cover border border-serene-400 shadow-2xs shrink-0"
+              />
               Conoce DOCENTIA & Planes
             </button>
 
@@ -319,7 +323,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             currentTab === 'nosotros' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
           }`}
         >
-          <Sparkles className="w-5 h-5 text-prestige-600" />
+          <img
+            src="/images/docentia-avatar-bust.png"
+            alt="Avatar DOCENTIA"
+            className="w-5 h-5 rounded-full object-cover border border-serene-400 shadow-2xs shrink-0"
+          />
           <span>Nosotros</span>
         </button>
 

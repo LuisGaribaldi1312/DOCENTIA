@@ -98,12 +98,23 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             <span>{isDocente ? 'Plan Maestro Certificado' : 'Plan Escuelas & Colegios'}</span>
           </div>
 
-          <h3 className="text-lg sm:text-xl font-black">{title}</h3>
-          <p className="text-xs text-slate-200 mt-1">
-            {contextReason || (isDocente 
-              ? 'Valida tu Cédula y postúlate a las mejores vacantes con expediente garantizado.' 
-              : 'Publica convocatorias ilimitadas y accede al expediente verificado de los profesores.')}
-          </p>
+          <div className="flex items-center gap-3 mb-1">
+            {isDocente && (
+              <img
+                src="/images/docentia-avatar-bust.png"
+                alt="Docente Certificado"
+                className="w-11 h-11 rounded-xl object-cover border border-serene-400/80 shadow-md bg-white/10 shrink-0"
+              />
+            )}
+            <div>
+              <h3 className="text-lg sm:text-xl font-black">{title}</h3>
+              <p className="text-xs text-slate-200 mt-0.5">
+                {contextReason || (isDocente 
+                  ? 'Valida tu Cédula y postúlate a las mejores vacantes con expediente garantizado.' 
+                  : 'Publica convocatorias ilimitadas y accede al expediente verificado de los profesores.')}
+              </p>
+            </div>
+          </div>
 
           <div className="mt-3.5 flex items-baseline gap-2 bg-white/10 p-3 rounded-2xl border border-white/15">
             <span className="text-2xl sm:text-3xl font-black text-white">${price}</span>
