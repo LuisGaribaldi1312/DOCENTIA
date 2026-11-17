@@ -130,93 +130,93 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
         <div className="absolute bottom-0 left-10 w-[450px] h-[250px] bg-prestige-500/10 rounded-full blur-2xl pointer-events-none" />
 
         <div className="w-full relative z-10 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="flex flex-row items-center gap-3 xs:gap-4 sm:gap-8 lg:gap-12">
             
             {/* Left Content Column */}
-            <div className="lg:col-span-7 text-center lg:text-left space-y-5 sm:space-y-6">
+            <div className="flex-1 text-left space-y-3 sm:space-y-5 min-w-0">
               
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-xs font-black tracking-wide backdrop-blur-md shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-prestige-400" />
-                <span>LA RED INSTITUCIONAL DE EMPLEO DOCENTE</span>
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[10px] sm:text-xs font-black tracking-wide backdrop-blur-md shadow-xs">
+                <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-prestige-400 shrink-0" />
+                <span className="truncate">LA RED INSTITUCIONAL DE EMPLEO DOCENTE</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-tight text-white">
+              <h1 className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-tight text-white">
                 Transformamos la Contratación de Maestros con <span className="text-serene-400">Rigor, Transparencia y Paz</span>
               </h1>
 
-              <p className="text-sm sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-slate-300 font-normal leading-relaxed">
                 DOCENTIA es la plataforma especializada y certificadora que conecta a las escuelas públicas y privadas de todos los niveles educativos con los docentes más calificados, verificando expedientes y garantizando vacantes claras y dignas.
               </p>
 
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+              <div className="flex flex-wrap items-center justify-start gap-2.5 sm:gap-4 pt-1 sm:pt-2">
                 <button
                   onClick={() => {
                     const el = document.getElementById('planes-precios');
                     el?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-2xl bg-gradient-to-r from-serene-600 to-serene-700 hover:from-serene-500 hover:to-serene-600 text-white font-black text-xs sm:text-sm shadow-xl shadow-serene-900/30 transition-all hover:scale-[1.02] flex items-center gap-2"
+                  className="px-4 py-2.5 xs:px-6 xs:py-3 sm:px-7 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-serene-600 to-serene-700 hover:from-serene-500 hover:to-serene-600 text-white font-black text-xs sm:text-sm shadow-xl shadow-serene-900/30 transition-all hover:scale-[1.02] flex items-center gap-1.5 sm:gap-2"
                 >
                   <span>Ver Planes y Certificación</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                 </button>
 
                 <button
                   onClick={onGoToVacancies}
-                  className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-extrabold text-xs sm:text-sm backdrop-blur-md transition-all"
+                  className="px-4 py-2.5 xs:px-6 xs:py-3 sm:px-7 sm:py-3.5 rounded-xl sm:rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-extrabold text-xs sm:text-sm backdrop-blur-md transition-all"
                 >
                   Explorar Bolsa de Vacantes
                 </button>
               </div>
 
               {/* Métricas de Impacto */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-8 sm:pt-10 border-t border-white/10 text-center lg:text-left">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 pt-4 sm:pt-8 border-t border-white/10 text-left">
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-serene-400">100%</p>
-                  <p className="text-[11px] sm:text-xs text-slate-300 font-semibold mt-0.5">Especializado en Educación</p>
+                  <p className="text-lg sm:text-2xl lg:text-3xl font-black text-serene-400">100%</p>
+                  <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Especializado en Educación</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-prestige-400">48 hrs</p>
-                  <p className="text-[11px] sm:text-xs text-slate-300 font-semibold mt-0.5">Cobertura "Docente SOS"</p>
+                  <p className="text-lg sm:text-2xl lg:text-3xl font-black text-prestige-400">48 hrs</p>
+                  <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Cobertura "Docente SOS"</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-serene-400">Cédula</p>
-                  <p className="text-[11px] sm:text-xs text-slate-300 font-semibold mt-0.5">Verificación Oficial</p>
+                  <p className="text-lg sm:text-2xl lg:text-3xl font-black text-serene-400">Cédula</p>
+                  <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Verificación Oficial</p>
                 </div>
                 <div>
-                  <p className="text-2xl sm:text-3xl font-black text-prestige-400">PWA</p>
-                  <p className="text-[11px] sm:text-xs text-slate-300 font-semibold mt-0.5">Android & iOS Instalable</p>
+                  <p className="text-lg sm:text-2xl lg:text-3xl font-black text-prestige-400">PWA</p>
+                  <p className="text-[10px] sm:text-xs text-slate-300 font-semibold mt-0.5">Android & iOS Instalable</p>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Column: 3D Avatar Showcase */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center relative pt-4 lg:pt-0">
-              <div className="relative w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] mx-auto flex flex-col items-center">
+            {/* Right Column: 3D Avatar Showcase (Always Beside the Text) */}
+            <div className="shrink-0 flex flex-col items-center justify-center relative w-24 xs:w-36 sm:w-56 md:w-72 lg:w-[380px] xl:w-[420px]">
+              <div className="relative w-full flex flex-col items-center">
                 
                 {/* Aura de Resplandor Sereno */}
-                <div className="absolute inset-0 bg-gradient-to-t from-serene-500/25 via-emerald-500/15 to-transparent rounded-full blur-3xl transform scale-110 pointer-events-none" />
-                <div className="absolute bottom-6 w-3/4 h-10 bg-black/40 rounded-full blur-xl pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-serene-500/25 via-emerald-500/15 to-transparent rounded-full blur-xl sm:blur-3xl transform scale-110 pointer-events-none" />
+                <div className="absolute bottom-2 sm:bottom-6 w-3/4 h-4 sm:h-10 bg-black/40 rounded-full blur-xs sm:blur-xl pointer-events-none" />
 
                 {/* Imagen del Avatar 3D de DOCENTIA */}
                 <img
                   src="/images/docentia-avatar.png"
                   alt="Embajador y Maestro Oficial de DOCENTIA Red Educativa"
                   loading="eager"
-                  className="relative z-10 w-full h-auto object-contain object-bottom max-h-[360px] sm:max-h-[440px] lg:max-h-[500px] drop-shadow-[0_25px_35px_rgba(20,184,166,0.25)] transition-transform duration-300 hover:scale-[1.02]"
+                  className="relative z-10 w-full h-auto object-contain object-bottom max-h-[220px] xs:max-h-[300px] sm:max-h-[420px] lg:max-h-[500px] drop-shadow-[0_20px_30px_rgba(20,184,166,0.25)] transition-transform duration-300 hover:scale-[1.02]"
                 />
 
-                {/* Tarjeta Flotante Institucional Matizada */}
-                <div className="relative -mt-6 sm:-mt-8 z-20 bg-white/95 backdrop-blur-md text-brand-950 p-3 sm:p-4 rounded-2xl shadow-xl border border-serene-200/80 w-[92%] flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-serene-50 text-serene-700 flex items-center justify-center shrink-0 border border-serene-200">
-                    <GraduationCap className="w-5 h-5 text-serene-600" />
+                {/* Tarjeta Flotante Institucional Matizada (Visible on sm and up) */}
+                <div className="hidden sm:flex relative -mt-4 sm:-mt-8 z-20 bg-white/95 backdrop-blur-md text-brand-950 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl shadow-xl border border-serene-200/80 w-[95%] items-center gap-2.5 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-serene-50 text-serene-700 flex items-center justify-center shrink-0 border border-serene-200">
+                    <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-serene-600" />
                   </div>
-                  <div className="text-left">
+                  <div className="text-left min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-[10px] sm:text-[11px] font-black uppercase text-serene-700 tracking-wider">Embajador DOCENTIA</span>
+                      <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[9px] sm:text-[11px] font-black uppercase text-serene-700 tracking-wider">Embajador DOCENTIA</span>
                     </div>
-                    <p className="text-xs font-bold text-slate-800 leading-tight">
+                    <p className="text-[10px] sm:text-xs font-bold text-slate-800 leading-tight">
                       Cédula profesional y expediente verificado para todas las escuelas
                     </p>
                   </div>

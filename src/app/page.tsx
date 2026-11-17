@@ -185,54 +185,43 @@ export default function HomePage() {
               <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-serene-500/10 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute bottom-0 right-10 w-[400px] h-[200px] bg-prestige-500/10 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="w-full relative z-10 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+              <div className="w-full relative z-10 max-w-7xl mx-auto space-y-4 sm:space-y-6">
+                
+                {/* Side-by-Side Avatar + Headline Block (Always beside the text across mobile, tablet & desktop) */}
+                <div className="flex flex-row items-center sm:items-end gap-3 xs:gap-4 sm:gap-6 lg:gap-8">
                   
-                  {/* Avatar Col (Left side, pointing right towards search & headline) */}
-                  <div className="hidden lg:flex lg:col-span-4 xl:col-span-3 flex-col items-center justify-end relative">
-                    <div className="relative w-full max-w-[270px] xl:max-w-[310px] flex flex-col items-center">
-                      <div className="absolute inset-0 bg-gradient-to-t from-serene-500/25 via-emerald-500/10 to-transparent rounded-full blur-2xl pointer-events-none" />
-                      <div className="absolute bottom-4 w-3/4 h-8 bg-black/40 rounded-full blur-lg pointer-events-none" />
+                  {/* Avatar Col (Left side, pointing right towards headline) */}
+                  <div className="shrink-0 flex flex-col items-center justify-end relative w-24 xs:w-32 sm:w-44 md:w-56 lg:w-[270px] xl:w-[310px]">
+                    <div className="relative w-full flex flex-col items-center">
+                      <div className="absolute inset-0 bg-gradient-to-t from-serene-500/25 via-emerald-500/10 to-transparent rounded-full blur-xl pointer-events-none" />
+                      <div className="absolute bottom-2 sm:bottom-4 w-3/4 h-3 sm:h-8 bg-black/40 rounded-full blur-xs sm:blur-lg pointer-events-none" />
                       
                       <img
                         src="/images/docentia-avatar-vacantes.png"
                         alt="Docente DOCENTIA con expediente"
                         loading="eager"
-                        className="relative z-10 w-full h-auto object-contain object-bottom max-h-[380px] xl:max-h-[430px] drop-shadow-[0_20px_30px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
+                        className="relative z-10 w-full h-auto object-contain object-bottom max-h-[190px] xs:max-h-[240px] sm:max-h-[320px] md:max-h-[380px] xl:max-h-[430px] drop-shadow-[0_15px_25px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
                       />
                       
-                      {/* Floating tag */}
-                      <div className="relative -mt-6 z-20 bg-white/95 backdrop-blur-md text-brand-950 px-3.5 py-1.5 rounded-2xl shadow-lg border border-serene-200/80 text-[11px] font-black flex items-center gap-1.5 whitespace-nowrap">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      {/* Floating tag (visible on sm and up) */}
+                      <div className="hidden sm:flex relative -mt-4 sm:-mt-6 z-20 bg-white/95 backdrop-blur-md text-brand-950 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-2xl shadow-lg border border-serene-200/80 text-[10px] sm:text-[11px] font-black items-center gap-1.5 whitespace-nowrap">
+                        <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
                         <span>Expediente en Mano</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Main Content & Search Column */}
-                  <div className="lg:col-span-8 xl:col-span-9 text-center lg:text-left space-y-4">
+                  {/* Main Content Column (Right side, next to the avatar) */}
+                  <div className="flex-1 text-left space-y-2 sm:space-y-3 min-w-0">
                     
-                    {/* Mobile/Tablet Avatar Presentation */}
-                    <div className="flex lg:hidden justify-center mb-1">
-                      <div className="relative w-36 xs:w-44 sm:w-52 flex flex-col items-center">
-                        <div className="absolute inset-0 bg-gradient-to-t from-serene-500/20 to-transparent rounded-full blur-xl pointer-events-none" />
-                        <img
-                          src="/images/docentia-avatar-vacantes.png"
-                          alt="Docente DOCENTIA con expediente"
-                          loading="eager"
-                          className="relative z-10 w-full h-auto object-contain object-bottom max-h-[180px] xs:max-h-[220px] sm:max-h-[260px] drop-shadow-md"
-                        />
-                      </div>
-                    </div>
-
                     {/* Badge Institucional */}
-                    <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[11px] sm:text-xs font-extrabold shadow-xs backdrop-blur-xs">
-                      <Sparkles className="w-3.5 h-3.5 text-prestige-400" />
-                      <span>Plataforma Oficial de Vacantes para Docentes y Escuelas</span>
+                    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 xs:px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-serene-300 text-[10px] xs:text-[11px] sm:text-xs font-extrabold shadow-xs backdrop-blur-xs">
+                      <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-prestige-400 shrink-0" />
+                      <span className="truncate">Plataforma Oficial de Vacantes</span>
                     </div>
 
                     {/* Main Headline */}
-                    <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-tight text-white">
+                    <h1 className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-black tracking-tight leading-tight text-white">
                       {currentTab === 'docente_sos' ? (
                         <>
                           Interinatos y Reemplazos <span className="text-prestige-400">Docente SOS</span>
@@ -244,11 +233,15 @@ export default function HomePage() {
                       )}
                     </h1>
 
-                    <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-3xl font-normal leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-slate-300 font-normal leading-relaxed line-clamp-3 sm:line-clamp-none">
                       {currentTab === 'docente_sos'
                         ? 'Bolsa urgente de suplencias para responder a incapacidades escolares en menos de 48 horas en escuelas públicas y privadas.'
                         : 'Vinculamos el talento docente con colegios e instituciones de todos los niveles educativos con máxima transparencia en salarios, tipo de contratación y requisitos documentales.'}
                     </p>
+
+                  </div>
+
+                </div>
 
                     {/* Barra de Búsqueda Full Width Adaptativa */}
                     <div className="mt-4 sm:mt-6 max-w-4xl bg-white rounded-2xl p-2 sm:p-2.5 shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-slate-200/90 text-left">
@@ -312,10 +305,6 @@ export default function HomePage() {
                         </button>
                       ))}
                     </div>
-
-                  </div>
-
-                </div>
               </div>
             </section>
 
