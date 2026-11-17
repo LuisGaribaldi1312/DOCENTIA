@@ -39,18 +39,28 @@ html, body {
   background: #94a3b8;
 }
 
-/* iOS Safe Areas */
+/* PWA Safe Areas & Notch Insets */
 .safe-pb {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem)) !important;
 }
 .safe-pt {
-  padding-top: env(safe-area-inset-top, 0);
+  padding-top: max(0px, env(safe-area-inset-top, 0px)) !important;
+}
+
+/* Standalone PWA adjustments for installed mode on Android / iOS */
+@media all and (display-mode: standalone) {
+  header {
+    padding-top: max(0.75rem, env(safe-area-inset-top, 0px)) !important;
+  }
+  .landscape-compact-dock {
+    padding-bottom: max(0.85rem, env(safe-area-inset-bottom, 0.85rem)) !important;
+  }
 }
 
 /* Base mobile navigation bottom spacing so fixed dock never covers content */
 @media (max-width: 1023px) {
   body {
-    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
 
@@ -61,7 +71,7 @@ html, body {
   }
   .landscape-compact-dock {
     padding-top: 0.25rem !important;
-    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0.25rem)) !important;
+    padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0.35rem)) !important;
   }
   .landscape-compact-dock button {
     padding-top: 0.15rem !important;

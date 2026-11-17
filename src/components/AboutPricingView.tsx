@@ -123,7 +123,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
     <div className="w-full space-y-16 pb-12 animate-in fade-in duration-300">
       
       {/* 1. HERO INSTITUCIONAL CORPORATIVO (Edge-to-Edge) */}
-      <section className="w-full bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white py-12 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative overflow-hidden border-b border-brand-800/60">
+      <section className="w-full bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white py-12 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative border-b border-brand-800/60">
         
         {/* Psychological calming gradient orbs */}
         <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-serene-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -202,7 +202,8 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
                 <img
                   src="/images/docentia-avatar.png"
                   alt="Embajador y Maestro Oficial de DOCENTIA Red Educativa"
-                  className="relative z-10 w-full h-auto object-contain max-h-[360px] sm:max-h-[440px] lg:max-h-[500px] drop-shadow-[0_25px_35px_rgba(20,184,166,0.25)] transition-transform duration-300 hover:scale-[1.02]"
+                  loading="eager"
+                  className="relative z-10 w-full h-auto object-contain object-bottom max-h-[360px] sm:max-h-[440px] lg:max-h-[500px] drop-shadow-[0_25px_35px_rgba(20,184,166,0.25)] transition-transform duration-300 hover:scale-[1.02]"
                 />
 
                 {/* Tarjeta Flotante Institucional Matizada */}

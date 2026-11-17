@@ -48,29 +48,31 @@ export const Navbar: React.FC<NavbarProps> = ({
   isInstallable
 }) => {
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all w-full">
-      {/* Edge-to-Edge Responsive Container */}
-      <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="flex items-center justify-between h-15 sm:h-16 lg:h-18 landscape-compact-nav">
-          
-          {/* Logo Corporativo Institucional Oficial */}
-          <div 
-            onClick={() => setCurrentTab('vacantes')}
-            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none transition-transform hover:scale-[1.01]"
-          >
-            <img
-              src="/images/docentia-logo.png"
-              alt="DOCENTIA Red Educativa"
-              className="h-9 sm:h-11 lg:h-12 w-auto object-contain shrink-0 drop-shadow-2xs"
-            />
-            <span className="hidden xl:inline-block h-6 w-px bg-slate-200 ml-1" />
-            <p className="text-[11px] font-semibold text-slate-500 tracking-wide hidden xl:block leading-tight">
-              Plataforma de Contratación & Empleo Docente
-            </p>
-          </div>
+    <>
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all w-full safe-pt pt-[env(safe-area-inset-top,0px)]">
+        {/* Edge-to-Edge Responsive Container */}
+        <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+          <div className="flex items-center justify-between h-15 sm:h-16 lg:h-18 landscape-compact-nav">
+            
+            {/* Logo Corporativo Institucional Oficial */}
+            <div 
+              onClick={() => setCurrentTab('vacantes')}
+              className="flex items-center gap-2 sm:gap-3 cursor-pointer group select-none transition-transform hover:scale-[1.01]"
+            >
+              <img
+                src="/images/docentia-logo.png"
+                alt="DOCENTIA Red Educativa"
+                loading="eager"
+                className="h-8 xs:h-9 sm:h-11 lg:h-12 w-auto max-w-[135px] xs:max-w-[165px] sm:max-w-none object-contain shrink-0 drop-shadow-2xs"
+              />
+              <span className="hidden xl:inline-block h-6 w-px bg-slate-200 ml-1" />
+              <p className="text-[11px] font-semibold text-slate-500 tracking-wide hidden xl:block leading-tight">
+                Plataforma de Contratación & Empleo Docente
+              </p>
+            </div>
 
-          {/* Desktop Navigation (Expanded Full-Width Experience) */}
-          <nav className="hidden lg:flex items-center gap-1.5">
+            {/* Desktop Navigation (Expanded Full-Width Experience) */}
+            <nav className="hidden lg:flex items-center gap-1.5">
             
             {/* Botón Conoce DOCENTIA & Planes Informativo */}
             <button
@@ -225,10 +227,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             {!currentUser ? (
               <button
                 onClick={onOpenAuth}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black text-white bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 shadow-md shadow-brand-900/10 hover:shadow-lg transition-all"
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-black text-white bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 shadow-md shadow-brand-900/10 hover:shadow-lg transition-all shrink-0"
               >
-                <LogIn className="w-3.5 h-3.5 text-serene-200" />
-                <span>Iniciar Sesión / Registro</span>
+                <LogIn className="w-3.5 h-3.5 text-serene-200 shrink-0" />
+                <span className="hidden xs:inline">Iniciar Sesión / Registro</span>
+                <span className="xs:hidden">Acceder</span>
               </button>
             ) : (
               <div className="flex items-center gap-2 bg-slate-50 p-1 pl-2.5 rounded-2xl border border-slate-200/90 shadow-2xs">
@@ -298,101 +301,104 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         </div>
       </div>
-
-      {/* Mobile & Tablet App Navigation Bar (Optimized Ergonomic Dock) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 px-2 py-1.5 sm:py-2 flex items-center justify-around shadow-2xl safe-pb landscape-compact-dock">
-        
-        <button
-          onClick={() => setCurrentTab('nosotros')}
-          className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-            currentTab === 'nosotros' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
-          }`}
-        >
-          <Sparkles className="w-5 h-5 text-prestige-600" />
-          <span>Nosotros</span>
-        </button>
-
-        <button
-          onClick={() => setCurrentTab('vacantes')}
-          className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-            currentTab === 'vacantes' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
-          }`}
-        >
-          <Compass className="w-5 h-5" />
-          <span>Vacantes</span>
-        </button>
-
-        <button
-          onClick={() => setCurrentTab('docente_sos')}
-          className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-            currentTab === 'docente_sos' ? 'text-prestige-700 bg-prestige-50' : 'text-slate-500'
-          }`}
-        >
-          <Flame className="w-5 h-5 text-prestige-600" />
-          <span>SOS</span>
-        </button>
-
-        {/* Solo mostrar opciones privadas si el usuario ha iniciado sesión */}
-        {currentUser ? (
-          <>
-            {(currentRole === 'docente' || currentUser.isSuperAdmin) && currentRole === 'docente' && (
-              <>
-                <button
-                  onClick={() => setCurrentTab('perfil_docente')}
-                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                    currentTab === 'perfil_docente' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
-                  }`}
-                >
-                  <UserCheck className="w-5 h-5" />
-                  <span>Expediente</span>
-                </button>
-
-                <button
-                  onClick={() => setCurrentTab('mis_postulaciones')}
-                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                    currentTab === 'mis_postulaciones' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
-                  }`}
-                >
-                  <FileText className="w-5 h-5" />
-                  <span>Postulaciones</span>
-                </button>
-              </>
-            )}
-
-            {(currentRole === 'escuela' || currentUser.isSuperAdmin) && currentRole === 'escuela' && (
-              <>
-                <button
-                  onClick={() => setCurrentTab('dashboard_escuela')}
-                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                    currentTab === 'dashboard_escuela' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
-                  }`}
-                >
-                  <LayoutDashboard className="w-5 h-5" />
-                  <span>Panel ATS</span>
-                </button>
-
-                <button
-                  onClick={() => setCurrentTab('publicar_vacante')}
-                  className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
-                    currentTab === 'publicar_vacante' ? 'text-serene-700 bg-serene-50' : 'text-slate-500'
-                  }`}
-                >
-                  <PlusCircle className="w-5 h-5" />
-                  <span>Publicar</span>
-                </button>
-              </>
-            )}
-          </>
-        ) : (
-          <button
-            onClick={onOpenAuth}
-            className="flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[10px] sm:text-[11px] font-extrabold text-brand-950 bg-serene-50 border border-serene-200"
-          >
-            <LogIn className="w-5 h-5 text-serene-700" />
-            <span>Acceder</span>
-          </button>
-        )}
-      </div>
     </header>
+
+    {/* Mobile & Tablet App Navigation Bar (Optimized Ergonomic Dock Outside Header) */}
+    <nav 
+      aria-label="Navegación móvil"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/80 px-2 py-1.5 sm:py-2 flex items-center justify-around shadow-2xl safe-pb landscape-compact-dock"
+    >
+      <button
+        onClick={() => setCurrentTab('nosotros')}
+        className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+          currentTab === 'nosotros' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
+        }`}
+      >
+        <Sparkles className="w-5 h-5 text-prestige-600" />
+        <span>Nosotros</span>
+      </button>
+
+      <button
+        onClick={() => setCurrentTab('vacantes')}
+        className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+          currentTab === 'vacantes' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
+        }`}
+      >
+        <Compass className="w-5 h-5" />
+        <span>Vacantes</span>
+      </button>
+
+      <button
+        onClick={() => setCurrentTab('docente_sos')}
+        className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+          currentTab === 'docente_sos' ? 'text-prestige-700 bg-prestige-50' : 'text-slate-500'
+        }`}
+      >
+        <Flame className="w-5 h-5 text-prestige-600" />
+        <span>SOS</span>
+      </button>
+
+      {/* Solo mostrar opciones privadas si el usuario ha iniciado sesión */}
+      {currentUser ? (
+        <>
+          {(currentRole === 'docente' || currentUser.isSuperAdmin) && currentRole === 'docente' && (
+            <>
+              <button
+                onClick={() => setCurrentTab('perfil_docente')}
+                className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                  currentTab === 'perfil_docente' ? 'text-serene-700 bg-serene-50/70' : 'text-slate-500'
+                }`}
+              >
+                <UserCheck className="w-5 h-5" />
+                <span>Expediente</span>
+              </button>
+
+              <button
+                onClick={() => setCurrentTab('mis_postulaciones')}
+                className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                  currentTab === 'mis_postulaciones' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
+                }`}
+              >
+                <FileText className="w-5 h-5" />
+                <span>Postulaciones</span>
+              </button>
+            </>
+          )}
+
+          {(currentRole === 'escuela' || currentUser.isSuperAdmin) && currentRole === 'escuela' && (
+            <>
+              <button
+                onClick={() => setCurrentTab('dashboard_escuela')}
+                className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                  currentTab === 'dashboard_escuela' ? 'text-brand-900 bg-brand-50' : 'text-slate-500'
+                }`}
+              >
+                <LayoutDashboard className="w-5 h-5" />
+                <span>Panel ATS</span>
+              </button>
+
+              <button
+                onClick={() => setCurrentTab('publicar_vacante')}
+                className={`flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-[10px] sm:text-[11px] font-bold transition-colors ${
+                  currentTab === 'publicar_vacante' ? 'text-serene-700 bg-serene-50' : 'text-slate-500'
+                }`}
+              >
+                <PlusCircle className="w-5 h-5" />
+                <span>Publicar</span>
+              </button>
+            </>
+          )}
+        </>
+      ) : (
+        <button
+          onClick={onOpenAuth}
+          className="flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-[10px] sm:text-[11px] font-extrabold text-brand-950 bg-serene-50 border border-serene-200"
+        >
+          <LogIn className="w-5 h-5 text-serene-700" />
+          <span>Acceder</span>
+        </button>
+      )}
+    </nav>
+  </>
   );
 };

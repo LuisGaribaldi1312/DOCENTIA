@@ -179,7 +179,7 @@ export default function HomePage() {
           <div className="w-full">
             
             {/* Hero Section Corporativo y Pacífico - Edge to Edge */}
-            <section className="w-full bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white py-6 sm:py-10 md:py-14 lg:py-16 px-3.5 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative overflow-hidden border-b border-brand-800/60 landscape-compact-hero">
+            <section className="w-full bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white py-6 sm:py-10 md:py-14 lg:py-16 px-3.5 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 relative border-b border-brand-800/60 landscape-compact-hero">
               
               {/* Subtle background glow effect (psychological calm) */}
               <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-serene-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -197,7 +197,8 @@ export default function HomePage() {
                       <img
                         src="/images/docentia-avatar-vacantes.png"
                         alt="Docente DOCENTIA con expediente"
-                        className="relative z-10 w-full h-auto object-contain max-h-[380px] xl:max-h-[430px] drop-shadow-[0_20px_30px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
+                        loading="eager"
+                        className="relative z-10 w-full h-auto object-contain object-bottom max-h-[380px] xl:max-h-[430px] drop-shadow-[0_20px_30px_rgba(13,148,136,0.3)] transition-transform duration-300 hover:scale-[1.02]"
                       />
                       
                       {/* Floating tag */}
@@ -213,12 +214,13 @@ export default function HomePage() {
                     
                     {/* Mobile/Tablet Avatar Presentation */}
                     <div className="flex lg:hidden justify-center mb-1">
-                      <div className="relative w-32 sm:w-40 flex flex-col items-center">
+                      <div className="relative w-36 xs:w-44 sm:w-52 flex flex-col items-center">
                         <div className="absolute inset-0 bg-gradient-to-t from-serene-500/20 to-transparent rounded-full blur-xl pointer-events-none" />
                         <img
                           src="/images/docentia-avatar-vacantes.png"
                           alt="Docente DOCENTIA con expediente"
-                          className="relative z-10 w-full h-auto object-contain max-h-[150px] sm:max-h-[190px] drop-shadow-md"
+                          loading="eager"
+                          className="relative z-10 w-full h-auto object-contain object-bottom max-h-[180px] xs:max-h-[220px] sm:max-h-[260px] drop-shadow-md"
                         />
                       </div>
                     </div>
