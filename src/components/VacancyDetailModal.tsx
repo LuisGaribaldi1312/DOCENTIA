@@ -322,7 +322,7 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
               <span className="text-amber-800 font-semibold">Conectado como Escuela. Cambia a cuenta de Docente para postularte.</span>
             ) : !currentUser.subscription.isCertified ? (
               <span className="text-amber-800 font-bold flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-prestige-600" /> Requiere Plan Docente Certificado ($5 USD/mes) para aplicar.
+                <Sparkles className="w-3.5 h-3.5 text-prestige-600" /> Requiere Plan Docente Certificado ($6.65 USD/mes) para aplicar.
               </span>
             ) : (
               <span className="text-emerald-800 font-bold flex items-center gap-1">
@@ -397,7 +397,7 @@ export const VacancyDetailModal: React.FC<VacancyDetailModalProps> = ({
                 className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-prestige-600 to-amber-600 hover:from-prestige-500 hover:to-amber-500 text-white font-extrabold text-xs shadow-md shadow-amber-600/20 transition-all"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                Certificar Plan ($5 USD) y Postularme
+                Certificar Plan ($6.65 USD) y Postularme
               </button>
             ) : (
               <button

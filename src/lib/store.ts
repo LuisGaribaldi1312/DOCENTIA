@@ -330,13 +330,13 @@ export function useDocentiaStore() {
     }
   };
 
-  // Activar o certificar plan de suscripción ($5 Docente o $10 Escuela)
+  // Activar o certificar plan de suscripción ($6.65 Docente o $13.20 Escuela)
   const activateSubscription = (planType: 'docente_5usd' | 'escuela_10usd') => {
     if (!currentUser) return null;
 
     const today = new Date().toISOString().split('T')[0];
     const renews = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    const amount = planType === 'docente_5usd' ? 5 : 10;
+    const amount = planType === 'docente_5usd' ? 6.65 : 13.20;
 
     const updatedUser: UserAccount = {
       ...currentUser,

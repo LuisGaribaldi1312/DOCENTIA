@@ -269,7 +269,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </span>
                   ) : currentUser.subscription.status === 'activo' ? (
                     <span className="text-[10px] font-extrabold text-emerald-700">
-                      {currentUser.role === 'docente' ? 'Plan $5 USD Certificado ✓' : 'Plan Escuela $10 USD ✓'}
+                      {currentUser.role === 'docente' ? 'Plan $6.65 USD Certificado ✓' : 'Plan Escuela $13.20 USD ✓'}
                     </span>
                   ) : (
                     <button
@@ -277,7 +277,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className="text-[10px] font-extrabold text-amber-700 hover:text-amber-900 hover:underline flex items-center gap-0.5"
                     >
                       <Sparkles className="w-2.5 h-2.5 text-amber-500" />
-                      Activar Plan (${currentUser.role === 'docente' ? '5' : '10'} USD)
+                      Activar Plan (${currentUser.role === 'docente' ? '6.65' : '13.20'} USD)
                     </button>
                   )}
                 </div>
@@ -295,7 +295,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onClick={() => onOpenSubscription(currentUser.role === 'docente' ? 'docente_5usd' : 'escuela_10usd')}
                     className="md:hidden px-2 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-[10px] shadow-xs animate-pulse"
                   >
-                    Activar ${currentUser.role === 'docente' ? '5' : '10'}
+                    Activar ${currentUser.role === 'docente' ? '6.65' : '13.20'}
                   </button>
                 )}
 

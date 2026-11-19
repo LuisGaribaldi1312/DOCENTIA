@@ -177,7 +177,7 @@ export const LegalPoliciesModal: React.FC<LegalPoliciesModalProps> = ({
               <section className="space-y-2">
                 <h4 className="font-black text-brand-950 text-sm sm:text-base">5. Suscripciones y Pagos de Certificación</h4>
                 <p>
-                  Para habilitar la postulación completa y la publicación institucional, DOCENTIA maneja planes oficiales: Plan Docente de $5 USD mensuales y Plan Escuela de $10 USD mensuales. Las suscripciones son de renovación mensual voluntaria y pueden cancelarse en cualquier momento desde el perfil sin penalización. No proceden reembolsos de mensualidades devengadas con servicio habilitado.
+                  Para habilitar la postulación completa y la publicación institucional, DOCENTIA maneja planes oficiales: Plan Docente de $6.65 USD mensuales (~$135 MXN) y Plan Escuela de $13.20 USD mensuales (~$269 MXN), tarifas que contemplan las comisiones de pasarela de pago y las cargas tributarias aplicables para certificar y mantener la infraestructura operativa y jurídica. Las suscripciones son de renovación mensual voluntaria y pueden cancelarse en cualquier momento desde el perfil sin penalización. No proceden reembolsos de mensualidades devengadas con servicio habilitado.
                 </p>
               </section>
             </div>

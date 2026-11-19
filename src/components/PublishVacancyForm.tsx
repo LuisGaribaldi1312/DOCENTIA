@@ -237,7 +237,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
     );
   }
 
-  // 3. Candado si no tiene contratado el Plan Escuela ($10 USD) (omitido para SuperAdmin)
+  // 3. Candado si no tiene contratado el Plan Escuela ($13.20 USD) (omitido para SuperAdmin)
   if (!isSuper && currentUser.subscription.status !== 'activo') {
     return (
       <div className="w-full max-w-3xl mx-auto py-12 px-4 text-center">
@@ -246,7 +246,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
             <ShieldCheck className="w-8 h-8 text-serene-600" />
           </div>
           <span className="inline-block px-3 py-1 rounded-full bg-prestige-100 text-prestige-900 font-extrabold text-xs">
-            Plan Institución Requerido ($10 USD / mes)
+            Plan Institución Requerido ($13.20 USD / mes)
           </span>
           <h3 className="text-2xl font-black text-brand-950">
             Activa el Plan Escuela para Publicar Convocatorias
@@ -260,7 +260,7 @@ export const PublishVacancyForm: React.FC<PublishVacancyFormProps> = ({
               onClick={onRequirePlan}
               className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 text-white font-extrabold text-xs shadow-md transition-all"
             >
-              Contratar Plan Escuela ($10 USD / mes)
+              Contratar Plan Escuela ($13.20 USD / mes)
             </button>
             <button
               type="button"

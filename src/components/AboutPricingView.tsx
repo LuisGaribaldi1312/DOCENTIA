@@ -102,12 +102,12 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
       a: 'DOCENTIA es la primera plataforma y aplicación móvil oficial diseñada exclusivamente para el ámbito educativo. A diferencia de bolsas de trabajo genéricas como LinkedIn, Computrabajo o Indeed, en DOCENTIA validamos la Cédula Profesional del maestro, cotejamos su expediente de documentos obligatorios (título, antecedentes no penales, certificaciones) y permitimos a las escuelas públicas y privadas publicar convocatorias con esquemas claros (planta, contrato determinado u honorarios), además de cubrir interinatos de emergencia en 48 horas con el sistema "Docente SOS".'
     },
     {
-      q: '¿Por qué tiene un costo la suscripción de docentes ($5 USD/mes)?',
-      a: 'La cuota de $5 USD mensuales (aprox. $95 - $100 MXN) cubre el proceso de cotejo documental y la certificación oficial de tu Cédula Profesional y expediente ante las escuelas aliadas. Como Docente Verificado, obtienes el distintivo oficial de confianza, almacenamiento ilimitado de tus documentos en la nube, postulación en un solo clic y prioridad absoluta en las alertas de interinatos urgentes de tu zona.'
+      q: '¿Por qué tiene un costo la suscripción de docentes ($6.65 USD/mes)?',
+      a: 'La cuota de $6.65 USD mensuales (aprox. $135 MXN con impuestos de ley y pasarela de pago incluidos) cubre el proceso de cotejo documental y la certificación oficial de tu Cédula Profesional y expediente ante las escuelas aliadas, garantizando una aportación neta de $5.00 USD para sostener la infraestructura de verificación. Como Docente Verificado, obtienes el distintivo oficial de confianza, almacenamiento ilimitado de tus documentos en la nube, postulación en un solo clic y prioridad absoluta en las alertas de interinatos urgentes de tu zona.'
     },
     {
-      q: '¿Qué incluye la suscripción institucional para escuelas ($10 USD/mes)?',
-      a: 'Por solo $10 USD mensuales (aprox. $190 - $200 MXN), las instituciones educativas (públicas o colegios privados) obtienen publicaciones ilimitadas de plazas docentes para todos los niveles educativos, acceso completo a los expedientes de maestros certificados, un panel ATS con gestión de etapas de selección, agenda de Clases Muestra y difusión de vacantes urgentes por suplencias e incapacidades.'
+      q: '¿Qué incluye la suscripción institucional para escuelas ($13.20 USD/mes)?',
+      a: 'Por $13.20 USD mensuales (aprox. $269 MXN con impuestos de ley y pasarela incluidos, equivalente a $10.00 USD netos de valor de servicio), las instituciones educativas (públicas o colegios privados) obtienen publicaciones ilimitadas de plazas docentes para todos los niveles educativos, acceso completo a los expedientes de maestros certificados, un panel ATS con gestión de etapas de selección, agenda de Clases Muestra y difusión de vacantes urgentes por suplencias e incapacidades.'
     },
     {
       q: '¿Cómo funciona el sistema "Docente SOS" de interinatos urgentes?',
@@ -350,7 +350,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               onClick={() => handleOpenPlan('escuela')}
               className="w-full py-3.5 px-4 rounded-xl bg-brand-900 hover:bg-brand-800 text-white font-black text-xs transition-colors shadow-sm"
             >
-              Registrar Mi Escuela · $10 USD / mes
+              Registrar Mi Escuela · $13.20 USD / mes
             </button>
           </div>
 
@@ -393,7 +393,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               onClick={() => handleOpenPlan('docente')}
               className="w-full py-3.5 px-4 rounded-xl bg-serene-700 hover:bg-serene-600 text-white font-black text-xs transition-colors shadow-sm"
             >
-              Certificar Mi Perfil Docente · $5 USD / mes
+              Certificar Mi Perfil Docente · $6.65 USD / mes
             </button>
           </div>
 
@@ -437,7 +437,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           
-          {/* Plan Docente: $5 USD / mes */}
+          {/* Plan Docente: $6.65 USD / mes */}
           <div className="bg-white rounded-3xl border-2 border-serene-400/80 p-8 shadow-xl relative flex flex-col justify-between hover:scale-[1.01] transition-transform">
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-serene-600 text-white text-[11px] font-black uppercase px-4 py-1 rounded-full shadow-md">
               Para Maestros y Profesores
@@ -464,13 +464,13 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               <div className="mb-6 pb-6 border-b border-slate-100">
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl sm:text-5xl font-black text-brand-950">
-                    ${billingPeriod === 'mensual' ? '5' : '50'}
+                    ${billingPeriod === 'mensual' ? '6.65' : '66.50'}
                   </span>
                   <span className="text-sm font-bold text-slate-500">
                     USD / {billingPeriod === 'mensual' ? 'mes' : 'año'}
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 mt-1">Aprox. $95 MXN al mes · Cancela cuando quieras</p>
+                <p className="text-xs text-slate-500 mt-1">Aprox. $135 MXN al mes · Comisiones de pasarela e IVA incluidos · Cancela cuando quieras</p>
               </div>
 
               <ul className="space-y-3 text-xs sm:text-sm text-slate-700 mb-8">
@@ -505,11 +505,11 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               onClick={() => handleOpenPlan('docente')}
               className="w-full py-4 rounded-2xl bg-gradient-to-r from-serene-600 to-serene-700 hover:from-serene-500 hover:to-serene-600 text-white font-black text-sm shadow-md transition-all hover:shadow-lg"
             >
-              Comenzar Certificación Docente ($5 USD)
+              Comenzar Certificación Docente ($6.65 USD)
             </button>
           </div>
 
-          {/* Plan Escuela: $10 USD / mes */}
+          {/* Plan Escuela: $13.20 USD / mes */}
           <div className="bg-gradient-to-b from-brand-950 via-brand-900 to-brand-950 text-white rounded-3xl p-8 shadow-2xl relative flex flex-col justify-between border-2 border-brand-700/80 hover:scale-[1.01] transition-transform">
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-prestige-500 text-white text-[11px] font-black uppercase px-4 py-1 rounded-full shadow-md">
               Para Instituciones y Escuelas
@@ -529,13 +529,13 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               <div className="mb-6 pb-6 border-b border-white/10">
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl sm:text-5xl font-black text-white">
-                    ${billingPeriod === 'mensual' ? '10' : '100'}
+                    ${billingPeriod === 'mensual' ? '13.20' : '132.00'}
                   </span>
                   <span className="text-sm font-bold text-slate-300">
                     USD / {billingPeriod === 'mensual' ? 'mes' : 'año'}
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1">Aprox. $190 MXN al mes · Factura fiscal disponible</p>
+                <p className="text-xs text-slate-400 mt-1">Aprox. $269 MXN al mes · Comisiones e IVA incluidos · Factura fiscal disponible</p>
               </div>
 
               <ul className="space-y-3 text-xs sm:text-sm text-slate-200 mb-8">
@@ -570,7 +570,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               onClick={() => handleOpenPlan('escuela')}
               className="w-full py-4 rounded-2xl bg-gradient-to-r from-prestige-500 to-prestige-600 hover:from-prestige-400 hover:to-prestige-500 text-white font-black text-sm shadow-md transition-all hover:shadow-lg"
             >
-              Registrar Institución ($10 USD)
+              Registrar Institución ($13.20 USD)
             </button>
           </div>
 
@@ -599,7 +599,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
               </span>
             </h4>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              "Tanto para maestros como para directivos escolares, las suscripciones de <strong>$5 USD</strong> y <strong>$10 USD</strong> aseguran expedientes auténticos cotejados con cédula, postulaciones sin límite y trato digno entre profesionales de la educación."
+              "Tanto para maestros como para directivos escolares, las suscripciones de <strong>$6.65 USD</strong> (~$135 MXN) y <strong>$13.20 USD</strong> (~$269 MXN) aseguran expedientes auténticos cotejados con cédula, comisiones e impuestos absorbidos transparentemente, postulaciones sin límite y trato digno entre profesionales de la educación."
             </p>
           </div>
 
@@ -750,7 +750,7 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
                   {selectedPlan === 'docente' ? 'Plan Docente Certificado' : 'Plan Institución Verificada'}
                 </span>
                 <h3 className="text-xl font-black text-brand-950">
-                  {selectedPlan === 'docente' ? '$5 USD / Mes' : '$10 USD / Mes'}
+                  {selectedPlan === 'docente' ? '$6.65 USD / Mes ($135 MXN)' : '$13.20 USD / Mes ($269 MXN)'}
                 </h3>
               </div>
 
@@ -820,10 +820,10 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-slate-600 text-[11px]">
                   <span className="flex items-center gap-1.5 font-semibold">
                     <Lock className="w-3.5 h-3.5 text-emerald-600" />
-                    Pago encriptado con protocolo SSL 256-bit
+                    Pago encriptado SSL (Impuestos y pasarela incluidos)
                   </span>
                   <span className="font-bold text-brand-950">
-                    Total: {selectedPlan === 'docente' ? '$5.00 USD' : '$10.00 USD'}
+                    Total: {selectedPlan === 'docente' ? '$6.65 USD ($135 MXN)' : '$13.20 USD ($269 MXN)'}
                   </span>
                 </div>
 

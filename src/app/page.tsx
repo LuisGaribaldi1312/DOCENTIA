@@ -585,7 +585,7 @@ export default function HomePage() {
             }}
             onRequirePlan={() => {
               setSubscriptionPlanType('escuela_10usd');
-              setSubscriptionReason('Activa el Plan Institución ($10 USD/mes) para publicar vacantes ilimitadas y acceder a los expedientes.');
+              setSubscriptionReason('Activa el Plan Institución ($13.20 USD/mes) para publicar vacantes ilimitadas y acceder a los expedientes.');
               setSubscriptionModalOpen(true);
             }}
             onSubmit={(newVac) => {
@@ -707,8 +707,8 @@ export default function HomePage() {
               setSubscriptionPlanType(plan);
               setSubscriptionReason(
                 plan === 'docente_5usd'
-                  ? 'Activa tu Certificación Oficial Docente por $5 USD/mes para validar tu Cédula y postularte a vacantes.'
-                  : 'Activa tu Plan Escuela por $10 USD/mes para publicar vacantes ilimitadas y descargar expedientes.'
+                  ? 'Activa tu Certificación Oficial Docente por $6.65 USD/mes ($135 MXN) para validar tu Cédula y postularte a vacantes.'
+                  : 'Activa tu Plan Escuela por $13.20 USD/mes ($269 MXN) para publicar vacantes ilimitadas y descargar expedientes.'
               );
               setSubscriptionModalOpen(true);
             }}
@@ -732,7 +732,7 @@ export default function HomePage() {
         }}
         onRequirePlan={() => {
           setSubscriptionPlanType('docente_5usd');
-          setSubscriptionReason('Certifica tu Plan Docente ($5 USD/mes) para validar tu Cédula y postularte a esta convocatoria.');
+          setSubscriptionReason('Certifica tu Plan Docente ($6.65 USD/mes) para validar tu Cédula y postularte a esta convocatoria.');
           setSubscriptionModalOpen(true);
         }}
         onTestNotification={handleTestNotification}
@@ -748,7 +748,7 @@ export default function HomePage() {
         promptMessage={authPromptMessage}
       />
 
-      {/* Modal de Pago y Certificación de Plan ($5 USD Docente / $10 USD Escuela) */}
+      {/* Modal de Pago y Certificación de Plan ($6.65 USD Docente / $13.20 USD Escuela) */}
       <SubscriptionModal
         isOpen={subscriptionModalOpen}
         onClose={() => setSubscriptionModalOpen(false)}

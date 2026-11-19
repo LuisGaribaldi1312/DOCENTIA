@@ -38,7 +38,8 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   if (!isOpen) return null;
 
   const isDocente = planType === 'docente_5usd';
-  const price = isDocente ? 5 : 10;
+  const price = isDocente ? '6.65' : '13.20';
+  const priceMxn = isDocente ? '135' : '269';
   const title = isDocente ? 'Certificación Oficial Docente' : 'Plan Institución Educativa';
 
   const [cardNumber, setCardNumber] = useState('4242 •••• •••• 4242');
@@ -124,11 +125,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             </div>
           </div>
 
-          <div className="mt-3.5 flex items-baseline gap-2 bg-white/10 p-3 rounded-2xl border border-white/15">
+          <div className="mt-3.5 flex flex-wrap items-baseline gap-2 bg-white/10 p-3 rounded-2xl border border-white/15">
             <span className="text-2xl sm:text-3xl font-black text-white">${price}</span>
             <span className="text-xs sm:text-sm font-bold text-slate-300">USD / mes</span>
+            <span className="text-xs font-semibold text-slate-300">(aprox. ${priceMxn} MXN)</span>
             <span className="ml-auto text-[10px] sm:text-[11px] font-semibold text-serene-200 bg-white/10 px-2.5 py-0.5 rounded-full">
-              Cancela cuando quieras
+              IVA y comisiones incluidos
             </span>
           </div>
         </div>
@@ -140,7 +142,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           <div className="p-4 bg-amber-50 border-b border-amber-200 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
             <div className="text-xs text-amber-900">
-              <span className="font-bold">Inicia sesión primero:</span> Debes tener una cuenta registrada para vincular tu certificación de ${price} USD.
+              <span className="font-bold">Inicia sesión primero:</span> Debes tener una cuenta registrada para vincular tu certificación de ${price} USD (${priceMxn} MXN).
               <button
                 type="button"
                 onClick={() => {
@@ -288,7 +290,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
               </span>
             ) : (
               <span>
-                Pagar ${price} USD y Activar {isDocente ? 'Certificación Docente' : 'Plan Escuela'}
+                Pagar ${price} USD (${priceMxn} MXN) y Activar {isDocente ? 'Certificación Docente' : 'Plan Escuela'}
               </span>
             )}
           </button>
