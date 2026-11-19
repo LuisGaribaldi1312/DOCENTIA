@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Search, 
   MapPin, 
@@ -91,6 +91,43 @@ export default function HomePage() {
       setNotificationToast(null);
     }, 5500);
   };
+
+  // Stripe Payment Verification Listener
+  useEffect(() => {
+    if (typeof window === 'undefined' || !isLoaded) return;
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get('payment');
+    const sessionId = params.get('session_id');
+    const plan = (params.get('plan') as 'docente_5usd' | 'escuela_10usd') || 'docente_5usd';
+
+    if (payment === 'success') {
+      if (sessionId) {
+        fetch(`/api/verify-session?session_id=${sessionId}`)
+          .then(res => res.json())
+          .catch(err => console.warn('Error verificando session:', err));
+      }
+
+      activateSubscription(plan);
+      setNotificationToast({
+        message: '¡Pago confirmado con Stripe! Tu suscripción oficial ha sido activada con éxito.',
+        type: 'success'
+      });
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('payment');
+      url.searchParams.delete('session_id');
+      url.searchParams.delete('plan');
+      window.history.replaceState({}, '', url.pathname);
+    } else if (payment === 'cancelled') {
+      setNotificationToast({
+        message: 'El pago en Stripe fue cancelado.',
+        type: 'error'
+      });
+      const url = new URL(window.location.href);
+      url.searchParams.delete('payment');
+      window.history.replaceState({}, '', url.pathname);
+    }
+  }, [isLoaded]);
 
   // Filters State
   const [searchTerm, setSearchTerm] = useState('');

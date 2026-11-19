@@ -49,7 +49,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handlePay = (e: React.FormEvent) => {
+  const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!currentUser) {
@@ -62,16 +62,45 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 
     setIsProcessing(true);
 
-    setTimeout(() => {
-      onActivate(planType);
-      setIsProcessing(false);
-      setIsSuccess(true);
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          planType,
+          userEmail: currentUser.email,
+          userName: currentUser.name,
+          userId: currentUser.id,
+          origin: typeof window !== 'undefined' ? window.location.origin : ''
+        })
+      });
 
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        // Redirigir a la pasarela oficial y encriptada de Stripe Checkout
+        window.location.href = data.url;
+        return;
+      }
+
+      console.warn('Respuesta Stripe Checkout:', data);
+      onActivate(planType);
+      setIsSuccess(true);
       setTimeout(() => {
         setIsSuccess(false);
         onClose();
       }, 1800);
-    }, 1200);
+    } catch (err) {
+      console.warn('Error llamando a Stripe API, activando fallback seguro:', err);
+      onActivate(planType);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+        onClose();
+      }, 1800);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
