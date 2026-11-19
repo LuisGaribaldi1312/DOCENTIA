@@ -92,35 +92,52 @@ export default function HomePage() {
     }, 5500);
   };
 
-  // Stripe Payment Verification Listener
+  // Stripe Payment Verification Listener (Acceso ÚNICAMENTE tras confirmación real de Stripe)
   useEffect(() => {
     if (typeof window === 'undefined' || !isLoaded) return;
     const params = new URLSearchParams(window.location.search);
     const payment = params.get('payment');
     const sessionId = params.get('session_id');
-    const plan = (params.get('plan') as 'docente_5usd' | 'escuela_10usd') || 'docente_5usd';
+    const fallbackPlan = (params.get('plan') as 'docente_5usd' | 'escuela_10usd') || 'docente_5usd';
 
-    if (payment === 'success') {
-      if (sessionId) {
-        fetch(`/api/verify-session?session_id=${sessionId}`)
-          .then(res => res.json())
-          .catch(err => console.warn('Error verificando session:', err));
-      }
-
-      activateSubscription(plan);
-      setNotificationToast({
-        message: '¡Pago confirmado con Stripe! Tu suscripción oficial ha sido activada con éxito.',
-        type: 'success'
-      });
-
-      const url = new URL(window.location.href);
-      url.searchParams.delete('payment');
-      url.searchParams.delete('session_id');
-      url.searchParams.delete('plan');
-      window.history.replaceState({}, '', url.pathname);
+    if (payment === 'success' && sessionId) {
+      // Verificar estrictamente con la API de Stripe en el servidor
+      fetch(`/api/verify-session?session_id=${encodeURIComponent(sessionId)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.isPaid) {
+            // Solo se concede acceso si Stripe confirma que el cobro fue completado
+            activateSubscription(data.planType || fallbackPlan);
+            setNotificationToast({
+              message: '¡Pago confirmado por Stripe! Tu suscripción oficial ha sido activada con éxito.',
+              type: 'success'
+            });
+          } else {
+            console.error('Verificación Stripe fallida:', data);
+            setNotificationToast({
+              message: 'El pago no ha sido liquidado en Stripe aún. No se ha otorgado acceso.',
+              type: 'error'
+            });
+          }
+        })
+        .catch(err => {
+          console.error('Error al verificar sesión con Stripe:', err);
+          setNotificationToast({
+            message: 'No se pudo verificar el estado del pago con Stripe. Acceso denegado.',
+            type: 'error'
+          });
+        })
+        .finally(() => {
+          // Limpiar parámetros de la URL sin recargar
+          const url = new URL(window.location.href);
+          url.searchParams.delete('payment');
+          url.searchParams.delete('session_id');
+          url.searchParams.delete('plan');
+          window.history.replaceState({}, '', url.pathname);
+        });
     } else if (payment === 'cancelled') {
       setNotificationToast({
-        message: 'El pago en Stripe fue cancelado.',
+        message: 'El pago en Stripe fue cancelado. No se realizaron cargos ni se otorgó acceso.',
         type: 'error'
       });
       const url = new URL(window.location.href);

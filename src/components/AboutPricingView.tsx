@@ -49,35 +49,12 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
   const [contactSent, setContactSent] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  // Checkout modal form
-  const [checkoutModal, setCheckoutModal] = useState<boolean>(false);
   const [billingPeriod, setBillingPeriod] = useState<'mensual' | 'anual'>('mensual');
-  const [checkoutName, setCheckoutName] = useState(currentUser?.name || '');
-  const [checkoutEmail, setCheckoutEmail] = useState(currentUser?.email || '');
-  const [checkoutCard, setCheckoutCard] = useState('');
-  const [checkoutSuccess, setCheckoutSuccess] = useState(false);
 
   const handleOpenPlan = (plan: 'docente' | 'escuela') => {
     if (onSelectPlan) {
       onSelectPlan(plan === 'docente' ? 'docente_5usd' : 'escuela_10usd');
-    } else {
-      setSelectedPlan(plan);
-      setCheckoutModal(true);
     }
-  };
-
-  const handleProcessCheckout = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCheckoutSuccess(true);
-    setTimeout(() => {
-      setCheckoutSuccess(false);
-      setCheckoutModal(false);
-      if (selectedPlan === 'docente') {
-        onGoToRegisterTeacher();
-      } else {
-        onGoToRegisterSchool();
-      }
-    }, 2000);
   };
 
   const handleContactSubmit = (e: React.FormEvent) => {
@@ -737,109 +714,6 @@ export const AboutPricingView: React.FC<AboutPricingViewProps> = ({
 
         </div>
       </section>
-
-      {/* 7. MODAL DE REGISTRO & CHECKOUT DE SUSCRIPCIÓN */}
-      {checkoutModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-brand-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-md w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
-            
-            <div className="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between shrink-0">
-              <div>
-                <img src="/images/docentia-logo.png" alt="DOCENTIA Red Educativa" className="h-7 w-auto object-contain mb-2" />
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-serene-700">
-                  {selectedPlan === 'docente' ? 'Plan Docente Certificado' : 'Plan Institución Verificada'}
-                </span>
-                <h3 className="text-xl font-black text-brand-950">
-                  {selectedPlan === 'docente' ? '$6.65 USD / Mes ($135 MXN)' : '$13.20 USD / Mes ($269 MXN)'}
-                </h3>
-              </div>
-
-              <button
-                onClick={() => setCheckoutModal(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-5 sm:p-6 overflow-y-auto overscroll-contain flex-1">
-            {checkoutSuccess ? (
-              <div className="py-8 text-center space-y-3">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-10 h-10" />
-                </div>
-                <h4 className="text-lg font-black text-brand-950">¡Suscripción Confirmada!</h4>
-                <p className="text-xs text-slate-500">
-                  Redirigiendo a tu panel de {selectedPlan === 'docente' ? 'Expediente Docente' : 'Publicación Escolar'}...
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleProcessCheckout} className="space-y-3.5 text-xs">
-                
-                <div>
-                  <label className="block text-slate-700 font-bold mb-1">
-                    {selectedPlan === 'docente' ? 'Nombre Completo del Maestro' : 'Nombre Oficial de la Escuela / Plantel'}
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={checkoutName}
-                    onChange={(e) => setCheckoutName(e.target.value)}
-                    placeholder={selectedPlan === 'docente' ? 'Mtro. Luis Alberto Garibaldi' : 'Colegio Bilingüe Nueva Inglaterra'}
-                    className="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-slate-700 font-bold mb-1">Correo Electrónico de la Cuenta</label>
-                  <input
-                    type="email"
-                    required
-                    value={checkoutEmail}
-                    onChange={(e) => setCheckoutEmail(e.target.value)}
-                    placeholder="correo@ejemplo.com"
-                    className="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-slate-700 font-bold mb-1">Número de Tarjeta (Simulación Segura)</label>
-                  <div className="relative">
-                    <CreditCard className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                    <input
-                      type="text"
-                      required
-                      value={checkoutCard}
-                      onChange={(e) => setCheckoutCard(e.target.value)}
-                      placeholder="4532 •••• •••• 8921"
-                      className="w-full pl-9 p-2.5 rounded-xl border border-slate-200 focus:outline-hidden focus:border-serene-500 font-mono"
-                    />
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-slate-600 text-[11px]">
-                  <span className="flex items-center gap-1.5 font-semibold">
-                    <Lock className="w-3.5 h-3.5 text-emerald-600" />
-                    Pago encriptado SSL (Impuestos y pasarela incluidos)
-                  </span>
-                  <span className="font-bold text-brand-950">
-                    Total: {selectedPlan === 'docente' ? '$6.65 USD ($135 MXN)' : '$13.20 USD ($269 MXN)'}
-                  </span>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-950 to-serene-700 text-white font-black text-xs transition-all shadow-md hover:scale-[1.01]"
-                >
-                  Activar Suscripción & Acceder
-                </button>
-              </form>
-            )}
-            </div>
-
-          </div>
-        </div>
-      )}
 
     </div>
   );

@@ -63,9 +63,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url, sessionId: session.id });
   } catch (error: any) {
     console.error('Error al crear Checkout Session de Stripe:', error);
+    let msg = error?.message || 'Error interno en la pasarela de pagos';
+    if (msg.includes('No valid payment method') || msg.includes('payment methods') || msg.includes('charges_enabled')) {
+      msg = 'Tu cuenta de Stripe aún no tiene activados los cobros con tarjeta en vivo (charges_enabled: false). Por favor ingresa a tu Dashboard de Stripe (https://dashboard.stripe.com/activate) para completar los datos de activación de tu cuenta, o proporciónanos las claves de Modo Prueba (pk_test_... / sk_test_...) para realizar cobros simulados. Por seguridad, ningún usuario tendrá acceso hasta que Stripe confirme el cobro exitoso.';
+    }
     return NextResponse.json(
-      { error: error?.message || 'Error interno en la pasarela de pagos' },
-      { status: 500 }
+      { error: msg },
+      { status: 400 }
     );
   }
 }

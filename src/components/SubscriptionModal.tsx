@@ -9,10 +9,10 @@ import {
   Sparkles, 
   Lock, 
   Award, 
-  GraduationCap, 
-  Building2,
   Check,
-  AlertCircle
+  AlertCircle,
+  ExternalLink,
+  ArrowRight
 } from 'lucide-react';
 import { UserAccount } from '@/types';
 
@@ -42,15 +42,12 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const priceMxn = isDocente ? '135' : '269';
   const title = isDocente ? 'Certificación Oficial Docente' : 'Plan Institución Educativa';
 
-  const [cardNumber, setCardNumber] = useState('4242 •••• •••• 4242');
-  const [expiry, setExpiry] = useState('12/28');
-  const [cvc, setCvc] = useState('888');
-  const [cardHolder, setCardHolder] = useState(currentUser?.name || '');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handlePay = async (e: React.FormEvent) => {
+  const handlePayWithStripe = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
 
     if (!currentUser) {
       if (onNeedLogin) {
@@ -83,21 +80,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
         return;
       }
 
-      console.warn('Respuesta Stripe Checkout:', data);
-      onActivate(planType);
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-        onClose();
-      }, 1800);
-    } catch (err) {
-      console.warn('Error llamando a Stripe API, activando fallback seguro:', err);
-      onActivate(planType);
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-        onClose();
-      }, 1800);
+      // Si Stripe reporta un error (por ejemplo, cuenta en proceso de activación)
+      console.error('Error desde Stripe Checkout API:', data);
+      setErrorMessage(
+        data.error || 'No se pudo generar la sesión de pago con Stripe. Por favor verifica que tu cuenta de Stripe tenga los cobros activados en su Dashboard.'
+      );
+    } catch (err: any) {
+      console.error('Error de red al llamar a Stripe:', err);
+      setErrorMessage(
+        'Error de conexión con el servidor de pagos. Por seguridad, no se ha otorgado acceso hasta que Stripe confirme la transacción.'
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -186,6 +178,24 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           </div>
         )}
 
+        {/* Mensaje de error si Stripe rechaza el cobro */}
+        {errorMessage && (
+          <div className="p-4 m-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-950 text-xs space-y-2 animate-in fade-in">
+            <div className="flex items-start gap-2.5">
+              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-black text-rose-900">Aviso de la Pasarela de Pagos Stripe:</p>
+                <p className="text-[11px] text-rose-800 leading-relaxed mt-0.5">
+                  {errorMessage}
+                </p>
+              </div>
+            </div>
+            <div className="p-2.5 rounded-xl bg-white/80 border border-rose-200 text-[11px] text-slate-700">
+              <span className="font-bold">🔒 Regla de Acceso Estricta:</span> DOCENTIA no desbloquea permisos ni certificaciones hasta que Stripe confirme que el cobro fue completado y liquidado en tu cuenta bancaria.
+            </div>
+          </div>
+        )}
+
         {/* Beneficios Incluidos */}
         <div className="p-5 bg-slate-50 border-b border-slate-200/80">
           <span className="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">
@@ -208,7 +218,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 </li>
                 <li className="flex items-center gap-2 font-medium">
                   <Check className="w-4 h-4 text-serene-600 shrink-0" />
-                  <span>Expediente digital seguro en la nube.</span>
+                  <span>Expediente digital resguardado en Supabase Cloud Storage.</span>
                 </li>
               </>
             ) : (
@@ -234,112 +244,56 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           </ul>
         </div>
 
-        {/* Pasarela de Pago */}
-        <form onSubmit={handlePay} className="p-6 space-y-4">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
-            <span className="font-bold text-slate-700 flex items-center gap-1.5">
-              <CreditCard className="w-4 h-4 text-serene-600" />
-              Datos de Facturación y Pago
-            </span>
-            <span className="flex items-center gap-1 text-[11px] text-slate-400">
-              <Lock className="w-3 h-3" /> Conexión Segura SSL
-            </span>
-          </div>
-
-          <div>
-            <label className="block text-[11px] font-bold text-slate-600 mb-1">
-              Nombre en la Tarjeta
-            </label>
-            <input
-              type="text"
-              required
-              value={cardHolder}
-              onChange={(e) => setCardHolder(e.target.value)}
-              placeholder="Nombre como aparece en el plástico"
-              className="w-full text-xs px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-hidden focus:border-serene-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-[11px] font-bold text-slate-600 mb-1">
-              Número de Tarjeta (Débito o Crédito)
-            </label>
-            <input
-              type="text"
-              required
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-              placeholder="•••• •••• •••• ••••"
-              className="w-full text-xs px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-hidden focus:border-serene-600 font-mono"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                Vencimiento
-              </label>
-              <input
-                type="text"
-                required
-                value={expiry}
-                onChange={(e) => setExpiry(e.target.value)}
-                placeholder="MM/AA"
-                className="w-full text-xs px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-hidden focus:border-serene-600 text-center font-mono"
-              />
+        {/* Pasarela Oficial de Stripe Checkout */}
+        <form onSubmit={handlePayWithStripe} className="p-6 space-y-4">
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-serene-50/40 border border-slate-200/90 space-y-2.5">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-extrabold text-brand-950 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                Pasarela Oficial Stripe
+              </span>
+              <span className="flex items-center gap-1 text-[11px] text-slate-500 font-semibold">
+                <Lock className="w-3 h-3 text-emerald-600" /> Cifrado Bancario SSL 256-bit
+              </span>
             </div>
-            <div>
-              <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                CVV / CVC
-              </label>
-              <input
-                type="text"
-                required
-                value={cvc}
-                onChange={(e) => setCvc(e.target.value)}
-                placeholder="123"
-                className="w-full text-xs px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-hidden focus:border-serene-600 text-center font-mono"
-              />
+            <p className="text-[11px] text-slate-600 leading-relaxed">
+              Serás redirigido a la página oficial y segura de <strong>Stripe Checkout</strong> para ingresar tus datos bancarios (tarjeta de crédito, débito, Apple Pay o Google Pay).
+            </p>
+            <div className="pt-2 border-t border-slate-200/70 flex items-center justify-between text-xs">
+              <span className="text-slate-500">Monto total a cobrar:</span>
+              <span className="font-black text-brand-950 text-sm">
+                ${price} USD <span className="text-slate-500 font-medium">(${priceMxn} MXN / mes)</span>
+              </span>
             </div>
           </div>
 
           <button
             type="submit"
-            disabled={isProcessing}
-            className={`w-full py-3.5 rounded-xl text-white font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 ${
+            disabled={isProcessing || !currentUser}
+            className={`w-full py-4 rounded-2xl text-white font-black text-sm shadow-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 ${
               isDocente
-                ? 'bg-gradient-to-r from-serene-800 to-serene-600 hover:from-serene-700 hover:to-serene-500'
-                : 'bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600'
+                ? 'bg-gradient-to-r from-serene-700 to-serene-600 hover:from-serene-600 hover:to-serene-500 shadow-serene-900/20'
+                : 'bg-gradient-to-r from-brand-950 via-brand-900 to-serene-700 hover:from-brand-900 hover:to-serene-600 shadow-brand-900/20'
             }`}
           >
             {isProcessing ? (
               <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Procesando Pago Seguro...
+                Conectando con Stripe Seguro...
               </span>
             ) : (
-              <span>
-                Pagar ${price} USD (${priceMxn} MXN) y Activar {isDocente ? 'Certificación Docente' : 'Plan Escuela'}
+              <span className="flex items-center gap-2">
+                <span>Continuar al Pago Seguro con Stripe</span>
+                <ArrowRight className="w-4 h-4" />
               </span>
             )}
           </button>
+
+          <p className="text-[10px] text-center text-slate-400">
+            Tus datos financieros son procesados directamente por Stripe, Inc. DOCENTIA no almacena números de tarjeta.
+          </p>
         </form>
         </div>
-
-        {/* Modal de Confirmación Exitosa */}
-        {isSuccess && (
-          <div className="absolute inset-0 bg-white/95 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center animate-in fade-in">
-            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-3">
-              <Award className="w-10 h-10" />
-            </div>
-            <h3 className="text-xl font-black text-brand-950 mb-1">
-              ¡Plan Activado con Éxito!
-            </h3>
-            <p className="text-xs text-slate-600 max-w-sm">
-              Tu cuenta ahora cuenta con el distintivo <strong>{title}</strong>. Los permisos han sido desbloqueados de inmediato.
-            </p>
-          </div>
-        )}
 
       </div>
     </div>
