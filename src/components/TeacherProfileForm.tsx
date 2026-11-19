@@ -15,10 +15,13 @@ import {
   CheckCircle2, 
   Briefcase,
   Flame,
-  Check
+  Check,
+  Loader2,
+  ExternalLink
 } from 'lucide-react';
 import { TeacherProfile } from '@/types';
 import { MEXICAN_STATES } from '@/lib/mockData';
+import { uploadDocumentToSupabase } from '@/lib/supabase/storageService';
 
 interface TeacherProfileFormProps {
   profile: TeacherProfile;
@@ -51,6 +54,30 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
   const [newDocCategory, setNewDocCategory] = useState('CV');
   const [newDocName, setNewDocName] = useState('');
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      const result = await uploadDocumentToSupabase(profile.id || 'teacher-default', file, newDocCategory);
+      setDocuments(prev => [...prev, {
+        id: result.id,
+        name: result.name,
+        category: result.category,
+        uploadDate: result.uploadDate,
+        url: result.url
+      }]);
+    } catch (err) {
+      console.error('Error al subir a Supabase Storage:', err);
+    } finally {
+      setIsUploading(false);
+      // Reset input value
+      e.target.value = '';
+    }
+  };
 
   const handleAddMockDocument = () => {
     if (!newDocName.trim()) return;
@@ -370,26 +397,45 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => handleRemoveDocument(doc.id)}
-                  className="text-slate-400 hover:text-red-600 p-1.5 transition-colors shrink-0"
-                  title="Eliminar documento"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <div className="flex items-center gap-1 shrink-0">
+                  {doc.url && (
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-serene-700 hover:text-serene-900 p-1.5 transition-colors"
+                      title="Ver documento en Supabase Storage"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveDocument(doc.id)}
+                    className="text-slate-400 hover:text-red-600 p-1.5 transition-colors"
+                    title="Eliminar documento"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
 
           <div className="p-4 sm:p-5 rounded-2xl bg-serene-50/50 border border-serene-200/80 space-y-3">
-            <h4 className="text-xs font-extrabold text-brand-950 flex items-center gap-1.5">
-              <Upload className="w-4 h-4 text-serene-600" />
-              Subir Nuevo Documento al Expediente Digital
-            </h4>
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-extrabold text-brand-950 flex items-center gap-1.5">
+                <Upload className="w-4 h-4 text-serene-600" />
+                Subir Nuevo Documento a Supabase Storage
+              </h4>
+              <span className="text-[10px] font-bold text-serene-700 bg-white px-2 py-0.5 rounded-md border border-serene-200">
+                Almacenamiento Cloud Seguro
+              </span>
+            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Categoría</label>
                 <select
                   value={newDocCategory}
                   onChange={(e) => setNewDocCategory(e.target.value)}
@@ -404,25 +450,52 @@ export const TeacherProfileForm: React.FC<TeacherProfileFormProps> = ({
                 </select>
               </div>
 
-              <div>
-                <input
-                  type="text"
-                  value={newDocName}
-                  onChange={(e) => setNewDocName(e.target.value)}
-                  placeholder="Nombre del documento (ej. Titulo_Maestria)"
-                  className="w-full text-xs p-2.5 rounded-xl border border-slate-200"
-                />
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                  Archivo desde tu dispositivo (PDF, JPG, PNG)
+                </label>
+                <div className="flex items-center gap-2">
+                  <label className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-dashed border-serene-400 bg-white hover:bg-serene-50/50 cursor-pointer text-xs font-semibold text-slate-700 transition-colors ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 text-serene-600 animate-spin" />
+                        <span>Subiendo a Supabase Storage...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4 text-serene-600" />
+                        <span>Seleccionar archivo oficial...</span>
+                      </>
+                    )}
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                      disabled={isUploading}
+                    />
+                  </label>
+                </div>
               </div>
+            </div>
 
-              <div>
-                <button
-                  type="button"
-                  onClick={handleAddMockDocument}
-                  className="w-full py-2.5 px-4 bg-brand-900 hover:bg-brand-800 text-white font-bold text-xs rounded-xl transition-colors shadow-xs"
-                >
-                  Adjuntar al Expediente
-                </button>
-              </div>
+            {/* Alternativa de registro por nombre rápido */}
+            <div className="pt-2 border-t border-serene-200/60 flex flex-col sm:flex-row items-center gap-2">
+              <span className="text-[11px] text-slate-500 shrink-0 font-medium">O registrar por nombre:</span>
+              <input
+                type="text"
+                value={newDocName}
+                onChange={(e) => setNewDocName(e.target.value)}
+                placeholder="Nombre del documento (ej. Cedula_Profesional_Licenciatura)"
+                className="flex-1 w-full text-xs p-2 rounded-xl border border-slate-200 bg-white"
+              />
+              <button
+                type="button"
+                onClick={handleAddMockDocument}
+                className="w-full sm:w-auto py-2 px-3.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs rounded-xl transition-colors shrink-0"
+              >
+                Agregar
+              </button>
             </div>
           </div>
         </div>

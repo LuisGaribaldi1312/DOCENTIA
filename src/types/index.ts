@@ -78,6 +78,7 @@ export interface TeacherProfile {
     name: string;
     category: string;
     uploadDate: string;
+    url?: string;
   }[];
 }
 
